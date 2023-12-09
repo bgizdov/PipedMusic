@@ -15,7 +15,7 @@
 
 * {box-sizing: border-box; font-family: var(--font-family);}
 
-html, body {margin: 0; line-height: 1.5;}
+html, body {margin: 0; line-height: 1.35;}
 
 html {background-color: var(--main-bg); color: var(--text-color);}
 
@@ -26,27 +26,52 @@ section > .inner {padding: var(--site-padding);}
 
 .player {position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--sec-bg);}
 
-.player > .inner {padding: 10px; display: grid; grid-template-columns: 1fr max-content 1fr;}
+.player > .inner {padding: 10px; display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px}
 .player > .inner > :nth-child(3) {justify-content: right;}
+
+.player > .mini {display: none;}
 
 
 /* Player items */
 
 .player .items {display: flex; flex-direction: row; align-items: center;}
 
-.player button {background: transparent; border: 0; color: var(--title-color); cursor: pointer; padding: 10px;}
+.player button {background: transparent; border: 0; color: var(--title-color); cursor: pointer;}
 .player .icon.main {font-size: 32px;}
 .player .icon {font-size: 24px;}
 
-.player .time {padding: 10px;}
+.player :is(button, .time) {padding: 10px;}
+.player .time {white-space: nowrap; font-size: .91rem;}
 
 .player .volume {position: relative;}
-.player .volume .box {position: absolute; bottom: 0; left: 50%; margin-left: -22px; opacity: 0; background-color: var(--sec-bg); padding: 15px; box-shadow: 0 0 10px 0 #000; border-radius: 20px; pointer-events: none; transition: all .1s;}
+
+.player .volume .box {position: absolute; bottom: 10px; left: 50%; opacity: 0; background-color: var(--sec-bg); box-shadow: -2px 0 5px 0 #0006; border-radius: 50px; pointer-events: none; transition: all .1s; display: flex; transform: rotate(-90deg); transform-origin: center left;}
+.player .volume .box input {padding: 18px 13px; height: 2px; width: 100px;}
+
 .player .volume:hover .box {opacity: 1; pointer-events: all;}
 
-.player .song {display: grid; gap: 15px; grid-template-columns: max-content 1fr max-content; align-items: center; min-width: 350px;}
+.player .song {display: grid; gap: 15px; grid-template-columns: max-content 1fr max-content; align-items: center;}
 .player .song img {width: 50px; height: 50px; object-fit: cover; border-radius: 5px;}
 .player .song b {color: var(--title-color);}
+.player .song * {overflow: hidden; text-overflow: ellipsis ellipsis; white-space: nowrap;}
+
+@media screen and (max-width: 1100px) {
+	.player .icon.main {font-size: 24px;}
+	.player .icon {font-size: 20px;}
+	.player :is(button, .time) {padding: 6px;}
+}
+
+@media screen and (max-width: 900px) {
+	.player .song img {width: 40px; height: 40px;}
+}
+
+@media screen and (max-width: 700px) {
+	.player > .full {display: none;}
+	.player > .mini {display: grid;}
+	.player > .inner {grid-template-columns: 1fr max-content;}
+	.player .song {grid-template-columns: auto 1fr;}
+	.player .song > :nth-child(3) {display: none;}
+}
 
 
 /* Player progress bar */
@@ -54,24 +79,37 @@ section > .inner {padding: var(--site-padding);}
 .player > .progress {width: 100%; position: absolute; top: 0; left: 0; margin-top: -15px; height: 30px; display: grid; align-items: center;}
 
 
+/* Range inputs */
+
+input[type=range] {-webkit-appearance: none; background-color: transparent;}
+
+input[type=range]::-moz-range-track {background-color: #333; height: 2px;}
+input[type=range]::-moz-range-progress {background-color: var(--brand-color); height: 2px;}
+input[type=range]::-moz-range-thumb {background-color: var(--brand-color); border: 0;}
+
+input[type=range]::-webkit-slider-runnable-track {background-color: #333; height: 2px;}
+input[type=range]::-webkit-slider-thumb {-webkit-appearance: none; height: 14px; width: 14px; border-radius: 50%; background: var(--brand-color); margin-top: -6px;}
+
+
 /* Progress bar */
 
-.progress input {margin: 0; cursor: pointer; height: 100%; background-color: transparent; -webkit-appearance: none;}
+.progress input {margin: 0; cursor: pointer; height: 100%;}
 
-.progress ::-moz-range-thumb {background-color: var(--brand-color); border: 0; opacity: 0; transition: all .2s 1s;}
+.progress input[type=range]::-moz-range-track {background-color: transparent;}
+.progress input[type=range]::-moz-range-progress {background-color: transparent;}
+.progress input[type=range]::-moz-range-thumb {opacity: 0; transition: all .2s 1s;}
 
-.progress ::-webkit-slider-thumb {-webkit-appearance: none; height: 14px; width: 14px; border-radius: 50%; background: var(--brand-color); margin-top: -1px; opacity: 0; transition: all .2s 1s;}
+.progress input[type=range]::-webkit-slider-runnable-track {background-color: transparent;}
+.progress input[type=range]::-webkit-slider-thumb {opacity: 0; transition: all .2s 1s;}
 
 .progress .bar {content: ""; height: 2px; background: #333; width: 100%; position: absolute; z-index: -1;}
-.progress .bar:nth-child(2) {background-color: var(--brand-color);}
+.progress .bar:nth-of-type(2) {background-color: var(--brand-color);}
 
 .progress:hover .bar {height: 4px;}
-.progress:hover ::-webkit-slider-thumb {opacity: 1; transition: all 0s;}
-.progress:hover ::-moz-range-thumb {opacity: 1; transition: all 0s;}
+.progress:hover input[type=range]::-webkit-slider-thumb {opacity: 1; transition: all 0s;}
+.progress:hover input[type=range]::-moz-range-thumb {opacity: 1; transition: all 0s;}
 
 
 /* Misc */
 
 .semiopacity {opacity: .5;}
-
-input[type=range][orient=vertical] {appearance: slider-vertical; width: 8px; height: 100px; padding: 0 5px;}

@@ -12,18 +12,27 @@
 
 		<div class="player">
 
-			<div class="progress" @mousedown="data.seeking = true;" @mouseup="data.seeking = false;">
-				<div class="bar" />
-				<div class="bar" :style="{ width: (data.progress/player.state.duration)*100+'%' }" />
-				<input type="range" min="0" :max="player.state.duration" v-model="data.progress" step=".1" @input="seek">
+			<ProgressBar :player="player" :state="state" />
+
+			<div class="mini inner">
+				<PlayingSong v-if="player.video" :video="player.video" />
+				<div class="items">
+					<button v-if="state.playing" @click="player.pause()">
+						<Icon name="mdi:pause" class="main" />
+					</button>
+					<button v-else @click="player.play()">
+						<Icon name="mdi:play" class="main" />
+					</button>
+				</div>
 			</div>
-			<div class="inner">
+
+			<div class="full inner">
 
 				<div class="items">
 					<button>
 						<Icon name="mdi:skip-previous" />
 					</button>
-					<button v-if="player.state.playing" @click="player.pause()">
+					<button v-if="state.playing" @click="player.pause()">
 						<Icon name="mdi:pause" class="main" />
 					</button>
 					<button v-else @click="player.play()">
@@ -33,29 +42,11 @@
 						<Icon name="mdi:skip-next" />
 					</button>
 					<div class="time">
-						{{ formatTime(player.state.position) }} / {{ formatTime(player.state.duration) }}
+						{{ formatTime(state.position) }} / {{ formatTime(state.duration) }}
 					</div>
 				</div>
 
-				<div class="song">
-					<template v-if="player.video">
-						<img :src="player.video.thumbnail">
-						<div>
-							<div>
-								<b>{{ player.video.title }}</b>
-							</div>
-							<div>
-								{{ player.video.author }}
-							</div>
-						</div>
-						<div>
-							<button>
-								<Icon name="mdi:heart-outline" class="semiopacity" />
-								<Icon v-if="0" name="mdi:heart" />
-							</button>
-						</div>
-					</template>
-				</div>
+				<PlayingSong v-if="player.video" :video="player.video" />
 
 				<div class="items">
 					<button>
@@ -65,12 +56,12 @@
 					</button>
 					<div class="volume">
 						<button>
-							<Icon v-if="player.state.volume < .2" name="mdi:volume-low" class="semiopacity" />
-							<Icon v-else-if="player.state.volume < .7" name="mdi:volume-medium" />
+							<Icon v-if="state.volume < .2" name="mdi:volume-low" class="semiopacity" />
+							<Icon v-else-if="state.volume < .7" name="mdi:volume-medium" />
 							<Icon v-else name="mdi:volume-high" />
 						</button>
 						<div class="box">
-							<input type="range" orient="vertical" v-model="player.state.volume" @input="player.setVolume(player.state.volume)" min="0" max="1" step=".01">
+							<input type="range" v-model="state.volume" @input="player.setVolume(state.volume)" min="0" max="1" step=".01">
 						</div>
 					</div>
 				</div>
@@ -85,17 +76,32 @@
 <script lang="ts" setup>
 
 import { Invidious } from "~/src/invidious";
-import { Player } from "./src/player";
+import { Player, type PlayerState } from "./src/player";
+import PlayingSong from "./components/PlayingSong.vue";
 
 useHead({
 	title: "Piped Music"
 });
 
 let data = reactive({
-	id: randomId(),
-	progress: 0,
-	seeking: false
+	id: randomId()
 });
+
+let state = reactive<PlayerState>({
+	playing: false,
+	loop: false,
+	position: 0,
+	duration: 0,
+	volume: 1
+});
+
+function registerPlayer(player: Player) {
+	let p = player.el;
+	p.addEventListener("durationchange", () => state.duration = p.duration);
+	p.addEventListener("timeupdate", () => state.position = p.currentTime);
+	p.addEventListener("play", () => state.playing = !p.paused);
+	p.addEventListener("pause", () => state.playing = !p.paused);
+}
 
 function randomId() {
 	let arr = [
@@ -114,20 +120,12 @@ function randomId() {
 
 let backend = new Invidious();
 let player = new Player(backend);
-
-watch(() => player.state.position, () => {
-	if (!data.seeking) data.progress = player.state.position;
-});
+registerPlayer(player);
 
 async function play(id: string) {
 	let video = await backend.get(id);
 	player.setVideo(video);
 	player.play();
-}
-
-function seek(e: Event) {
-	let el = e.target as HTMLInputElement;
-	player.seek(el.valueAsNumber);
 }
 
 function formatTime(seconds: number) {
