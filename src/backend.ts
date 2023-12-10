@@ -1,6 +1,10 @@
-export abstract class Backend {
+import type { SimpleCache } from "./cache";
 
-	public abstract get(id: string): Promise<Video | null>;
+export abstract class Queryable {
+
+	public abstract getVideo(id: string): Promise<Video | null>;
+
+	public abstract getStreams(id: string): Promise<Stream[] | null>;
 
 	public selectStream(streams: Stream[], quality: number): Stream | null {
 		let stream: Stream | null = null;
@@ -14,12 +18,21 @@ export abstract class Backend {
 
 }
 
+export abstract class Backend extends Queryable {
+
+	public cache: SimpleCache | null = null;
+
+	public setCache(cache: SimpleCache) {
+		this.cache = cache;
+	}
+
+}
+
 export interface Video {
 	id: string,
 	title: string,
 	author: string,
-	thumbnail: string,
-	streams: Stream[]
+	thumbnail: string
 }
 
 export interface Stream {

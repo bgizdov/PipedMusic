@@ -22,6 +22,18 @@ html {background-color: var(--main-bg); color: var(--text-color);}
 section > .inner {padding: var(--site-padding);}
 
 
+/* Songs */
+
+.song-list {display: flex; gap: 10px; flex-direction: column;}
+
+.song-details {display: grid; gap: 15px; grid-template-columns: max-content 1fr; align-items: center;}
+.song-details img {width: 50px; height: 50px; object-fit: cover; border-radius: 5px; display: flex;}
+.song-details b {color: var(--title-color);}
+.song-details * {overflow: hidden; text-overflow: ellipsis ellipsis; white-space: nowrap;}
+
+.song-item {cursor: pointer;}
+
+
 /* Player */
 
 .player {position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--sec-bg);}
@@ -43,17 +55,18 @@ section > .inner {padding: var(--site-padding);}
 .player :is(button, .time) {padding: 10px;}
 .player .time {white-space: nowrap; font-size: .91rem;}
 
+/* Player buttons */
+
+.player .icon.hidden {display: none;}
+
 .player .volume {position: relative;}
 
-.player .volume .box {position: absolute; bottom: 10px; left: 50%; opacity: 0; background-color: var(--sec-bg); box-shadow: -2px 0 5px 0 #0006; border-radius: 50px; pointer-events: none; transition: all .1s; display: flex; transform: rotate(-90deg); transform-origin: center left;}
-.player .volume .box input {padding: 18px 13px; height: 2px; width: 100px;}
+.player .volume .box {position: absolute; bottom: 20px; left: 50%; opacity: 0; background-color: var(--sec-bg); box-shadow: -2px 0 5px 0 #0006; border-radius: 50px; pointer-events: none; transition: all .1s; display: flex; transform: rotate(-90deg); transform-origin: center left;}
+.player .volume .box input {padding: 18px 13px; height: 2px; width: 100px; cursor: pointer;}
 
 .player .volume:hover .box {opacity: 1; pointer-events: all;}
 
-.player .song {display: grid; gap: 15px; grid-template-columns: max-content 1fr max-content; align-items: center;}
-.player .song img {width: 50px; height: 50px; object-fit: cover; border-radius: 5px;}
-.player .song b {color: var(--title-color);}
-.player .song * {overflow: hidden; text-overflow: ellipsis ellipsis; white-space: nowrap;}
+.player .song {display: flex; align-items: center; justify-content: space-between; gap: 15px;}
 
 @media screen and (max-width: 1100px) {
 	.player .icon.main {font-size: 24px;}

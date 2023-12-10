@@ -1,14 +1,14 @@
-import type { Backend, Video } from "./backend";
+import type { Queryable, Stream } from "./backend";
 
 export class Player {
 	
 	public el: HTMLAudioElement;
 	
-	public video: Video | null = null;
+	public streams: Stream[] | null = null;
 
-	public backend: Backend;
+	public backend: Queryable;
 
-	constructor(backend: Backend) {
+	constructor(backend: Queryable) {
 		this.backend = backend;
 		this.el = this.createPlayer();
 	}
@@ -18,10 +18,10 @@ export class Player {
 		return p;
 	}
 
-	setVideo(video: Video | null) {
-		if (video) {
-			this.video = video;
-			let stream = this.backend.selectStream(video.streams, 100000);
+	setStreams(streams: Stream[] | null) {
+		if (streams) {
+			this.streams = streams;
+			let stream = this.backend.selectStream(streams, 100000);
 			if (stream) {
 				this.el.src = stream.url;
 			} 
@@ -51,5 +51,6 @@ export interface PlayerState {
 	loop: boolean,
 	position: number,
 	duration: number,
-	volume: number
+	volume: number,
+	muted: boolean
 }
