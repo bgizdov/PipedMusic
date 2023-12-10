@@ -1,23 +1,21 @@
-import { Queryable, Backend, type Stream, type Video } from "./backend";
+import type { Stream, Video } from "./backend";
 
-export class SimpleCache extends Queryable {
+export class SimpleCache {
 
-	public backend: Backend;
-
-	public constructor(backend: Backend) {
-		super();
-		this.backend = backend;
-		backend.setCache(this);
+	public cacheVideo(video: Video) {
+		this.saveCache(`video_${video.id}`, video, 24*60*60)
 	}
 
-	public async getVideo(id: string): Promise<Video | null> {
-		let video: Video | null = this.loadCache(`video_${id}`);
-		return video == null ? await this.backend.getVideo(id) : video;
+	public cacheStreams(id: string, streams: Stream[]) {
+		this.saveCache(`streams_${id}`, streams, 60*60)
 	}
 
-	public async getStreams(id: string): Promise<Stream[] | null> {
-		let streams: Stream[] | null = this.loadCache(`streams_${id}`);
-		return streams == null ? await this.backend.getStreams(id) : streams;
+	public cacheSearchSuggestions(q: string, suggestions: string[]) {
+		this.saveCache(`suggestions_${q}`, suggestions, 60*60);
+	}
+
+	public cacheSearch(q: string, results: string[]) {
+		this.saveCache(`search_${q}`, results, 60*60);
 	}
 
 	public loadCache(name: string): any | null {
@@ -28,9 +26,9 @@ export class SimpleCache extends Queryable {
 		return item.data;
 	}
 
-	public saveCache(name: string, data: any, ttl: number) {
+	public saveCache(name: string, data: any, seconds: number) {
 		let item: CacheItem = {
-			expiration: (new Date().getTime() + ttl * 60),
+			expiration: (new Date().getTime() + seconds * 1000),
 			data
 		};
 		localStorage.setItem(name, JSON.stringify(item));

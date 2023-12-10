@@ -1,6 +1,9 @@
 <template>
-	<div class="song-details song-item" @click="app.play(video.id)">
-		<div>
+	<div v-if="video" class="song-details song-item" @click="app.play(video.id)">
+		<div class="image">
+			<div class="hover">
+				<Icon name="mdi:play" />
+			</div>
 			<img :src="video.thumbnail">
 		</div>
 		<div>
@@ -19,11 +22,17 @@
 import type { ShallowReactive } from 'vue';
 import { app } from '~/src/app';
 import type { Video } from '~/src/backend';
-	
-let { video } = defineProps<Props>();
+
+let video = ref<Video | null>(null);
+
+let props = defineProps<Props>();
+
+if (props.id) video.value = await app.backend.getVideo(props.id);
+if (props.video) video.value = props.video;
 
 interface Props {
-	video: ShallowReactive<Video>
+	video?: ShallowReactive<Video>,
+	id?: string
 }
 
 </script>

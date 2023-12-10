@@ -1,9 +1,9 @@
 import { Backend, type Stream, type Video, type VideoWithStreams } from "./backend";
 import type { ComboObject } from "./app";
 
-export class Invidious extends Backend {
+export class Piped extends Backend {
 
-	private endpoint = "https://yt.drgnz.club/api/v1";
+	private endpoint = "https://piped-api.codespace.cz";
 
 	/* Getters */
 	
@@ -26,8 +26,8 @@ export class Invidious extends Backend {
 	/* Fetching */
 
 	private async fetchVideo(id: string): Promise<VideoWithStreams> {
-		let resp = await $fetch<ComboObject | null>(`${this.endpoint}/videos/${id}?fields=videoId,title,author,adaptiveFormats,videoThumbnails`);
-		let {video, streams} = this.convertVideoWithStreams(resp);
+		let resp = await $fetch<ComboObject | null>(`${this.endpoint}/streams/${id}`);
+		let {video, streams} = this.convertVideoWithStreams(id, resp);
 		if (this.cache) {
 			if (video) this.cache.cacheVideo(video);
 			if (streams) this.cache.cacheStreams(id, streams);
@@ -36,58 +36,52 @@ export class Invidious extends Backend {
 	}
 
 	private async fetchSearchSuggestions(q: string): Promise<string[] | null> {
-		let resp = await $fetch<ComboObject | null>(`${this.endpoint}/search/suggestions`, {query: {q}});
-		let suggestions = resp ? resp.suggestions : null;
+		let resp = await $fetch<string[] | null>(`${this.endpoint}/suggestions`, {query: {query: q}});
+		let suggestions = resp ?? null;
 		if (this.cache && suggestions) this.cache.cacheSearchSuggestions(q, suggestions);
 		return suggestions;
 	}
 
 	private async fetchSearch(q: string): Promise<string[] | null> {
-		let resp = await $fetch<ComboObject[] | null>(`${this.endpoint}/search`, {query: {q}});
-		let results = this.convertSearch(resp).map(v => {
-			if (this.cache) this.cache.cacheVideo(v);
-			return v.id;
-		});
-		if (this.cache && results) this.cache.cacheSearch(q, results);
+		let resp = await $fetch<ComboObject | null>(`${this.endpoint}/search`, {query: {q, filter: "music_songs"}});
+		let results = this.convertSearch(resp);
 		return results;
 	}
 
 	/* Converting */
 
-	private convertVideoWithStreams(resp: ComboObject | null): VideoWithStreams {
+	private convertVideoWithStreams(id: string, resp: ComboObject | null): VideoWithStreams {
 		if (!resp) return {video: null, streams: null};
-		let streams = resp.adaptiveFormats.map((s: ComboObject) => {
-			if (!s.audioSampleRate) return;
+		let streams = resp.audioStreams.map((s: ComboObject): Stream => {
 			return {
-				bitrate: parseInt(s.bitrate),
+				bitrate: s.bitrate,
 				url: s.url,
-				type: "default"
+				type: "piped"
 			};
 		}).filter((s: Stream | undefined) => s != undefined);
 		return {
-			video: this.convertVideo(resp),
+			video: this.convertVideo(id, resp),
 			streams
 		};
 	}
 
-	private convertVideo(resp: ComboObject): Video {
-		let id = resp.videoId;
+	private convertVideo(id: string, resp: ComboObject): Video {
 		let title = resp.title;
-		let author = resp.author.replace(" - Topic", "");
-		let thumbnail = resp.videoThumbnails[4].url
+		let author = resp.uploader ?? resp.uploaderName;
+		if (resp.category == "Music") author = author.replace(" - Topic", "");
+		let thumbnail = resp.thumbnail ?? resp.thumbnailUrl;
 		return {id, title, author, thumbnail};
 	}
 
-	private convertSearch(resp: ComboObject[] | null): Video[] {
-		let videos: Video[] = [];
-		if (!resp) return videos;
-		resp.forEach((s: ComboObject) => {
-			if (s.type == "video") {
-				videos.push(this.convertVideo(s))
+	private convertSearch(resp: ComboObject | null): string[] {
+		let ids: string[] = [];
+		if (!resp) return ids;
+		resp.items.forEach((s: ComboObject) => {
+			if (s.type == "stream") {
+				ids.push(s.url.replace("/watch?v=", ""));
 			}
 		});
-		return videos;
+		return ids;
 	}
-
 
 }

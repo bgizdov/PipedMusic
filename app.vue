@@ -1,16 +1,25 @@
 <template>
 	<div>
 
-		<section>
+		<nav>
 			<div class="inner">
-
-				<input type="text" v-model="data.id" />
-				<button @click="app.play(data.id)">Load</button>
-				
-				<SongList :ids="arr" />
-
+				<NuxtLink to="/">
+					<img class="logo" src="/logo.webp">
+				</NuxtLink>
+				<SearchBar />
+				<div class="btn-row btn-row-right">
+					<NuxtLink to="/search" class="btn-search">
+						<Icon name="mdi:search" />
+					</NuxtLink>
+				</div>
 			</div>
-		</section>
+		</nav>
+
+		<div class="content">
+
+			<NuxtPage />
+
+		</div>
 
 		<div class="player">
 
@@ -18,7 +27,7 @@
 
 			<div class="mini inner">
 				<SongDetails v-if="app.playing" :video="app.playing" />
-				<div class="items">
+				<div class="btn-row">
 					<button @click="state.playing ? player.pause() : player.play();" class="btn-play">
 						<Icon :class="{hidden: state.playing}" name="mdi:play" class="main" />
 						<Icon :class="{hidden: !state.playing}" name="mdi:pause" class="main" />
@@ -28,7 +37,7 @@
 
 			<div class="full inner">
 
-				<div class="items">
+				<div class="btn-row">
 					<button class="btn-prev">
 						<Icon name="mdi:skip-previous" />
 					</button>
@@ -54,7 +63,7 @@
 					</div>
 				</div>
 
-				<div class="items">
+				<div class="btn-row">
 					<button class="btn-loop">
 						<Icon v-if="0" name="cil:loop" class="semiopacity" />
 						<Icon v-if="0" name="cil:loop" />
@@ -77,26 +86,6 @@ import type { Player, PlayerState } from "./src/player";
 
 useHead({
 	title: "Piped Music"
-});
-
-let arr = [
-	"2Lh7zL49Lyo",
-	"dp28pv_UvK8",
-	"d40rzwlq8l4",
-	"HhZTYsojXdA",
-	"Z5NNPqJZy6g",
-	"bp-svDWn5HU",
-	"xyNZ4M2mI8s",
-	"22U-GYVYZJE"
-];
-
-function randomId() {
-	let index = Math.floor(Math.random() * arr.length);
-	return arr[index];
-}
-
-let data = reactive({
-	id: randomId()
 });
 
 let state = reactive<PlayerState>({

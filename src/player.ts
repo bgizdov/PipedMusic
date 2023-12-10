@@ -1,4 +1,4 @@
-import type { Queryable, Stream } from "./backend";
+import type { Backend, Stream } from "./backend";
 
 export class Player {
 	
@@ -6,9 +6,18 @@ export class Player {
 	
 	public streams: Stream[] | null = null;
 
-	public backend: Queryable;
+	public backend: Backend;
 
-	constructor(backend: Queryable) {
+	private types = {
+		default(p: HTMLAudioElement) {
+			p.crossOrigin = null;
+		},
+		piped(p: HTMLAudioElement) {
+			p.crossOrigin = "anonymous";
+		}
+	};
+
+	constructor(backend: Backend) {
 		this.backend = backend;
 		this.el = this.createPlayer();
 	}
@@ -21,8 +30,9 @@ export class Player {
 	setStreams(streams: Stream[] | null) {
 		if (streams) {
 			this.streams = streams;
-			let stream = this.backend.selectStream(streams, 100000);
+			let stream = this.backend.selectStream(streams, 1000000);
 			if (stream) {
+				this.types[stream.type](this.el);
 				this.el.src = stream.url;
 			} 
 		}

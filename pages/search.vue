@@ -1,0 +1,62 @@
+<template>
+	<div class="searchpage">
+		<section>
+			<div class="inner text-center">
+
+				<div class="text-block">
+					<h1>Search</h1>
+					<p v-if="app.global.search">Searching for: <b>{{ app.global.search }}</b></p>
+					<p v-else>Type what you want to search!</p>
+				</div>
+
+				<SearchBar />
+
+				<datalist id="suggestions" v-if="data.suggestions">
+					<option v-for="s in data.suggestions" :value="s" />
+				</datalist>
+
+			</div>
+			<div class="inner">
+				
+				<div class="song-list">
+					<SongItem :id="id" v-for="id in data.results" />
+				</div>
+
+			</div>
+		</section>
+	</div>
+</template>
+
+<script lang="ts" setup>
+
+import { app } from "~/src/app";
+
+let data = reactive<Data>({
+	results: [],
+	suggestions: []
+});
+
+let tout: NodeJS.Timeout | null = null;
+
+async function search() {
+	data.results = await app.backend.getSearch(app.global.search);
+}
+
+watch(() => app.global.search, async () => {
+	if (tout) clearTimeout(tout);
+	tout = setTimeout(async () => {
+		tout = null;
+		await search();
+	}, 250);
+	data.results = [];
+	data.suggestions = await app.backend.getSearchSuggestions(app.global.search);
+});
+
+onMounted(search);
+
+interface Data {
+	results: string[] | null,
+	suggestions: string[] | null
+}
+
+</script>
