@@ -30,7 +30,7 @@
 
 <script lang="ts" setup>
 
-import { app } from "~/src/app";
+import { app } from "~/src/frontend/app";
 
 let arr = [
 	"l1PWp-Helvs",

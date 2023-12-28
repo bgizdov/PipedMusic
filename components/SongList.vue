@@ -1,39 +1,34 @@
 <template>
 	<div class="song-list">
 		<SongItem :video="video" v-for="video in data.videos" />
+		<SongItem :id="id" v-for="id in data.ids" />
 	</div>
 </template>
 
 <script lang="ts" setup>
 
-import { app } from '~/src/app';
-import type { Video } from '~/src/backend';
+import type { RichVideo } from '~/src/types';
 
 let data = reactive<Data>({
-	videos: []
+	videos: [],
+	ids: []
 });
 
 let props = defineProps<Props>();
 
-if (props.videos) data.videos = props.videos;
-
-if (props.ids) {
-	let arr = props.ids.map((id) => {
-		return app.backend.getVideo(id);
-	});
-	for (let v of arr) {
-		let video = await v;
-		if (video) data.videos.push(video);
-	}
-}
+onMounted(async () => {
+	if (props.videos) data.videos = props.videos;
+	if (props.ids) data.ids = props.ids;
+});
 
 interface Props {
-	videos?: Video[],
+	videos?: RichVideo[],
 	ids?: string[]
 }
 
 interface Data {
-	videos: Video[]
+	videos: RichVideo[],
+	ids: string[]
 }
 
 </script>

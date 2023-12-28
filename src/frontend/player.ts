@@ -1,12 +1,8 @@
-import type { Backend, Stream } from "./backend";
-
 export class Player {
 	
 	public el: HTMLAudioElement;
 	
-	public streams: Stream[] | null = null;
-
-	public backend: Backend;
+	public stream: string | null = null;
 
 	private types = {
 		default(p: HTMLAudioElement) {
@@ -17,8 +13,7 @@ export class Player {
 		}
 	};
 
-	constructor(backend: Backend) {
-		this.backend = backend;
+	constructor() {
 		this.el = this.createPlayer();
 	}
 
@@ -27,14 +22,9 @@ export class Player {
 		return p;
 	}
 
-	setStreams(streams: Stream[] | null) {
-		if (streams) {
-			this.streams = streams;
-			let stream = this.backend.selectStream(streams, 1000000);
-			if (stream) {
-				this.types[stream.type](this.el);
-				this.el.src = stream.url;
-			} 
+	setStream(stream: string | null) {
+		if (stream) {
+			this.el.src = stream;
 		}
 	}
 

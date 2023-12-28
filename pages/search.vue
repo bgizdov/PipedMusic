@@ -29,7 +29,7 @@
 
 <script lang="ts" setup>
 
-import { app } from "~/src/app";
+import { app } from "~/src/frontend/app";
 
 let data = reactive<Data>({
 	results: [],
@@ -39,7 +39,7 @@ let data = reactive<Data>({
 let tout: NodeJS.Timeout | null = null;
 
 async function search() {
-	data.results = await app.backend.getSearch(app.global.search);
+	data.results = await app.data.getSearch(app.global.search);
 }
 
 watch(() => app.global.search, async () => {
@@ -49,7 +49,7 @@ watch(() => app.global.search, async () => {
 		await search();
 	}, 250);
 	data.results = [];
-	data.suggestions = await app.backend.getSearchSuggestions(app.global.search);
+	data.suggestions = await app.data.getSearchSuggestions(app.global.search);
 });
 
 onMounted(search);

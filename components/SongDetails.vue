@@ -1,6 +1,6 @@
 <template>
 	<div class="song-details">
-		<div>
+		<div class="image">
 			<img :src="video.thumbnail">
 		</div>
 		<div>
@@ -17,12 +17,12 @@
 <script lang="ts" setup>
 
 import type { ShallowReactive } from 'vue';
-import type { Video } from '~/src/backend';
+import type { RichVideo } from '~/src/types';
 	
 let { video } = defineProps<Props>();
 
 interface Props {
-	video: ShallowReactive<Video>
+	video: ShallowReactive<RichVideo>
 }
 
 </script>

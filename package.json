@@ -10,8 +10,15 @@
   },
   "devDependencies": {
     "nuxt": "^3.8.2",
+    "nuxt-icon": "^0.6.7",
     "vue": "^3.3.10",
-    "vue-router": "^4.2.5",
-    "nuxt-icon": "^0.6.7"
+    "vue-router": "^4.2.5"
+  },
+  "dependencies": {
+    "youtubei.js": "^8.0.0"
+  },
+  "module": "index.ts",
+  "peerDependencies": {
+    "typescript": "^5.0.0"
   }
 }

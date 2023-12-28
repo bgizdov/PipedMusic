@@ -81,8 +81,8 @@
 
 <script lang="ts" setup>
 
-import { app } from "./src/app";
-import type { Player, PlayerState } from "./src/player";
+import { app } from "~/src/frontend/app";
+import type { Player, PlayerState } from "~/src/frontend/player";
 
 useHead({
 	title: "Piped Music"
