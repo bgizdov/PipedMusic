@@ -1,6 +1,6 @@
 <template>
-	<div v-if="video" class="song-details song-item" @click="app.play(video.id)">
-		<div class="image">
+	<div v-if="video" class="song-details song-item">
+		<div class="image" @click="app.play(video.id)">
 			<div class="hover">
 				<Icon name="mdi:play" />
 			</div>
@@ -13,6 +13,9 @@
 			<div>
 				{{ video.author }}
 			</div>
+		</div>
+		<div>
+			{{ formatTime(video.duration) }}
 		</div>
 	</div>
 	<div v-else class="song-details song-item">
@@ -31,6 +34,7 @@
 
 import type { ShallowReactive } from 'vue';
 import { app } from '~/src/frontend/app';
+import { formatTime } from '~/src/frontend/misc';
 import type { RichVideo } from '~/src/types';
 
 let video = ref<RichVideo | null>(null);

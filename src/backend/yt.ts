@@ -33,7 +33,8 @@ class Backend {
 		return {
 			id,
 			title: info.basic_info.title ?? "Unknown",
-			author: info.basic_info.author ?? "Unknown"
+			author: info.basic_info.author ?? "Unknown",
+			duration: info.basic_info.duration ?? 0
 		};
 	}
 

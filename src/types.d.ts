@@ -1,7 +1,8 @@
 export interface Video {
 	id: string,
 	title: string,
-	author: string
+	author: string,
+	duration: number
 }
 
 export interface RichVideo extends Video {

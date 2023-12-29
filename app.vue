@@ -21,7 +21,7 @@
 
 		</div>
 
-		<div class="player">
+		<div class="player" v-if="state.video">
 
 			<ProgressBar :player="player" :state="state" />
 
@@ -54,11 +54,11 @@
 				</div>
 
 				<div class="song">
-					<SongDetails v-if="app.playing" :video="app.playing" />
+					<SongDetails :video="state.video" />
 					<div>
-						<button class="btn-like">
-							<Icon name="mdi:heart-outline" class="semiopacity" />
-							<Icon v-if="0" name="mdi:heart" />
+						<button class="btn-like" @click="likedSongs.toggle(state.video.id); likedSongs.save();">
+							<Icon v-if="likedSongs.has(state.video.id)" name="mdi:heart" />
+							<Icon v-else name="mdi:heart-outline" class="semiopacity" />
 						</button>
 					</div>
 				</div>
@@ -81,8 +81,9 @@
 
 <script lang="ts" setup>
 
-import { app } from "~/src/frontend/app";
+import { app, likedSongs } from "~/src/frontend/app";
 import type { Player, PlayerState } from "~/src/frontend/player";
+import { formatTime } from "./src/frontend/misc";
 
 useHead({
 	title: "Piped Music"
@@ -94,7 +95,8 @@ let state = reactive<PlayerState>({
 	position: 0,
 	duration: 0,
 	volume: 1,
-	muted: false
+	muted: false,
+	video: null
 });
 
 function registerPlayer(player: Player) {
@@ -103,17 +105,11 @@ function registerPlayer(player: Player) {
 	p.addEventListener("timeupdate", () => state.position = p.currentTime);
 	p.addEventListener("play", () => state.playing = !p.paused);
 	p.addEventListener("pause", () => state.playing = !p.paused);
+	p.addEventListener("canplay", () => state.video = app.playing);
 }
 
 let player = app.player;
 
 registerPlayer(player);
-
-function formatTime(seconds: number) {
-	if (seconds < 0) seconds = 0;
-	const [h, m, s] = [Math.floor(seconds / 3600), Math.floor(seconds % 3600 / 60), Math.floor(seconds % 60)];
-	if (h) return `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-	return `${m}:${String(s).padStart(2, '0')}`;
-}
 
 </script>

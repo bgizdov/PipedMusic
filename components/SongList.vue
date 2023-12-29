@@ -1,34 +1,37 @@
 <template>
 	<div class="song-list">
-		<SongItem :video="video" v-for="video in data.videos" />
-		<SongItem :id="id" v-for="id in data.ids" />
+		<div class="pagination" v-if="data.page != data.max_page">
+			<div>
+				Page {{ data.page + 1 }} / {{ data.max_page + 1 }}
+			</div>
+			<button class="btn" @click="prev()">Prev</button>
+			<button class="btn" @click="next()">Next</button>
+		</div>
+		<SongItem :key="id" :id="id" v-for="id in list.get(data.page)" />
 	</div>
 </template>
 
 <script lang="ts" setup>
 
-import type { RichVideo } from '~/src/types';
+import type { List } from '~/src/frontend/list';
 
-let data = reactive<Data>({
-	videos: [],
-	ids: []
+let { list } = defineProps<Props>();
+
+let data = reactive({
+	page: 0,
+	max_page: computed(() => Math.floor(list.size() / 100))
 });
 
-let props = defineProps<Props>();
-
-onMounted(async () => {
-	if (props.videos) data.videos = props.videos;
-	if (props.ids) data.ids = props.ids;
-});
-
-interface Props {
-	videos?: RichVideo[],
-	ids?: string[]
+function prev() {
+	data.page = Math.max(0, data.page - 1);
 }
 
-interface Data {
-	videos: RichVideo[],
-	ids: string[]
+function next() {
+	data.page = Math.min(data.max_page, data.page + 1);
+}
+
+interface Props {
+	list: List
 }
 
 </script>
