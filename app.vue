@@ -30,4 +30,8 @@
 
 import { app } from "~/src/frontend/app";
 
+useHead({
+	title: "Piped Music"
+});
+
 </script>

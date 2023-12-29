@@ -1,7 +1,7 @@
 import { Data, type DataInterface } from "../frontend/data"
 import { Player } from "../frontend/player";
-import type { RichVideo } from "../types";
 import { SavedList } from "./list";
+import { Queue } from "./queue";
 
 export class App {
 
@@ -10,8 +10,6 @@ export class App {
 	public player: Player;
 
 	public data: DataInterface;
-
-	public playing: RichVideo | null = null;
 
 	public global: GlobalData;
 
@@ -25,28 +23,6 @@ export class App {
 		if (App.instance) return App.instance;
 	}
 
-	public async play(id: string) {
-		let video = await this.data.getRichVideo(id);
-		if (!video) return;
-		let stream = await this.data.getStream(id);
-		this.setMediaSession(video);
-		this.player.setStream(stream);
-		this.playing = video;
-		this.player.play();
-	}
-
-	public setMediaSession(video: RichVideo) {
-		if (!navigator.mediaSession) return;
-		navigator.mediaSession.metadata = new MediaMetadata({
-			title: video.title,
-			artist: video.author,
-			album: "",
-			artwork: [
-				{src: video.thumbnail}
-			]
-		});
-	}
-
 }
 
 export let player = new Player();
@@ -54,6 +30,7 @@ export let data = new Data();
 export let app = new App(data, player);
 
 export let likedSongs = reactive(SavedList.load("liked"));
+export let queue = reactive(new Queue(app));
 
 export interface GlobalData {
 	search: string,

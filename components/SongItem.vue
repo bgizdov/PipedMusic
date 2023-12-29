@@ -1,7 +1,10 @@
 <template>
 	<div v-if="video" class="song-details song-item">
-		<div class="image" @click="app.play(video.id)">
-			<div class="hover">
+		<div class="image" @click="play(video)">
+			<div v-if="isPlaying" class="playing">
+				<Icon name="mdi:volume" />
+			</div>
+			<div v-else class="hover">
 				<Icon name="mdi:play" />
 			</div>
 			<img :src="video.thumbnail">
@@ -32,14 +35,30 @@
 
 <script lang="ts" setup>
 
-import type { ShallowReactive } from 'vue';
-import { app } from '~/src/frontend/app';
+import { app, queue } from '~/src/frontend/app';
 import { formatTime } from '~/src/frontend/misc';
+import type { ShallowReactive } from 'vue';
+import type { List } from '~/src/frontend/list';
 import type { RichVideo } from '~/src/types';
+import { Queue } from '~/src/frontend/queue';
 
 let video = ref<RichVideo | null>(null);
 
 let props = defineProps<Props>();
+
+let isPlaying = computed(() => {
+	if (!video.value || !queue.playing) return false;
+	return video.value.id == queue.playing.id;
+});
+
+function play(video: RichVideo) {
+	if (props.list instanceof Queue) {
+		queue.play(video.id);
+	} else {
+		if (!queue.has(video.id)) queue.add(video.id);
+		queue.play(video.id);
+	}
+}
 
 onMounted(async () => {
 	if (props.id) video.value = await app.data.getRichVideo(props.id);
@@ -48,7 +67,8 @@ onMounted(async () => {
 
 interface Props {
 	video?: ShallowReactive<RichVideo>,
-	id?: string
+	id?: string,
+	list?: List
 }
 
 </script>

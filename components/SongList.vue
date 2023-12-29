@@ -7,7 +7,7 @@
 			<button class="btn" @click="prev()">Prev</button>
 			<button class="btn" @click="next()">Next</button>
 		</div>
-		<SongItem :key="id" :id="id" v-for="id in list.get(data.page)" />
+		<SongItem :key="id" :id="id" :list="list" v-for="id in list.get(data.page)" />
 	</div>
 </template>
 

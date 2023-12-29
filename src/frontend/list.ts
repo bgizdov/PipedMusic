@@ -36,6 +36,10 @@ export class List {
 		else this.items.unshift(id);
 	}
 
+	public addMulti(ids: string[], mode: ListAddMode = 0) {
+		ids.forEach(id => this.add(id, mode));
+	}
+
 	public remove(id: string) {
 		let i = this.items.indexOf(id);
 		if (i != -1) this.items.splice(i, 1);

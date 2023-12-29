@@ -12,20 +12,19 @@
 							<div>
 								{{ state.video.author }}
 							</div>
+							<ProgressBar :state="state" :player="player" />
 							<div class="btn-row">
-								<LikeButton class="btn" :state="state" />
-								<button class="btn btn-prev">
-									<Icon name="mdi:skip-previous" />
-								</button>
+								<LikeButton :state="state" />
+								<PrevButton />
 								<PlayPauseButton class="btn" :state="state" />
-								<button class="btn btn-next">
-									<Icon name="mdi:skip-next" />
-								</button>
+								<NextButton />
+								<LoopButton />
 							</div>
 						</div>
 					</div>
 					<div class="sidebar">
-						Queue soon...
+						<p>Queue</p>
+						<SongList :list="queue" />
 					</div>
 				</div>
 			</div>
@@ -36,7 +35,7 @@
 			<ProgressBar :player="player" :state="state" />
 
 			<div class="mini inner">
-				<SongDetails v-if="app.playing" :video="app.playing" @click="togglePlayer();" />
+				<SongDetails :video="state.video" @click="togglePlayer();" />
 				<div class="btn-row">
 					<PlayPauseButton :state="state" />
 				</div>
@@ -45,13 +44,9 @@
 			<div class="full inner">
 
 				<div class="btn-row" @click.self="togglePlayer()">
-					<button class="btn-prev">
-						<Icon name="mdi:skip-previous" />
-					</button>
+					<PrevButton />
 					<PlayPauseButton :state="state" />
-					<button class="btn-next">
-						<Icon name="mdi:skip-next" />
-					</button>
+					<NextButton />
 					<div class="time">
 						{{ formatTime(state.position) }} / {{ formatTime(state.duration) }}
 					</div>
@@ -63,11 +58,7 @@
 				</div>
 
 				<div class="btn-row" @click.self="togglePlayer()">
-					<button class="btn-loop">
-						<Icon v-if="0" name="cil:loop" class="semiopacity" />
-						<Icon v-if="0" name="cil:loop" />
-						<Icon name="cil:loop-1" />
-					</button>
+					<LoopButton />
 					<VolumeButton :player="player" :state="state" />
 					<button class="btn-player" @click="togglePlayer()">
 						<Icon v-if="app.global.player" name="mdi:chevron-down" />
@@ -83,13 +74,9 @@
 
 <script lang="ts" setup>
 
-import { app, likedSongs } from "~/src/frontend/app";
+import { app, queue } from "~/src/frontend/app";
 import type { Player, PlayerState } from "~/src/frontend/player";
 import { formatTime } from "~/src/frontend/misc";
-
-useHead({
-	title: "Piped Music"
-});
 
 let state = reactive<PlayerState>({
 	playing: false,
@@ -111,7 +98,7 @@ function registerPlayer(player: Player) {
 	p.addEventListener("timeupdate", () => state.position = p.currentTime);
 	p.addEventListener("play", () => state.playing = !p.paused);
 	p.addEventListener("pause", () => state.playing = !p.paused);
-	p.addEventListener("canplay", () => state.video = app.playing);
+	p.addEventListener("canplay", () => state.video = queue.playing);
 }
 
 let player = app.player;
