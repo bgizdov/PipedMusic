@@ -9,5 +9,7 @@ export default defineNuxtConfig({
 	],
 	modules: [
 		"nuxt-icon"
-	]
+	],
+	components: ["./components", "./components/buttons"]
+	
 });

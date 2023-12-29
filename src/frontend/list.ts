@@ -31,8 +31,9 @@ export class List {
 		return this;
 	}
 
-	public add(id: string) {
-		this.items.push(id);
+	public add(id: string, mode: ListAddMode = 0) {
+		if (mode) this.items.push(id);
+		else this.items.unshift(id);
 	}
 
 	public remove(id: string) {
@@ -75,4 +76,11 @@ export class SavedList extends List {
 		return new SavedList(name, ids ? ids.split(",") : []);
 	}
 
+}
+
+export enum ListAddMode {
+	Prepend = 0,
+	Before = 0,
+	Append = 1,
+	After = 1
 }

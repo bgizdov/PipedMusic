@@ -13,6 +13,7 @@ function search() {
 	if (useRoute().path != '/search') {
 		useRouter().push('/search');
 	}
+	app.global.player = false;
 }
 
 </script>

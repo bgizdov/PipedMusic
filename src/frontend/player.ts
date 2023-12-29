@@ -24,6 +24,10 @@ export class Player {
 		this.el.pause();
 	}
 
+	public playPause() {
+		this.el.paused ? this.play() : this.pause();
+	}
+
 	public seek(time: number) {
 		this.el.currentTime = time;
 	}

@@ -19,7 +19,8 @@ export class App {
 		this.data = data;
 		this.player = player;
 		this.global = reactive({
-			search: ""
+			search: "",
+			player: false
 		});
 		if (App.instance) return App.instance;
 	}
@@ -35,6 +36,7 @@ export class App {
 	}
 
 	public setMediaSession(video: RichVideo) {
+		if (!navigator.mediaSession) return;
 		navigator.mediaSession.metadata = new MediaMetadata({
 			title: video.title,
 			artist: video.author,
@@ -54,5 +56,6 @@ export let app = new App(data, player);
 export let likedSongs = reactive(SavedList.load("liked"));
 
 export interface GlobalData {
-	search: string
+	search: string,
+	player: boolean
 }
