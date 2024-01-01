@@ -2,6 +2,7 @@ import Innertube, { UniversalCache } from "youtubei.js";
 import { BackendCache } from "./cache";
 import type { Video } from "../types";
 import { Parser } from "./parser";
+import type { FormatOptions } from "youtubei.js/dist/src/types";
 
 class Backend {
 
@@ -46,11 +47,17 @@ class Backend {
 
 	public async download(id: string) {
 		let info = await this.fetchTrackInfo(id);
-		return info.download({
+		let options: FormatOptions = {
 			type: 'audio', // audio, video or video+audio
 			quality: 'best', // best, bestefficiency, 144p, 240p, 480p, 720p and so on.
 			format: 'mp4' // media container format 
-		});
+		};
+		let f = info.chooseFormat(options);
+		return {
+			stream: await info.download(options),
+			length: f.content_length,
+			mime: f.mime_type
+		};
 	}
 
 	public async getSearch(q: string) {
