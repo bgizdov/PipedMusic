@@ -212,18 +212,19 @@ nav .btn-search {display: none;}
 
 /* Player page */
 
-.player-page {position: fixed; top: 100%; left: 0; width: 100%; height: 100%; z-index: 90; background-color: var(--main-bg); transition: all .3s; opacity: 0;}
-.player-page.opened {top: 0; opacity: 1;}
+.player-page {position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 90; background-color: var(--main-bg); transition: all .2s; opacity: 0; transform: translateY(100%);}
+.player-page.opened {opacity: 1; transform: none;}
 
-.player-page .content {height: 100%;}
-.player-page .grid {height: 100%; display: grid; grid-template-columns: 1fr auto; grid-template-rows: 100%; max-width: 1500px; margin: auto; padding: 0 20px; gap: 0 30px;}
+.player-page .wrapper {top: var(--nav-height); bottom: var(--player-height); width: 100%; overflow: auto; position: absolute;}
+
+.player-page .grid {display: grid; grid-template-columns: 1fr auto; max-width: 1500px; margin: auto; padding: 0 40px; gap: 0 30px;}
+
+.player {height: calc(100vh - var(--player-height) - var(--nav-height)); max-height: 100vh; display: flex; align-items: center; justify-content: center; align-self: flex-start; position: sticky; top: 0; padding: 20px;}
+.player img {max-height: 100%; max-width: 100%; border-radius: 5px;}
 
 .player-page .mobile-nav {padding: 0 5px; margin: 10px 0; display: none;}
 
-.player {display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 20px auto; gap: 20px;}
-.player img {max-height: 100%; max-width: 100%; border-radius: 5px;}
-
-.player-page .sidebar {width: 100%; max-width: 500px; overflow-y: scroll; padding: 20px 0;}
+.player-page .sidebar {width: 100%; max-width: 500px; padding: 20px 0;}
 
 .player {
 	--btn-bg: #fff2;
@@ -246,15 +247,15 @@ nav .btn-search {display: none;}
 }
 
 @media screen and (max-width: 850px) {
-	.player-page .grid {height: auto; grid-template-columns: auto; grid-template-rows: auto;}
+	.player {max-width: 350px; margin: auto; text-align: center; display: block; position: relative; height: auto; padding: 0;}
+	.player img {max-height: 45vh; margin: 20px 0;}
+	.player-page .grid {height: auto; grid-template-columns: auto; grid-template-rows: auto; padding: 0 20px;}
 	.player-page .sidebar {max-width: 500px; margin: auto;}
-	.player-page .content {overflow: scroll;}
 }
 
 @media screen and (max-width: 700px) {
-	.player {max-width: 350px; margin-top: 20px; text-align: center;}
 	.player .mobile {display: block;}
 	.player-page {z-index: 110;}
-	.player-page .content {padding: 0;}
+	.player-page .wrapper {top: 0; bottom: 0;}
 	.player-page .mobile-nav {display: block;}
 }

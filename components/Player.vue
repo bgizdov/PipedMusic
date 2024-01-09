@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="player-page" v-if="state.video" :class="{ 'opened': app.global.player }">
-			<div class="content">
+			<div class="wrapper">
 				<div class="mobile-nav">
 					<button class="btn-close" @click="togglePlayer();">
 						<Icon name="mdi:chevron-down" />
