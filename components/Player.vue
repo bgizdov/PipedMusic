@@ -2,6 +2,11 @@
 	<div>
 		<div class="player-page" v-if="state.video" :class="{ 'opened': app.global.player }">
 			<div class="content">
+				<div class="mobile-nav">
+					<button class="btn-close" @click="togglePlayer();">
+						<Icon name="mdi:chevron-down" />
+					</button>
+				</div>
 				<div class="grid">
 					<div class="player">
 						<img :src="state.video.thumbnail" @click="player.playPause()" />
@@ -104,5 +109,13 @@ function registerPlayer(player: Player) {
 let player = app.player;
 
 registerPlayer(player);
+
+watch(() => app.global.player, () => {
+	let html = document.querySelector("html");
+	if (html) {
+		if (app.global.player) html.classList.add("block-scrolling");
+		else html.classList.remove("block-scrolling");
+	}
+});
 
 </script>

@@ -33,9 +33,9 @@
 
 html, body, button, input {font-family: var(--font-family); font-size: 16px;}
 
-html, body {margin: 0; line-height: 1.35;}
+html, body {margin: 0; line-height: 1.35; overscroll-behavior: contain;}
 
-html {background-color: var(--main-bg); color: var(--text-color);}
+html {background-color: var(--main-bg); color: var(--text-color); text-wrap: balance;}
 
 
 /* Content */
@@ -73,6 +73,8 @@ button {color: inherit; font: inherit;}
 
 .btn-row {display: flex; flex-direction: row; align-items: center;}
 .btn-row-right {justify-content: right;}
+
+.block-scrolling {overflow: hidden !important;}
 
 
 /* Range inputs */
@@ -216,6 +218,8 @@ nav .btn-search {display: none;}
 .player-page .content {height: 100%;}
 .player-page .grid {height: 100%; display: grid; grid-template-columns: 1fr auto; grid-template-rows: 100%; max-width: 1500px; margin: auto; padding: 0 20px; gap: 0 30px;}
 
+.player-page .mobile-nav {padding: 0 5px; margin: 10px 0; display: none;}
+
 .player {display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 20px auto; gap: 20px;}
 .player img {max-height: 100%; max-width: 100%; border-radius: 5px;}
 
@@ -229,7 +233,10 @@ nav .btn-search {display: none;}
 .player .mobile {display: none;}
 
 .player .progress {margin: 7px 0;}
-.player .btn-row {display: flex; margin: 10px 0; gap: 5px;}
+.player .progress input[type=range]::-webkit-slider-thumb {opacity: 1;}
+.player .progress input[type=range]::-moz-range-thumb {opacity: 1;}
+
+.player .btn-row {display: flex; margin: 10px 0; gap: 5px; justify-content: center;}
 
 .player .btn-playpause {padding: 14px; border-radius: 50%;}
 .player .btn-playpause * {font-size: 32px;}
@@ -247,4 +254,7 @@ nav .btn-search {display: none;}
 @media screen and (max-width: 700px) {
 	.player {max-width: 350px; margin-top: 20px; text-align: center;}
 	.player .mobile {display: block;}
+	.player-page {z-index: 110;}
+	.player-page .content {padding: 0;}
+	.player-page .mobile-nav {display: block;}
 }

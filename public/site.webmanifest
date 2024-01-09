@@ -1,0 +1,14 @@
+{
+    "name": "PipedMusic",
+    "icons": [
+        {
+            "src": "/icon.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#000000",
+    "background_color": "#870027",
+    "start_url": "/",
+    "display": "standalone"
+}
