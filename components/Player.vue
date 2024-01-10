@@ -17,7 +17,13 @@
 							<div>
 								{{ state.video.author }}
 							</div>
-							<ProgressBar :state="state" :player="player" />
+							<div class="mobile-progress">
+								<ProgressBar :state="state" :player="player" />
+								<div class="time">
+									<div>{{ formatTime(state.position) }}</div>
+									<div>{{ formatTime(state.duration) }}</div>
+								</div>
+							</div>
 							<div class="btn-row">
 								<LikeButton :state="state" />
 								<PrevButton />

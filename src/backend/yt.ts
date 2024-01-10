@@ -53,8 +53,9 @@ class Backend {
 			format: 'mp4' // media container format 
 		};
 		let f = info.chooseFormat(options);
+		let yt = await this.get();
 		return {
-			stream: await info.download(options),
+			url: f.decipher(yt.session.player),
 			length: f.content_length,
 			mime: f.mime_type
 		};
