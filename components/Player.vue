@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<div class="player-page" v-if="state.video" :class="{ 'opened': app.global.player }">
-			<div class="wrapper">
+		<div class="player-page" v-if="state.video" :class="{ 'opened': app.global.player }" @touchmove="playerTouchMove" @touchend="playerTouchEnd" :style="data.player_page_offset ? { transition: 'none', transform: 'translateY('+data.player_page_offset+'px)' } : ''">
+			<div class="wrapper" :style="data.player_page_offset ? { overflow: 'hidden' } : ''" ref="wrapper">
 				<div class="mobile-nav">
 					<button class="btn-close" @click="togglePlayer();">
 						<Icon name="mdi:chevron-down" />
@@ -82,6 +82,15 @@
 import { app, queue } from "~/src/frontend/app";
 import type { Player, PlayerState } from "~/src/frontend/player";
 import { formatTime } from "~/src/frontend/misc";
+import type { ComboObject } from "~/src/types";
+
+let wrapper = ref<HTMLElement | null>(null);
+
+let data = reactive<ComboObject>({
+	player_page_offset: 0,
+	start_y: null,
+	now_y: null
+});
 
 let state = reactive<PlayerState>({
 	playing: false,
@@ -117,5 +126,26 @@ watch(() => app.global.player, () => {
 		else html.classList.remove("block-scrolling");
 	}
 });
+
+function movePlayerPage() {
+	data.player_page_offset = data.now_y != null ? Math.max(data.now_y - data.start_y, 0) : 0;
+}
+
+function playerTouchMove(event: TouchEvent) {
+	if (wrapper.value && wrapper.value.scrollTop) return;
+	let cy = event.touches[0].clientY;
+	if (!data.start_y) data.start_y = cy;
+	else data.now_y = cy;
+	movePlayerPage();
+}
+
+function playerTouchEnd() {
+	data.now_y = null;
+	data.start_y = null;
+	if (data.player_page_offset > 200) {
+		app.global.player = false;
+	}
+	movePlayerPage();
+}
 
 </script>

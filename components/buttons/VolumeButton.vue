@@ -7,7 +7,7 @@
 			<Icon :class="{hidden: volumeLevel() != 3}" name="mdi:volume-high" />
 		</button>
 		<div class="box">
-			<input type="range" v-model="state.volume" @input="player.setVolume(state.volume)" min="0" max="1" step=".01">
+			<input type="range" v-model="state.volume" @input="player.setVolume(state.volume); state.muted = false;" min="0" max="1" step=".01">
 		</div>
 	</div>
 </template>
