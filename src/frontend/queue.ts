@@ -6,26 +6,47 @@ export class Queue extends List {
 
 	private app: App;
 
-	public playing: RichVideo | null = null;
+	public playing: number | null = null;
 
 	public constructor(app: App) {
 		super();
 		this.app = app;
 	}
 
-	public add(id: string, mode: ListAddMode = 1) {
-		super.add(id, mode);
-		if (!this.playing) this.play(id);
+	public next() {
+		if (this.playing === null) return;
+		let index = Math.min(this.playing + 1, this.items.length - 1);
+		this.play(index);
 	}
 
-	public async play(id: string) {
+	public previous() {
+		if (this.playing === null) return;
+		let index = Math.max(this.playing - 1, 0);
+		this.play(index);
+	}
+
+	public add(id: string, mode: ListAddMode = 1): number {
+		let index = super.add(id, mode);
+		if (this.playing === null) this.play(index);
+		return index;
+	}
+
+	public async addNext(id: string) {
+		if (this.playing === null) return this.add(id);
+		let index = this.playing + 1;
+		this.items.splice(index, 0, id);
+		return index;
+	}
+
+	public async play(index: number) {
+		let id = this.get(index);
+		if (!id) return;
 		let video = await this.app.data.getRichVideo(id);
 		if (!video) return;
-		let stream = await this.app.data.getStream(id);
 		this.setMediaSession(video);
-		this.app.player.setStream(video.stream);
+		this.app.player.setPlaying(video);
 		this.app.player.play();
-		this.playing = video;
+		this.playing = index;
 	}
 
 	public setMediaSession(video: RichVideo) {

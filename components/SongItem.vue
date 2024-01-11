@@ -1,5 +1,5 @@
 <template>
-	<div v-if="video" class="song-details song-item">
+	<div v-if="video" class="song-details song-item" @click.right.prevent="popup($event, video);">
 		<div class="image" @click="play(video)">
 			<div v-if="isPlaying" class="playing">
 				<Icon name="mdi:volume" />
@@ -9,7 +9,7 @@
 			</div>
 			<img :src="video.thumbnail">
 		</div>
-		<div>
+		<div @click="popup($event, video, true);">
 			<div>
 				<b>{{ video.title }}</b>
 			</div>
@@ -35,7 +35,7 @@
 
 <script lang="ts" setup>
 
-import { app, queue } from '~/src/frontend/app';
+import { app, queue, songMenu } from '~/src/frontend/app';
 import { formatTime } from '~/src/frontend/misc';
 import type { ShallowReactive } from 'vue';
 import type { List } from '~/src/frontend/list';
@@ -47,17 +47,30 @@ let video = ref<RichVideo | null>(null);
 let props = defineProps<Props>();
 
 let isPlaying = computed(() => {
-	if (!video.value || !queue.playing) return false;
-	return video.value.id == queue.playing.id;
+	if (!video.value || queue.playing == null) return false;
+	return video.value.id == queue.items[queue.playing];
 });
 
 function play(video: RichVideo) {
 	if (props.list instanceof Queue) {
-		queue.play(video.id);
+		queue.play(queue.index(video.id));
 	} else {
-		if (!queue.has(video.id)) queue.add(video.id);
-		queue.play(video.id);
+		let index = queue.index(video.id);
+		if (index == -1) index = queue.add(video.id);
+		queue.play(index);
 	}
+}
+
+function popup(event: MouseEvent, video: RichVideo, force?: boolean) {
+	songMenu.visible = force ?? !songMenu.visible;
+	songMenu.video = video;
+	songMenu.list = props.list ?? null;
+	songMenu.x = event.pageX;
+	songMenu.y = event.pageY;
+	songMenu.hideable = false;
+	setTimeout(() => {
+		songMenu.hideable = true;
+	}, 100);
 }
 
 onMounted(async () => {

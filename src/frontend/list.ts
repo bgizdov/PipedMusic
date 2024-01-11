@@ -6,9 +6,13 @@ export class List {
 		this.items = ids;
 	}
 
-	public get(page: number = 0) {
+	public getPage(page: number = 0) {
 		let start = page * 100;
 		return this.items.slice(start, start + 100);
+	}
+
+	public get(index: number): string | null {
+		return this.items[index] ?? null;
 	}
 
 	public size() {
@@ -31,9 +35,14 @@ export class List {
 		return this;
 	}
 
-	public add(id: string, mode: ListAddMode = 0) {
-		if (mode) this.items.push(id);
-		else this.items.unshift(id);
+	public add(id: string, mode: ListAddMode = 0): number {
+		if (mode) {
+			this.items.push(id);
+			return this.items.length - 1;
+		} else {
+			this.items.unshift(id);
+			return 0;
+		}
 	}
 
 	public addMulti(ids: string[], mode: ListAddMode = 0) {
@@ -50,7 +59,11 @@ export class List {
 	}
 
 	public has(id: string) {
-		return this.items.indexOf(id) != -1;
+		return this.index(id) != -1;
+	}
+
+	public index(id: string) {
+		return this.items.indexOf(id);
 	}
 
 	public clone(): List {

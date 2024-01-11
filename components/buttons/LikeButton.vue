@@ -7,6 +7,7 @@
 
 <script lang="ts" setup>
 
+import { likeToggle } from '~/src/frontend/actions';
 import { likedSongs } from '~/src/frontend/app';
 import type { PlayerState } from '~/src/frontend/player';
 
@@ -16,8 +17,7 @@ let { state } = defineProps<{state: PlayerState}>();
 
 function toggle() {
 	if (!state.video) return;
-	likedSongs.toggle(state.video.id);
-	likedSongs.save();
+	likeToggle(state.video.id);
 }
 
 </script>

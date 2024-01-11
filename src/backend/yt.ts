@@ -1,4 +1,4 @@
-import Innertube, { UniversalCache } from "youtubei.js";
+import Innertube, { Constants, UniversalCache } from "youtubei.js";
 import { BackendCache } from "./cache";
 import type { Video } from "../types";
 import { Parser } from "./parser";
@@ -45,7 +45,7 @@ class Backend {
 		return thumbnail ? $fetch(thumbnail) : null;
 	}
 
-	public async download(id: string) {
+	public async stream(id: string, range?: string) {
 		let info = await this.fetchTrackInfo(id);
 		let options: FormatOptions = {
 			type: 'audio', // audio, video or video+audio
@@ -54,11 +54,17 @@ class Backend {
 		};
 		let f = info.chooseFormat(options);
 		let yt = await this.get();
-		return {
-			url: f.decipher(yt.session.player),
-			length: f.content_length,
-			mime: f.mime_type
-		};
+		let url = f.decipher(yt.session.player);
+		return this.fetchFileChunk(url, range);
+	}
+
+	public async download(id: string) {
+		let info = await this.fetchTrackInfo(id);
+		return info.download({
+			type: 'audio', // audio, video or video+audio
+			quality: 'best', // best, bestefficiency, 144p, 240p, 480p, 720p and so on.
+			format: 'mp4' // media container format 
+		});
 	}
 
 	public async getSearch(q: string) {
@@ -93,6 +99,16 @@ class Backend {
 			`search_suggestions(${q})`,
 			async () => await yt.music.getSearchSuggestions(q)
 		);
+	}
+
+	private async fetchFileChunk(url: string, range?: string) {
+		let res = await fetch(url, {method: "GET", headers: {...Constants.STREAM_HEADERS, range: range ?? "0-"}, redirect: "follow"});
+		let headers = new Headers;
+		const copiedHeaders = ["accept-ranges", "content-length", "content-range", "content-type"];
+		for (let key of res.headers.keys()) {
+			if (copiedHeaders.indexOf(key) != -1) headers.set(key, res.headers.get(key)!);
+		}
+		return new Response(res.body, {headers, status: res.status});
 	}
 
 }

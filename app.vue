@@ -1,19 +1,21 @@
 <template>
-	<div>
+	<div @click="if (songMenu.hideable) songMenu.visible = false;">
 
 		<nav>
 			<div class="inner">
-				<NuxtLink to="/" @click="app.global.player = false;">
+				<NuxtLink to="/" @click="shared.player = false;">
 					<img class="logo" src="/logo.webp">
 				</NuxtLink>
 				<SearchBar />
-				<div class="btn-row btn-row-right" @click="app.global.player = false;">
+				<div class="btn-row btn-row-right" @click="shared.player = false;">
 					<NuxtLink to="/search" class="btn-search">
 						<Icon name="mdi:search" />
 					</NuxtLink>
 				</div>
 			</div>
 		</nav>
+
+		<SongMenu />
 
 		<div class="content">
 
@@ -28,7 +30,7 @@
 
 <script lang="ts" setup>
 
-import { app } from "~/src/frontend/app";
+import { shared, songMenu } from "~/src/frontend/app";
 
 useHead({
 	title: "Piped Music"

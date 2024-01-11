@@ -5,7 +5,7 @@
 
 				<div class="text-block">
 					<h1>Search</h1>
-					<p v-if="app.global.search">Searching for: <b>{{ app.global.search }}</b></p>
+					<p v-if="shared.search">Searching for: <b>{{ shared.search }}</b></p>
 					<p v-else>Type what you want to search!</p>
 				</div>
 
@@ -29,7 +29,7 @@
 
 <script lang="ts" setup>
 
-import { app } from "~/src/frontend/app";
+import { app, shared } from "~/src/frontend/app";
 
 let data = reactive<Data>({
 	results: [],
@@ -39,17 +39,18 @@ let data = reactive<Data>({
 let tout: NodeJS.Timeout | null = null;
 
 async function search() {
-	data.results = await app.data.getSearch(app.global.search);
+	data.results = await app.data.getSearch(shared.search);
 }
 
-watch(() => app.global.search, async () => {
+watch(() => shared.search, async () => {
 	if (tout) clearTimeout(tout);
 	tout = setTimeout(async () => {
 		tout = null;
 		await search();
 	}, 250);
 	data.results = [];
-	data.suggestions = await app.data.getSearchSuggestions(app.global.search);
+	console.log(shared.search);
+	data.suggestions = await app.data.getSearchSuggestions(shared.search);
 });
 
 onMounted(search);

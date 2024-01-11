@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="player-page" v-if="state.video" :class="{ 'opened': app.global.player }" @touchmove="playerTouchMove" @touchend="playerTouchEnd" :style="data.player_page_offset ? { transition: 'none', transform: 'translateY('+data.player_page_offset+'px)' } : ''">
+		<div class="player-page" v-if="state.video" :class="{ 'opened': shared.player }" @touchmove="playerTouchMove" @touchend="playerTouchEnd" :style="data.player_page_offset ? { transition: 'none', transform: 'translateY('+data.player_page_offset+'px)' } : ''">
 			<div class="wrapper" :style="data.player_page_offset ? { overflow: 'hidden' } : ''" ref="wrapper">
 				<div class="mobile-nav">
 					<button class="btn-close" @click="togglePlayer();">
@@ -72,7 +72,7 @@
 					<LoopButton />
 					<VolumeButton :player="player" :state="state" />
 					<button class="btn-player" @click="togglePlayer()">
-						<Icon v-if="app.global.player" name="mdi:chevron-down" />
+						<Icon v-if="shared.player" name="mdi:chevron-down" />
 						<Icon v-else name="mdi:chevron-up" />
 					</button>
 				</div>
@@ -85,7 +85,7 @@
 
 <script lang="ts" setup>
 
-import { app, queue } from "~/src/frontend/app";
+import { app, queue, shared } from "~/src/frontend/app";
 import type { Player, PlayerState } from "~/src/frontend/player";
 import { formatTime } from "~/src/frontend/misc";
 import type { ComboObject } from "~/src/types";
@@ -109,7 +109,7 @@ let state = reactive<PlayerState>({
 });
 
 function togglePlayer() {
-	app.global.player = !app.global.player;
+	shared.player = !shared.player;
 }
 
 function registerPlayer(player: Player) {
@@ -118,17 +118,19 @@ function registerPlayer(player: Player) {
 	p.addEventListener("timeupdate", () => state.position = p.currentTime);
 	p.addEventListener("play", () => state.playing = !p.paused);
 	p.addEventListener("pause", () => state.playing = !p.paused);
-	p.addEventListener("canplay", () => state.video = queue.playing);
+	p.addEventListener("canplay", () => state.video = player.playing);
+	p.addEventListener("error", () => player.restart());
+	p.addEventListener("ended", () => queue.next());
 }
 
 let player = app.player;
 
 registerPlayer(player);
 
-watch(() => app.global.player, () => {
+watch(() => shared.player, () => {
 	let html = document.querySelector("html");
 	if (html) {
-		if (app.global.player) html.classList.add("block-scrolling");
+		if (shared.player) html.classList.add("block-scrolling");
 		else html.classList.remove("block-scrolling");
 	}
 });
@@ -149,7 +151,7 @@ function playerTouchEnd() {
 	data.now_y = null;
 	data.start_y = null;
 	if (data.player_page_offset > 200) {
-		app.global.player = false;
+		shared.player = false;
 	}
 	movePlayerPage();
 }
