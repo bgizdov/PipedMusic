@@ -35,6 +35,10 @@ export class List {
 		return this;
 	}
 
+	public replace(items: string[]) {
+		this.items = items;
+	}
+
 	public add(id: string, mode: ListAddMode = 0): number {
 		if (mode) {
 			this.items.push(id);

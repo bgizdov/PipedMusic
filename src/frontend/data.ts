@@ -18,6 +18,10 @@ export class Data implements DataInterface {
 		return `/api/song/${id}/play`;
 	}
 
+	public async getDownloadLink(id: string): Promise<string | null> {
+		return `/api/song/${id}/dl`;
+	}
+
 	public async getThumbnail(id: string): Promise<string | null> {
 		return `/api/song/${id}/thumbnail`;
 	}
@@ -37,6 +41,7 @@ export interface DataInterface {
 	getVideo(id: string): Promise<Video | null>;
 	getRichVideo(id: string): Promise<RichVideo | null>;
 	getStream(id: string): Promise<string | null>;
+	getDownloadLink(id: string): Promise<string | null>;
 	getThumbnail(id: string): Promise<string | null>;
 	getSearch(q: string): Promise<string[]>;
 	getSearchSuggestions(q: string): Promise<string[]>;

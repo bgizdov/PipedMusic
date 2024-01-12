@@ -11,6 +11,10 @@
 			<Icon name="material-symbols:playlist-add" />
 			<div>Add to the queue</div>
 		</div>
+		<div class="item" @click="download(songMenu.video.id);">
+			<Icon name="material-symbols:download" />
+			<div>Download song</div>
+		</div>
 		<div class="item" @click="likedSongs.toggle(songMenu.video.id); likedSongs.save();">
 			<template v-if="likedSongs.has(songMenu.video.id)">
 				<Icon name="mdi:heart-broken-outline" />
@@ -30,6 +34,7 @@
 
 <script setup lang="ts">
 
+import { download } from "~/src/frontend/actions";
 import { likedSongs, queue, songMenu } from '~/src/frontend/app';
 import { List, SavedList } from '~/src/frontend/list';
 

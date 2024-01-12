@@ -4,6 +4,8 @@ export default defineEventHandler(async (event) => {
 
 	const id = getRouterParam(event, "id");
 	if (!id) return;
-	return await backend.download(id);
+	let data = await backend.download(id);
+	setHeader(event, "Content-Disposition", `inline; filename="${data.filename}"`);
+	return data.stream;
 	
 });

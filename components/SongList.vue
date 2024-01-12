@@ -4,8 +4,8 @@
 			<div>
 				Page {{ data.page + 1 }} / {{ data.max_page + 1 }}
 			</div>
-			<button class="btn" @click="prev()">Prev</button>
-			<button class="btn" @click="next()">Next</button>
+			<button class="btn" @click="prev();">Prev</button>
+			<button class="btn" @click="next();">Next</button>
 		</div>
 		<SongItem :key="id" :id="id" :list="list" v-for="id in list.getPage(data.page)" />
 	</div>
@@ -13,6 +13,7 @@
 
 <script lang="ts" setup>
 
+import { queue } from '~/src/frontend/app';
 import type { List } from '~/src/frontend/list';
 
 let { list } = defineProps<Props>();
@@ -21,6 +22,11 @@ let data = reactive({
 	page: 0,
 	max_page: computed(() => Math.floor(list.size() / 100))
 });
+
+function playShuffled() {
+	queue.replace(list.clone().shuffle().items);
+	queue.play(0);
+}
 
 function prev() {
 	data.page = Math.max(0, data.page - 1);

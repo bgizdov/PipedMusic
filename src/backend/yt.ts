@@ -11,6 +11,12 @@ class Backend {
 	readonly lang: string;
 	readonly location: string;
 
+	readonly format: FormatOptions = {
+		type: 'audio', // audio, video or video+audio
+		quality: 'best', // best, bestefficiency, 144p, 240p, 480p, 720p and so on.
+		format: 'mp4' // media container format 
+	};
+
 	private cache = new BackendCache();
 
 	public constructor(lang: string, location: string) {
@@ -47,24 +53,17 @@ class Backend {
 
 	public async stream(id: string, range?: string) {
 		let info = await this.fetchTrackInfo(id);
-		let options: FormatOptions = {
-			type: 'audio', // audio, video or video+audio
-			quality: 'best', // best, bestefficiency, 144p, 240p, 480p, 720p and so on.
-			format: 'mp4' // media container format 
-		};
-		let f = info.chooseFormat(options);
+		let f = info.chooseFormat(this.format);
 		let yt = await this.get();
 		let url = f.decipher(yt.session.player);
-		return this.fetchFileChunk(url, range);
+		return this.fetchFileChunk(`${url}&cpn=${info.cpn}`, range);
 	}
 
 	public async download(id: string) {
 		let info = await this.fetchTrackInfo(id);
-		return info.download({
-			type: 'audio', // audio, video or video+audio
-			quality: 'best', // best, bestefficiency, 144p, 240p, 480p, 720p and so on.
-			format: 'mp4' // media container format 
-		});
+		let stream = await info.download(this.format);
+		let filename = this.convertFilename(`${info.basic_info.author} - ${info.basic_info.title}.m4a`);
+		return {stream, filename};
 	}
 
 	public async getSearch(q: string) {
@@ -102,13 +101,19 @@ class Backend {
 	}
 
 	private async fetchFileChunk(url: string, range?: string) {
-		let res = await fetch(url, {method: "GET", headers: {...Constants.STREAM_HEADERS, range: range ?? "0-"}, redirect: "follow"});
+		let yt = await this.get();
+		if (range) url += `&range=${range.replace("bytes=", "")}`;
+		let res = await yt.session.http.fetch_function(url, {method: "GET", headers: Constants.STREAM_HEADERS, redirect: "follow"});
 		let headers = new Headers;
 		const copiedHeaders = ["accept-ranges", "content-length", "content-range", "content-type"];
 		for (let key of res.headers.keys()) {
 			if (copiedHeaders.indexOf(key) != -1) headers.set(key, res.headers.get(key)!);
 		}
 		return new Response(res.body, {headers, status: res.status});
+	}
+
+	public convertFilename(filename: string) {
+		return filename.replace(/[^\w\d\-._~\s]/g, "");
 	}
 
 }
