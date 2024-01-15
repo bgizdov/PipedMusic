@@ -1,6 +1,6 @@
 <template>
 	<div v-if="video" class="song-details song-item" @click.right.prevent="popup($event, video);">
-		<div class="image" @click="play(video)">
+		<div class="image" @click="playSong(video)">
 			<div v-if="isPlaying" class="playing">
 				<Icon name="mdi:volume" />
 			</div>
@@ -9,14 +9,14 @@
 			</div>
 			<img :src="video.thumbnail">
 		</div>
-		<div @click="popup($event, video, true);">
+		<NuxtLink :to="'/song/' + video.id">
 			<div>
 				<b>{{ video.title }}</b>
 			</div>
 			<div>
 				{{ video.author }}
 			</div>
-		</div>
+		</NuxtLink>
 		<div>
 			{{ formatTime(video.duration) }}
 		</div>
@@ -41,6 +41,7 @@ import type { ShallowReactive } from 'vue';
 import type { List } from '~/src/frontend/list';
 import type { RichVideo } from '~/src/types';
 import { Queue } from '~/src/frontend/queue';
+import { play } from '~/src/frontend/actions';
 
 let video = ref<RichVideo | null>(null);
 
@@ -48,16 +49,17 @@ let props = defineProps<Props>();
 
 let isPlaying = computed(() => {
 	if (!video.value || queue.playing == null) return false;
+	if (props.list instanceof Queue && props.index !== undefined) {
+		return queue.playing == props.index;
+	}
 	return video.value.id == queue.items[queue.playing];
 });
 
-function play(video: RichVideo) {
-	if (props.list instanceof Queue) {
-		queue.play(queue.index(video.id));
+function playSong(video: RichVideo) {
+	if (props.list instanceof Queue && props.index) {
+		queue.play(props.index);
 	} else {
-		let index = queue.index(video.id);
-		if (index == -1) index = queue.add(video.id);
-		queue.play(index);
+		play(video.id);
 	}
 }
 
@@ -81,7 +83,8 @@ onMounted(async () => {
 interface Props {
 	video?: ShallowReactive<RichVideo>,
 	id?: string,
-	list?: List
+	list?: List,
+	index?: number
 }
 
 </script>

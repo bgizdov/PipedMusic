@@ -7,7 +7,10 @@
 			<button class="btn" @click="prev();">Prev</button>
 			<button class="btn" @click="next();">Next</button>
 		</div>
-		<SongItem :key="id" :id="id" :list="list" v-for="id in list.getPage(data.page)" />
+		<SongItem :key="id" :id="id" :index="(data.page * 100) + i" :list="list" v-for="id, i in list.getPage(data.page)" />
+		<div v-if="!(list instanceof Queue)">
+			<button class="btn" @click="playShuffled();">Play shuffle</button>
+		</div>
 	</div>
 </template>
 
@@ -15,6 +18,7 @@
 
 import { queue } from '~/src/frontend/app';
 import type { List } from '~/src/frontend/list';
+import { Queue } from '~/src/frontend/queue';
 
 let { list } = defineProps<Props>();
 

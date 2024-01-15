@@ -1,4 +1,4 @@
-import { app, likedSongs } from "./app";
+import { app, likedSongs, queue } from "./app";
 
 export function likeToggle(id: string) {
 	likedSongs.toggle(id);
@@ -13,4 +13,9 @@ export async function download(id: string) {
 	link.download = `${video.author} - ${video.title}.m4a`;
 	link.href = url;
 	link.click();
+}
+
+export function play(id: string) {
+	queue.clear();
+	queue.play(queue.add(id));
 }

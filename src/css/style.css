@@ -40,6 +40,16 @@ html {background-color: var(--main-bg); color: var(--text-color); text-wrap: bal
 
 /* Content */
 
+h1 {font-size: 35px;}
+h2 {font-size: 30px;}
+h3 {font-size: 25px;}
+
+@media screen and (max-width: 900px) {
+	h1 {font-size: 28px;}
+	h2 {font-size: 25px;}
+	h3 {font-size: 20px;}
+}
+
 h1, h2, h3, h4 {color: var(--title-color);}
 
 h1, h2, h3, h4, p {margin: .5rem 0;}
@@ -64,14 +74,20 @@ button {background-color: transparent; cursor: pointer; border: 0; padding: 7px 
 .btn {background-color: var(--btn-bg); border-radius: 7px; font-weight: 700; color: var(--title-color);}
 .btn:hover {background-color: var(--btn-bg-hover);}
 
+.btn .icon {font-size: 22px;}
+
+.btn-flex {display: flex; gap: 5px; align-items: center;}
+
 
 /* Misc */
+
+a {color: inherit; text-decoration: inherit;}
 
 button {color: inherit; font: inherit;}
 
 .semiopacity {opacity: .5;}
 
-.btn-row {display: flex; flex-direction: row; align-items: center;}
+.btn-row {display: flex; flex-direction: row; align-items: center; gap: 5px; flex-wrap: wrap;}
 .btn-row-right {justify-content: right;}
 
 .block-scrolling {overflow: hidden !important;}
@@ -202,6 +218,7 @@ nav .btn-search {display: none;}
 .player-bar .song {display: flex; align-items: center; justify-content: space-between; gap: 15px;}
 
 .player-bar .btn-playpause * {font-size: 32px;}
+.player-bar .btn-row {gap: 0;}
 
 @media screen and (max-width: 1100px) {
 	.player-bar .btn-playpause * {font-size: 24px;}
@@ -253,7 +270,7 @@ nav .btn-search {display: none;}
 
 .player .mobile-progress .time {display: flex; font-size: 90%; gap: 10px; justify-content: space-between; margin-top: -12px; pointer-events: none;}
 
-.player .btn-row {display: flex; margin: 10px 0; gap: 5px; justify-content: center;}
+.player .btn-row {display: flex; margin: 10px 0; justify-content: center;}
 
 .player .btn-playpause {padding: 14px; border-radius: 50%;}
 .player .btn-playpause * {font-size: 32px;}
@@ -275,3 +292,8 @@ nav .btn-search {display: none;}
 	.player-page .wrapper {top: 0; bottom: 0;}
 	.player-page .mobile-nav {display: block;}
 }
+
+
+/* Song page */
+
+.song-page img {border-radius: 5px; width: 100%; max-width: 300px;}
