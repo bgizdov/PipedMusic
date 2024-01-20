@@ -56,7 +56,7 @@ let isPlaying = computed(() => {
 });
 
 function playSong(video: RichVideo) {
-	if (props.list instanceof Queue && props.index) {
+	if (props.list instanceof Queue && props.index !== undefined) {
 		queue.play(props.index);
 	} else {
 		play(video.id);
