@@ -3,6 +3,9 @@ import { BackendCache } from "./cache";
 import type { Video } from "../types";
 import { Parser } from "./parser";
 import type { FormatOptions } from "youtubei.js/dist/src/types";
+import type { TrackInfo } from "youtubei.js/dist/src/parser/ytmusic";
+import type { Range } from "youtubei.js/dist/src/utils/StreamingInfo";
+import type { Format } from "youtubei.js/dist/src/parser/misc";
 
 class Backend {
 
@@ -51,12 +54,11 @@ class Backend {
 		return thumbnail ? $fetch(thumbnail) : null;
 	}
 
-	public async stream(id: string, range?: string) {
+	public async stream(id: string, rangeHeader?: string) {
 		let info = await this.fetchTrackInfo(id);
-		let f = info.chooseFormat(this.format);
-		let yt = await this.get();
-		let url = f.decipher(yt.session.player);
-		return this.fetchFileChunk(`${url}&cpn=${info.cpn}`, range);
+		let format = info.chooseFormat(this.format);
+		let range = this.parseRangeHeader(rangeHeader);
+		return this.fetchFileChunk(info, format, range);
 	}
 
 	public async download(id: string) {
@@ -100,19 +102,36 @@ class Backend {
 		);
 	}
 
-	private async fetchFileChunk(url: string, range?: string) {
-		let yt = await this.get();
-		if (range) url += `&range=${range.replace("bytes=", "")}`;
-		let res = await yt.session.http.fetch_function(url, {method: "GET", headers: Constants.STREAM_HEADERS, redirect: "follow"});
+	private async fetchFileChunk(info: TrackInfo, format: Format, range?: Range): Promise<Response | null> {
+		let len = format.content_length;
+		if (!len) return null;
+		if (range && (Number.isNaN(range.end) || !range.end)) range.end = len - 1;
+		let file = await info.download({
+			...this.format, range
+		});
 		let headers = new Headers;
-		const copiedHeaders = ["accept-ranges", "content-length", "content-range", "content-type"];
-		for (let key of res.headers.keys()) {
-			if (copiedHeaders.indexOf(key) != -1) headers.set(key, res.headers.get(key)!);
+		headers.set("accept-ranges", "bytes");
+		headers.set("content-length", `${len}`);
+		headers.set("content-type", format.mime_type);
+		if (range) {
+			headers.set("content-range", `bytes ${range.start}-${range.end}/${len}`);
 		}
-		return new Response(res.body, {headers, status: res.status});
+		return new Response(file, {headers, status: range ? 206 : 200});
 	}
 
-	public convertFilename(filename: string) {
+	private parseRangeHeader(rangeHeader?: string): Range | undefined {
+		if (!rangeHeader || !rangeHeader.startsWith("bytes=")) {
+			return undefined;
+		}
+		try {
+			const [start, end] = rangeHeader.slice(6).split('-').map(Number);
+			return {start, end};
+		} catch (error) {
+			return undefined;
+		}
+	}
+
+	private convertFilename(filename: string) {
 		return filename.replace(/[^\w\d\-._~\s]/g, "");
 	}
 
