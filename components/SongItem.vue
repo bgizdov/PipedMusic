@@ -38,10 +38,11 @@
 import { app, queue, songMenu } from '~/src/frontend/app';
 import { formatTime } from '~/src/frontend/misc';
 import type { ShallowReactive } from 'vue';
-import type { List } from '~/src/frontend/list';
+import { List } from '~/src/frontend/list';
 import type { RichVideo } from '~/src/types';
 import { Queue } from '~/src/frontend/queue';
 import { play } from '~/src/frontend/actions';
+import type { ISong } from '~/src/frontend/db';
 
 let video = ref<RichVideo | null>(null);
 
@@ -52,7 +53,7 @@ let isPlaying = computed(() => {
 	if (props.list instanceof Queue && props.index !== undefined) {
 		return queue.playing == props.index;
 	}
-	return video.value.id == queue.items[queue.playing];
+	return video.value.id == queue.playing_id;
 });
 
 function playSong(video: RichVideo) {
@@ -83,7 +84,7 @@ onMounted(async () => {
 interface Props {
 	video?: ShallowReactive<RichVideo>,
 	id?: string,
-	list?: List,
+	list?: List<ISong>,
 	index?: number
 }
 

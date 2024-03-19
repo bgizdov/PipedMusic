@@ -1,13 +1,13 @@
 <template>
 	<div class="song-list">
-		<div class="pagination" v-if="data.page != data.max_page">
+		<div class="pagination" v-if="display.page != display.max_page">
 			<div>
-				Page {{ data.page + 1 }} / {{ data.max_page + 1 }}
+				Page {{ display.page + 1 }} / {{ display.max_page + 1 }}
 			</div>
-			<button class="btn" @click="prev();">Prev</button>
-			<button class="btn" @click="next();">Next</button>
+			<button class="btn" @click="display.prev();">Prev</button>
+			<button class="btn" @click="display.next();">Next</button>
 		</div>
-		<SongItem :key="id" :id="id" :index="(data.page * 100) + i" :list="list" v-for="id, i in list.getPage(data.page)" />
+		<SongItem :key="item.id" :id="item.id" :index="(display.page * 100) + i" :list="list" v-for="item, i in display.items" />
 		<div v-if="!(list instanceof Queue)">
 			<button class="btn" @click="playShuffled();">Play shuffle</button>
 		</div>
@@ -16,32 +16,31 @@
 
 <script lang="ts" setup>
 
+import { shuffle } from '~/src/frontend/actions';
 import { queue } from '~/src/frontend/app';
-import type { List } from '~/src/frontend/list';
+import type { ISong } from '~/src/frontend/db';
+import { DisplayedList, List } from '~/src/frontend/list';
 import { Queue } from '~/src/frontend/queue';
 
 let { list } = defineProps<Props>();
 
-let data = reactive({
-	page: 0,
-	max_page: computed(() => Math.floor(list.size() / 100))
+let display = reactive(new DisplayedList(list));
+
+async function playShuffled() {
+	await queue.clear();
+	let items = await list.list();
+	shuffle(items).forEach(async i => {
+		await queue.add(i.id);
+	});
+	await queue.play(0);
+}
+
+onMounted(async () => {
+	await display.update();
 });
 
-function playShuffled() {
-	queue.replace(list.clone().shuffle().items);
-	queue.play(0);
-}
-
-function prev() {
-	data.page = Math.max(0, data.page - 1);
-}
-
-function next() {
-	data.page = Math.min(data.max_page, data.page + 1);
-}
-
 interface Props {
-	list: List
+	list: List<ISong>
 }
 
 </script>

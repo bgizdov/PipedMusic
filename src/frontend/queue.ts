@@ -1,64 +1,48 @@
-import type { RichVideo } from "../types";
 import type { App } from "./app";
-import { List, ListAddMode } from "./list";
+import { LocalList } from "./list";
 
-export class Queue extends List {
+export class Queue extends LocalList {
 
-	private app: App;
+	public app: App;
 
 	public playing: number | null = null;
+	public playing_id: string | null = null;
 
-	public constructor(app: App) {
+	constructor(app: App) {
 		super();
 		this.app = app;
 	}
 
-	public next() {
-		if (this.playing === null) return;
-		let index = Math.min(this.playing + 1, this.items.length - 1);
-		this.play(index);
+	public async next() {
+		await this.play(this.playing !== null ? this.playing + 1 : 0);
 	}
 
-	public previous() {
-		if (this.playing === null) return;
-		let index = Math.max(this.playing - 1, 0);
-		this.play(index);
+	public async previous() {
+		await this.play(this.playing !== null ? this.playing - 1 : 0);
 	}
 
-	public add(id: string, mode: ListAddMode = 1): number {
-		let index = super.add(id, mode);
-		if (this.playing === null) this.play(index);
-		return index;
+	public async add(id: string) {
+		let index = await this.size();
+		await super.add(id);
+		if (this.playing === null) await this.play(index);
 	}
 
 	public async addNext(id: string) {
-		if (this.playing === null) return this.add(id);
-		let index = this.playing + 1;
+		let index = this.playing !== null ? this.playing + 1 : 0;
 		this.items.splice(index, 0, id);
-		return index;
+		this.invalidate();
+		if (this.playing === null) await this.play(index);
 	}
 
 	public async play(index: number) {
-		let id = this.get(index);
-		if (!id) return;
-		let video = await this.app.data.getRichVideo(id);
+		let song = await this.get(index);
+		if (!song) return;
+		let video = await this.app.data.getRichVideo(song.id);
 		if (!video) return;
-		this.setMediaSession(video);
 		this.app.player.setPlaying(video);
 		this.app.player.play();
 		this.playing = index;
-	}
-
-	public setMediaSession(video: RichVideo) {
-		if (!navigator.mediaSession) return;
-		navigator.mediaSession.metadata = new MediaMetadata({
-			title: video.title,
-			artist: video.author,
-			album: "",
-			artwork: [
-				{src: video.thumbnail}
-			]
-		});
+		this.playing_id = song.id;
 	}
 
 }

@@ -1,111 +1,164 @@
-export class List {
+import { db, type ISong } from "./db";
+
+export abstract class List<T> {
+
+	public displays: DisplayedList<T>[] = [];
+
+	abstract list(limit?: number, offset?: number): Promise<T[]>;
+
+	abstract size(): Promise<number>;
+
+	abstract has(id: string): Promise<boolean>;
+
+	async toggle(id: string) {
+		let found = await this.has(id);
+		if (found) {
+			await this.remove(id);
+		} else {
+			await this.add(id);
+		}
+	}
+
+	abstract add(id: string): Promise<void>;
+	
+	abstract remove(id: string): Promise<void>;
+
+	abstract get(index: number): Promise<T | undefined>;
+
+	abstract clear(): Promise<void>;
+
+	addDisplay(display: DisplayedList<T>) {
+		this.displays.push(display);
+	}
+
+	// TODO: remove display
+	
+	invalidate() {
+		this.displays.forEach(display => {
+			display.update();
+		});
+	}
+
+}
+
+export class LocalList extends List<ISong> {
 
 	public items: string[] = [];
 
-	public constructor(ids: string[] = []) {
-		this.items = ids;
+	async list(limit?: number, offset: number = 0) {
+		let items = this.items.slice(offset, limit ? offset + limit : undefined);
+		return items.map(id => {
+			return {id};
+		});
 	}
 
-	public getPage(page: number = 0) {
-		let start = page * 100;
-		return this.items.slice(start, start + 100);
-	}
-
-	public get(index: number): string | null {
-		return this.items[index] ?? null;
-	}
-
-	public size() {
+	async size() {
 		return this.items.length;
 	}
 
-	public shuffle() {
-		let i = this.items.length;
-		let index;
-		while (i--) {
-			index = Math.floor((i + 1) * Math.random());
-			[this.items[i], this.items[index]] = [this.items[index], this.items[i]];
-		}
-		return this;
+	async has(id: string): Promise<boolean> {
+		return this.items.indexOf(id) !== -1;
 	}
 
-	public random(count: number = 1) {
-		this.shuffle();
-		this.items = this.items.slice(0, count);
-		return this;
+	async add(id: string) {
+		this.items.push(id);
+		this.invalidate();
 	}
 
-	public replace(items: string[]) {
-		this.items = items;
-	}
-
-	public clear() {
-		this.replace([]);
-	}
-
-	public add(id: string, mode: ListAddMode = 0): number {
-		if (mode) {
-			this.items.push(id);
-			return this.items.length - 1;
-		} else {
-			this.items.unshift(id);
-			return 0;
-		}
-	}
-
-	public addMulti(ids: string[], mode: ListAddMode = 0) {
-		ids.forEach(id => this.add(id, mode));
-	}
-
-	public remove(id: string) {
+	async remove(id: string) {
 		let i = this.items.indexOf(id);
 		if (i != -1) this.items.splice(i, 1);
+		this.invalidate();
 	}
 
-	public toggle(id: string) {
-		this.has(id) ? this.remove(id) : this.add(id);
+	async get(index: number) {
+		return this.items[index] ? {id: this.items[index]} : undefined;
 	}
 
-	public has(id: string) {
-		return this.index(id) != -1;
-	}
-
-	public index(id: string) {
-		return this.items.indexOf(id);
-	}
-
-	public clone(): List {
-		return new List([...this.items]);
+	async clear() {
+		this.items = [];
+		this.invalidate();
 	}
 
 }
 
-export class SavedList extends List {
+export class DBList extends List<ISong> {
 
 	public name: string;
-	private static loaded: {[U: string]: SavedList} = {};
 
-	private constructor(name: string, ids: string[] = []) {
-		super(ids);
+	constructor(name: string) {
+		super();
 		this.name = name;
-		SavedList.loaded[name] = this;
 	}
 
-	public save() {
-		localStorage.setItem(`list_${this.name}`, this.items.join(","));
+	async list(limit?: number, offset: number = 0) {
+		let q = db.songs.where({list: this.name}).offset(offset);
+		if (limit) q = q.limit(limit);
+		return await q.toArray();
 	}
 
-	public static load(name: string): SavedList {
-		if (this.loaded[name]) return this.loaded[name];
-		let ids = localStorage.getItem(`list_${name}`);
-		return new SavedList(name, ids ? ids.split(",") : []);
+	async size() {
+		return await db.songs.where({list: this.name}).count();
+	}
+
+	async has(id: string) {
+		return (await db.songs.where({list: this.name, id}).first()) !== undefined;
+	}
+
+	async add(id: string) {
+		await db.songs.add({
+			id,
+			timestamp: new Date(),
+			list: this.name
+		});
+		this.invalidate();
+	}
+
+	async remove(id: string) {
+		await db.songs.where({list: this.name, id}).delete();
+		this.invalidate();
+	}
+
+	async get(index: number) {
+		return await db.songs.where({list: this.name}).offset(index).limit(1).first();
+	}
+
+	async clear() {
+		await db.songs.where({list: this.name}).delete();
+		this.invalidate();
 	}
 
 }
 
-export enum ListAddMode {
-	Prepend = 0,
-	Before = 0,
-	Append = 1,
-	After = 1
+export class DisplayedList<T> {
+
+	public list: List<T>;
+
+	public page: number = 0;
+	public max_page: number = 0;
+
+	public items: T[] = [];
+	
+	constructor(list: List<T>) {
+		this.list = list;
+		this.list.addDisplay(this);
+	}
+
+	async update() {
+		let limit = 100;
+		let offset = this.page * 100;
+		this.items = await this.list.list(limit, offset);
+		this.max_page = Math.floor(await this.list.size() / 100);
+	}
+
+	async prev() {
+		this.page = Math.max(this.page - 1, 0);
+		await this.update();
+	}
+
+	async next() {
+		this.page = Math.min(this.page + 1, this.max_page);
+		await this.update();
+	}
+
 }

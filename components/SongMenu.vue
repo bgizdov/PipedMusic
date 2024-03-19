@@ -15,8 +15,8 @@
 			<Icon name="material-symbols:download" />
 			<div>Download song</div>
 		</div>
-		<div class="item" @click="likeToggle(songMenu.video.id);">
-			<template v-if="likedSongs.has(songMenu.video.id)">
+		<div class="item" @click="likeToggle(songMenu.video.id); data.liked = !data.liked;">
+			<template v-if="data.liked">
 				<Icon name="mdi:heart-broken-outline" />
 				<div>Unlike</div>
 			</template>
@@ -36,11 +36,25 @@
 
 import { download, likeToggle } from "~/src/frontend/actions";
 import { likedSongs, queue, songMenu } from '~/src/frontend/app';
-import { List, SavedList } from '~/src/frontend/list';
+import type { ISong } from "~/src/frontend/db";
+import { DBList, List } from '~/src/frontend/list';
+
+let data = reactive({
+	liked: false
+});
+
+watch(() => songMenu.video, update);
+
+async function update() {
+	if (!songMenu.video) return;
+	data.liked = await likedSongs.has(songMenu.video.id);
+	console.log(data.liked);
+	console.log(likedSongs);
+}
 
 function isSavedList(name?: string): boolean {
-	let savedList: List | SavedList | null = songMenu.list;
-	if (savedList instanceof SavedList) {
+	let savedList: List<ISong> | null = songMenu.list;
+	if (savedList instanceof DBList) {
 		return name ? name == savedList.name : true;
 	}
 	return false;

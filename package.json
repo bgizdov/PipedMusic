@@ -9,13 +9,12 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "nuxt": "^3.8.2",
+    "dexie": "^3.2.6",
+    "nuxt": "3.8.2",
     "nuxt-icon": "^0.6.7",
     "vue": "^3.3.10",
-    "vue-router": "^4.2.5"
-  },
-  "dependencies": {
-    "youtubei.js": "^8.0.0"
+    "vue-router": "^4.2.5",
+    "youtubei.js": "^9"
   },
   "module": "index.ts",
   "peerDependencies": {

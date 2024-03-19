@@ -2,7 +2,6 @@ import { app, likedSongs, queue } from "./app";
 
 export function likeToggle(id: string) {
 	likedSongs.toggle(id);
-	likedSongs.save();
 }
 
 export async function download(id: string) {
@@ -15,7 +14,18 @@ export async function download(id: string) {
 	link.click();
 }
 
-export function play(id: string) {
-	queue.clear();
-	queue.play(queue.add(id));
+export async function play(id: string) {
+	await queue.clear();
+	await queue.add(id);
+	await queue.play(0);
+}
+
+export function shuffle<T>(items: T[]) {
+	let i = items.length;
+	let index;
+	while (i--) {
+		index = Math.floor((i + 1) * Math.random());
+		[items[i], items[index]] = [items[index], items[i]];
+	}
+	return items;
 }
