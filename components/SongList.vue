@@ -29,14 +29,17 @@ let display = reactive(new DisplayedList(list));
 async function playShuffled() {
 	await queue.clear();
 	let items = await list.list();
-	shuffle(items).forEach(async i => {
-		await queue.add(i.id);
-	});
+	queue.items = shuffle(items).map(item => item.id);
+	queue.invalidate();
 	await queue.play(0);
 }
 
 onMounted(async () => {
 	await display.update();
+});
+
+onUnmounted(() => {
+	display.destroy();
 });
 
 interface Props {

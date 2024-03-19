@@ -31,8 +31,13 @@ export abstract class List<T> {
 		this.displays.push(display);
 	}
 
-	// TODO: remove display
-	
+	removeDisplay(display: DisplayedList<T>) {
+		const index = this.displays.indexOf(display);
+		if (index > -1) {
+			this.displays.splice(index, 1);
+		}
+	}
+
 	invalidate() {
 		this.displays.forEach(display => {
 			display.update();
@@ -159,6 +164,10 @@ export class DisplayedList<T> {
 	async next() {
 		this.page = Math.min(this.page + 1, this.max_page);
 		await this.update();
+	}
+
+	destroy() {
+		this.list.removeDisplay(this);
 	}
 
 }
