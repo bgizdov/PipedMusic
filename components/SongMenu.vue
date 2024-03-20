@@ -48,8 +48,6 @@ watch(() => songMenu.video, update);
 async function update() {
 	if (!songMenu.video) return;
 	data.liked = await likedSongs.has(songMenu.video.id);
-	console.log(data.liked);
-	console.log(likedSongs);
 }
 
 function isSavedList(name?: string): boolean {
