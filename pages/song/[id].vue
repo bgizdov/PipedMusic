@@ -15,7 +15,7 @@
 					<div>Play</div>
 				</button>
 				<button class="btn btn-flex" @click="likeToggle(video.id);">
-					<template v-if="likedSongs.has(video.id)">
+					<template v-if="data.liked">
 						<Icon name="mdi:heart-broken-outline" />
 						<div>Unlike</div>
 					</template>
@@ -42,5 +42,13 @@ import type { ComboObject } from "~/src/types";
 
 let { id }: ComboObject = useRoute().params;
 let video = await app.data.getRichVideo(id);
+
+let data = reactive({
+	liked: false
+});
+
+onMounted(async () => {
+	data.liked = await likedSongs.has(id)
+});
 
 </script>
