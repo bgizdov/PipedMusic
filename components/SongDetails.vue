@@ -1,7 +1,7 @@
 <template>
 	<div class="song-details">
 		<div class="image">
-			<img :src="video.thumbnail">
+			<img loading="lazy" :src="video.thumbnail">
 		</div>
 		<div>
 			<div>
