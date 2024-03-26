@@ -29,6 +29,7 @@ onMounted(update);
 function toggle() {
 	if (!state.video) return;
 	likeToggle(state.video.id);
+	data.liked = !data.liked;
 }
 
 </script>
