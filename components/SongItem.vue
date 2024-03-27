@@ -1,5 +1,5 @@
 <template>
-	<div v-if="video" class="song-details song-item" @click.right.prevent="popup($event, video);">
+	<div v-if="video" class="song-details song-item" @click.right.prevent="popup($event, video);" @contextmenu.prevent="popup($event, video);">
 		<div class="image" @click="playSong(video)">
 			<div v-if="isPlaying" class="playing">
 				<Icon name="mdi:volume" />
