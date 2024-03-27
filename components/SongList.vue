@@ -1,6 +1,6 @@
 <template>
 	<div class="song-list">
-		<div class="pagination" v-if="display.page != display.max_page">
+		<div class="pagination" v-if="display.max_page">
 			<div>
 				Page {{ display.page + 1 }} / {{ display.max_page + 1 }}
 			</div>
