@@ -1,8 +1,7 @@
 import { Data, type DataInterface } from "../frontend/data"
 import { Player } from "../frontend/player";
-import type { RichVideo } from "../types";
-import type { ISong } from "./db";
-import { DBList, List } from "./list";
+import { SongMenu } from "../ui/songmenu";
+import { DBList } from "./list";
 import { migrate } from "./migration";
 import { Queue } from "./queue";
 
@@ -41,20 +40,4 @@ interface SharedData {
 	player: boolean
 }
 
-export let songMenu = reactive<SongMenu>({
-	visible: false,
-	video: null,
-	list: null,
-	x: null,
-	y: null,
-	hideable: true
-});
-
-interface SongMenu {
-	visible: boolean,
-	video: null | RichVideo,
-	list: null | List<ISong>,
-	x: null | number,
-	y: null | number,
-	hideable: boolean
-}
+export let songMenu = reactive(new SongMenu());

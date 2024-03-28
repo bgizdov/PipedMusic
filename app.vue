@@ -1,5 +1,5 @@
 <template>
-	<div @click="if (songMenu.hideable) songMenu.visible = false;">
+	<div>
 
 		<nav>
 			<div class="inner">

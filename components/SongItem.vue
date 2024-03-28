@@ -64,16 +64,8 @@ function playSong(video: RichVideo) {
 	}
 }
 
-function popup(event: MouseEvent, video: RichVideo, force?: boolean) {
-	songMenu.visible = force ?? !songMenu.visible;
-	songMenu.video = video;
-	songMenu.list = props.list ?? null;
-	songMenu.x = event.pageX;
-	songMenu.y = event.pageY;
-	songMenu.hideable = false;
-	setTimeout(() => {
-		songMenu.hideable = true;
-	}, 100);
+function popup(event: MouseEvent, video: RichVideo) {
+	songMenu.open(event, video, props.list);
 }
 
 onMounted(async () => {
