@@ -40,7 +40,7 @@ export abstract class List<T> {
 
 	invalidate() {
 		this.displays.forEach(display => {
-			display.update();
+			display.update(this);
 		});
 	}
 
@@ -89,85 +89,129 @@ export class LocalList extends List<ISong> {
 
 export class DBList extends List<ISong> {
 
-	public name: string;
+	public id: string;
+	public meta: DBListMeta | null = null;
 
-	constructor(name: string) {
+	private constructor(id: string) {
 		super();
-		this.name = name;
+		this.id = id;
+	}
+	
+	private static instances: {[U: string]: DBList} = {};
+
+	private static create(id: string): [DBList, boolean] {
+		let l = this.instances[id];
+		if (!l) {
+			l = new DBList(id);
+			this.instances[id] = l;
+			return [l, true];
+		}
+		return [l, false];
+	}
+
+	static async get(id: string): Promise<DBList | null> {
+		let [l, is_new] = DBList.create(id);
+		if (is_new) {
+			let playlist = await db.playlists.where({id}).first();
+			if (!playlist) return null;
+			l.setMeta({
+				name: playlist.name,
+				size: await l.size()
+			});
+		}
+		return l;
+	}
+
+	static getLiked() {
+		let [l, is_new] = DBList.create("liked");
+		if (is_new) {
+			l.setMeta({
+				name: "Liked",
+				size: 0
+			});
+			l.updateMeta();
+		}
+		return l;
 	}
 
 	async list(limit?: number, offset: number = 0) {
-		let q = db.songs.where({list: this.name}).offset(offset);
+		let q = db.songs.where({list: this.id}).reverse().offset(offset);
 		if (limit) q = q.limit(limit);
 		return await q.toArray();
 	}
 
 	async size() {
-		return await db.songs.where({list: this.name}).count();
+		return await db.songs.where({list: this.id}).count();
 	}
 
 	async has(id: string) {
-		return (await db.songs.where({list: this.name, id}).first()) !== undefined;
+		return (await db.songs.where({list: this.id, id}).first()) !== undefined;
 	}
 
 	async add(id: string) {
 		await db.songs.add({
 			id,
 			timestamp: new Date(),
-			list: this.name
+			list: this.id
 		});
 		this.invalidate();
+		await this.updateMeta();
 	}
 
 	async remove(id: string) {
-		await db.songs.where({list: this.name, id}).delete();
+		await db.songs.where({list: this.id, id}).delete();
 		this.invalidate();
+		await this.updateMeta();
 	}
 
 	async get(index: number) {
-		return await db.songs.where({list: this.name}).offset(index).limit(1).first();
+		return await db.songs.where({list: this.id}).offset(index).limit(1).first();
 	}
 
 	async clear() {
-		await db.songs.where({list: this.name}).delete();
+		await db.songs.where({list: this.id}).delete();
 		this.invalidate();
+		await this.updateMeta();
+	}
+
+	setMeta(meta: DBListMeta) {
+		this.meta = reactive(meta);
+	}
+
+	async updateMeta() {
+		if (!this.meta) return;
+		this.meta.size = await this.size();
 	}
 
 }
 
-export class DisplayedList<T> {
+interface DBListMeta {
+	name: string,
+	size: number
+}
 
-	public list: List<T>;
+export class DisplayedList<T> {
 
 	public page: number = 0;
 	public max_page: number = 0;
 
 	public items: T[] = [];
-	
-	constructor(list: List<T>) {
-		this.list = list;
-		this.list.addDisplay(this);
-	}
 
-	async update() {
+	async update(list: List<T>) {
 		let limit = 100;
 		let offset = this.page * 100;
-		this.items = await this.list.list(limit, offset);
-		this.max_page = Math.floor(await this.list.size() / 100);
+		this.items = await list.list(limit, offset);
+		this.max_page = Math.floor(await list.size() / 100);
 	}
 
-	async prev() {
+	async prev(list: List<T>) {
 		this.page = Math.max(this.page - 1, 0);
-		await this.update();
+		await this.update(list);
 	}
 
-	async next() {
+	async next(list: List<T>) {
 		this.page = Math.min(this.page + 1, this.max_page);
-		await this.update();
-	}
-
-	destroy() {
-		this.list.removeDisplay(this);
+		await this.update(list);
 	}
 
 }

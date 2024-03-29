@@ -4,8 +4,8 @@
 			<div>
 				Page {{ display.page + 1 }} / {{ display.max_page + 1 }}
 			</div>
-			<button class="btn" @click="display.prev();">Prev</button>
-			<button class="btn" @click="display.next();">Next</button>
+			<button class="btn" @click="display.prev(list);">Prev</button>
+			<button class="btn" @click="display.next(list);">Next</button>
 		</div>
 		<SongItem :key="item.id" :id="item.id" :index="(display.page * 100) + i" :list="list" v-for="item, i in display.items" />
 		<div v-if="!(list instanceof Queue)">
@@ -24,7 +24,8 @@ import { Queue } from '~/src/frontend/queue';
 
 let { list } = defineProps<Props>();
 
-let display = reactive(new DisplayedList(list));
+let display = reactive(new DisplayedList<ISong>());
+list.addDisplay(display);
 
 async function playShuffled() {
 	await queue.clear();
@@ -35,11 +36,11 @@ async function playShuffled() {
 }
 
 onMounted(async () => {
-	await display.update();
+	await display.update(list);
 });
 
 onUnmounted(() => {
-	display.destroy();
+	list.removeDisplay(display);
 });
 
 interface Props {

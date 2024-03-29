@@ -1,8 +1,4 @@
-import { app, likedSongs, queue } from "./app";
-
-export function likeToggle(id: string) {
-	likedSongs.toggle(id);
-}
+import { app, queue } from "./app";
 
 export async function download(id: string) {
 	let url = await app.data.getDownloadLink(id);

@@ -49,7 +49,6 @@ watch(() => shared.search, async () => {
 		await search();
 	}, 250);
 	data.results = [];
-	console.log(shared.search);
 	data.suggestions = await app.data.getSearchSuggestions(shared.search);
 });
 

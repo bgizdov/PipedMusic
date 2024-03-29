@@ -14,7 +14,7 @@
 					<Icon name="mdi:play-circle-outline" />
 					<div>Play</div>
 				</button>
-				<button class="btn btn-flex" @click="likeToggle(video.id);">
+				<button class="btn btn-flex" @click="likedSongs.toggle(video.id); data.liked = !data.liked;">
 					<template v-if="data.liked">
 						<Icon name="mdi:heart-broken-outline" />
 						<div>Unlike</div>
@@ -36,11 +36,10 @@
 
 <script setup lang="ts">
 
-import { download, likeToggle, play } from "~/src/frontend/actions";
+import { download, play } from "~/src/frontend/actions";
 import { app, likedSongs } from "~/src/frontend/app";
-import type { ComboObject } from "~/src/types";
 
-let { id }: ComboObject = useRoute().params;
+let id = useRoute().params.id as string;
 let video = await app.data.getRichVideo(id);
 
 let data = reactive({
@@ -48,7 +47,7 @@ let data = reactive({
 });
 
 onMounted(async () => {
-	data.liked = await likedSongs.has(id)
+	data.liked = await likedSongs.has(id);
 });
 
 </script>

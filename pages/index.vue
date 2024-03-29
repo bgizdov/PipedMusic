@@ -4,17 +4,18 @@
 
 			<div class="text-block">
 				<h1>Piped Music</h1>
-				<p>Liked songs</p>
+				<p>Free & open-source music client</p>
 			</div>
-			
-			<SongList :list="likedSongs" />
 
+			<div class="playlists">
+				<PlaylistItem :list="likedSongs" />
+			</div>
 		</div>
 	</section>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 
-import { likedSongs } from "~/src/frontend/app";
+import { likedSongs } from '~/src/frontend/app';
 
 </script>

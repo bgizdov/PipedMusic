@@ -25,8 +25,8 @@ export let player = new Player();
 export let data = new Data();
 export let app = new App(data, player);
 
-export let likedSongs = reactive(new DBList("liked"));
-export let queue = reactive(new Queue(app));
+export let likedSongs = DBList.getLiked();
+export let queue = new Queue(app);
 
 migrate();
 

@@ -7,8 +7,8 @@
 
 <script lang="ts" setup>
 
-import { likeToggle } from '~/src/frontend/actions';
 import { likedSongs } from '~/src/frontend/app';
+import { DBList } from '~/src/frontend/list';
 import type { PlayerState } from '~/src/frontend/player';
 
 let { state } = defineProps<{state: PlayerState}>();
@@ -26,9 +26,10 @@ watch(() => state.video, update);
 
 onMounted(update);
 
-function toggle() {
+async function toggle() {
 	if (!state.video) return;
-	likeToggle(state.video.id);
+	let l = DBList.getLiked();
+	await l.toggle(state.video.id);
 	data.liked = !data.liked;
 }
 
