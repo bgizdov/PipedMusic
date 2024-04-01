@@ -91,6 +91,7 @@ export class Player {
 	}
 
 	private setPositionState() {
+		if (!Number.isFinite(this.el.duration)) return;
 		navigator.mediaSession.setPositionState({
 			duration: this.el.duration,
 			position: this.el.currentTime,
