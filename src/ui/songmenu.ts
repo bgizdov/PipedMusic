@@ -1,5 +1,5 @@
 import type { ISong } from "../frontend/db";
-import type { List } from "../frontend/list";
+import type { List } from "../lists/List";
 import type { RichVideo } from "../types";
 
 export class SongMenu {

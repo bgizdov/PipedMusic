@@ -12,12 +12,12 @@
 
 <script setup lang="ts">
 
-import { DBList } from '~/src/frontend/list';
+import { SavedList } from '~/src/lists/SavedList';
 
 defineProps<Props>();
 
 interface Props {
-	list: DBList
+	list: SavedList
 }
 
 </script>

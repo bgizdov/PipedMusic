@@ -38,9 +38,9 @@
 import { app, queue, songMenu } from '~/src/frontend/app';
 import { formatTime } from '~/src/frontend/misc';
 import type { ShallowReactive } from 'vue';
-import { List } from '~/src/frontend/list';
+import { List } from '~/src/lists/List';
 import type { RichVideo } from '~/src/types';
-import { Queue } from '~/src/frontend/queue';
+import { Queue } from '~/src/lists/Queue';
 import { play } from '~/src/frontend/actions';
 import type { ISong } from '~/src/frontend/db';
 

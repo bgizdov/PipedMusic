@@ -11,7 +11,7 @@
 <script setup lang="ts">
 
 import { data } from '~/src/frontend/app';
-import type { DBList } from '~/src/frontend/list';
+import type { SavedList } from '~/src/lists/SavedList';
 
 let props = defineProps<Props>();
 
@@ -26,7 +26,7 @@ let link = `/playlist/${props.list.id}`;
 if (props.list.id == "liked") link = "/liked";
 
 interface Props {
-	list: DBList
+	list: SavedList
 }
 
 </script>

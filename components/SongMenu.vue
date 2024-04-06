@@ -39,7 +39,7 @@
 
 import { download } from "~/src/frontend/actions";
 import { likedSongs, queue, songMenu } from '~/src/frontend/app';
-import { DBList } from '~/src/frontend/list';
+import { SavedList } from '~/src/lists/SavedList';
 
 let data = reactive({
 	liked: false
@@ -54,7 +54,7 @@ async function update() {
 
 function isSavedList(id?: string): boolean {
 	let savedList = songMenu.list;
-	if (savedList instanceof DBList) {
+	if (savedList instanceof SavedList) {
 		return id ? id == savedList.id : true;
 	}
 	return false;

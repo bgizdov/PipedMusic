@@ -1,9 +1,9 @@
 import { Data, type DataInterface } from "../frontend/data"
 import { Player } from "../frontend/player";
 import { SongMenu } from "../ui/songmenu";
-import { DBList } from "./list";
+import { SavedList } from "../lists/SavedList";
 import { migrate } from "./migration";
-import { Queue } from "./queue";
+import { Queue } from "../lists/Queue";
 
 export class App {
 
@@ -25,8 +25,8 @@ export let player = new Player();
 export let data = new Data();
 export let app = new App(data, player);
 
-export let likedSongs = DBList.getLiked();
-export let queue = new Queue(app);
+export let likedSongs = SavedList.getLiked();
+export let queue = reactive(new Queue(app));
 
 migrate();
 

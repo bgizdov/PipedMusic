@@ -19,8 +19,9 @@
 import { shuffle } from '~/src/frontend/actions';
 import { queue } from '~/src/frontend/app';
 import type { ISong } from '~/src/frontend/db';
-import { DisplayedList, List } from '~/src/frontend/list';
-import { Queue } from '~/src/frontend/queue';
+import { DisplayedList } from '~/src/lists/DisplayedList';
+import { List } from '~/src/lists/List';
+import { Queue } from '~/src/lists/Queue';
 
 let { list } = defineProps<Props>();
 

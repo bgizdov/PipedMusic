@@ -1,5 +1,5 @@
-import type { App } from "./app";
-import { LocalList } from "./list";
+import type { App } from "../frontend/app";
+import { LocalList } from "./LocalList";
 
 export class Queue extends LocalList {
 
