@@ -316,3 +316,8 @@ nav .btn-search {display: none;}
 @media screen and (max-width: 500px) {
 	.playlists {grid-template-columns: 1fr 1fr;}
 }
+
+
+/* Playlist page */
+
+.playlist-page .song-list {margin: 30px 0;}
