@@ -9,7 +9,7 @@
 			</div>
 			<img loading="lazy" :src="video.thumbnail">
 		</div>
-		<NuxtLink :to="'/song/' + video.id">
+		<NuxtLink :to="'/song/' + video.id" @click="shared.player = false;">
 			<div>
 				<b>{{ video.title }}</b>
 			</div>
@@ -35,7 +35,7 @@
 
 <script lang="ts" setup>
 
-import { app, queue, songMenu } from '~/src/frontend/app';
+import { app, queue, shared, songMenu } from '~/src/frontend/app';
 import { formatTime } from '~/src/frontend/misc';
 import type { ShallowReactive } from 'vue';
 import { List } from '~/src/lists/List';
