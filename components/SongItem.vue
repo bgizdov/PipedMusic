@@ -35,7 +35,7 @@
 
 <script lang="ts" setup>
 
-import { app, queue, shared, songMenu } from '~/src/frontend/app';
+import { api, queue, shared, songMenu } from '~/src/frontend/app';
 import { formatTime } from '~/src/frontend/misc';
 import type { ShallowReactive } from 'vue';
 import { List } from '~/src/lists/List';
@@ -69,7 +69,7 @@ function popup(event: MouseEvent, video: RichVideo) {
 }
 
 onMounted(async () => {
-	if (props.id) video.value = await app.data.getRichVideo(props.id);
+	if (props.id) video.value = await api.getRichVideo(props.id);
 	if (props.video) video.value = props.video;
 });
 

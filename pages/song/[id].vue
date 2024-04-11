@@ -37,10 +37,10 @@
 <script setup lang="ts">
 
 import { download, play } from "~/src/frontend/actions";
-import { app, likedSongs } from "~/src/frontend/app";
+import { api, likedSongs } from "~/src/frontend/app";
 
 let id = useRoute().params.id as string;
-let video = await app.data.getRichVideo(id);
+let video = await api.getRichVideo(id);
 
 let data = reactive({
 	liked: false

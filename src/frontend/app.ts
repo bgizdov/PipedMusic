@@ -1,32 +1,15 @@
-import { Data, type DataInterface } from "../frontend/data"
+import { API } from "./api"
 import { Player } from "../frontend/player";
 import { SongMenu } from "../ui/songmenu";
 import { SavedList } from "../lists/SavedList";
 import { migrate } from "./migration";
 import { Queue } from "../lists/Queue";
 
-export class App {
-
-	public static instance: App;
-
-	public player: Player;
-
-	public data: DataInterface;
-
-	public constructor(data: Data, player: Player) {
-		this.data = data;
-		this.player = player;
-		if (App.instance) return App.instance;
-	}
-
-}
-
 export let player = new Player();
-export let data = new Data();
-export let app = new App(data, player);
+export let api = new API();
 
 export let likedSongs = SavedList.getLiked();
-export let queue = reactive(new Queue(app));
+export let queue = reactive(new Queue(player, api));
 
 migrate();
 

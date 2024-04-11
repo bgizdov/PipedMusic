@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 
-import { data } from '~/src/frontend/app';
+import { api } from '~/src/frontend/app';
 import type { SavedList } from '~/src/lists/SavedList';
 
 let props = defineProps<Props>();
@@ -18,7 +18,7 @@ let props = defineProps<Props>();
 let songs = await props.list.list(4);
 let thumbnails: string[] = [];
 songs.forEach(async s => {
-	let t = await data.getThumbnail(s.id);
+	let t = await api.getThumbnail(s.id);
 	if (t) thumbnails.push(t);
 });
 

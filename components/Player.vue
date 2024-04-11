@@ -85,7 +85,7 @@
 
 <script lang="ts" setup>
 
-import { app, queue, shared } from "~/src/frontend/app";
+import { player, queue, shared } from "~/src/frontend/app";
 import type { Player, PlayerState } from "~/src/frontend/player";
 import { formatTime } from "~/src/frontend/misc";
 import type { ComboObject } from "~/src/types";
@@ -122,8 +122,6 @@ function registerPlayer(player: Player) {
 	p.addEventListener("error", () => player.restart());
 	p.addEventListener("ended", () => queue.next());
 }
-
-let player = app.player;
 
 registerPlayer(player);
 

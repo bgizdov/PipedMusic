@@ -1,16 +1,19 @@
-import type { App } from "../frontend/app";
+import type { APIInterface } from "../frontend/api";
+import type { Player } from "../frontend/player";
 import { LocalList } from "./LocalList";
 
 export class Queue extends LocalList {
 
-	public app: App;
+	private player: Player;
+	private data: APIInterface;
 
 	public playing: number | null = null;
 	public playing_id: string | null = null;
 
-	constructor(app: App) {
+	constructor(player: Player, data: APIInterface) {
 		super();
-		this.app = app;
+		this.player = player;
+		this.data = data;
 	}
 
 	public async next() {
@@ -37,10 +40,10 @@ export class Queue extends LocalList {
 	public async play(index: number) {
 		let song = await this.get(index);
 		if (!song) return;
-		let video = await this.app.data.getRichVideo(song.id);
+		let video = await this.data.getRichVideo(song.id);
 		if (!video) return;
-		this.app.player.setPlaying(video);
-		this.app.player.play();
+		this.player.setPlaying(video);
+		this.player.play();
 		this.playing = index;
 		this.playing_id = song.id;
 	}

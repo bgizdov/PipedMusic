@@ -1,8 +1,8 @@
-import { app, queue } from "./app";
+import { api, queue } from "./app";
 
 export async function download(id: string) {
-	let url = await app.data.getDownloadLink(id);
-	let video = await app.data.getVideo(id);
+	let url = await api.getDownloadLink(id);
+	let video = await api.getVideo(id);
 	if (!url || !video) return;
 	let link = document.createElement("a");
 	link.download = `${video.author} - ${video.title}.m4a`;

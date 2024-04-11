@@ -1,6 +1,6 @@
 import type { RichVideo, Video } from "../types";
 
-export class Data implements DataInterface {
+export class API implements APIInterface {
 
 	public async getVideo(id: string): Promise<Video | null> {
 		return await $fetch<Video | null>(`/api/song/${id}/info`);
@@ -36,7 +36,7 @@ export class Data implements DataInterface {
 
 }
 
-export interface DataInterface {
+export interface APIInterface {
 
 	getVideo(id: string): Promise<Video | null>;
 	getRichVideo(id: string): Promise<RichVideo | null>;
