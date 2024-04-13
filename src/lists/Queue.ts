@@ -1,5 +1,5 @@
-import type { APIInterface } from "../frontend/api";
-import type { Player } from "../frontend/player";
+import type { APIInterface } from "../frontend/API";
+import type { Player } from "../frontend/Player";
 import { LocalList } from "./LocalList";
 
 export class Queue extends LocalList {

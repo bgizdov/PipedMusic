@@ -37,8 +37,8 @@
 
 <script setup lang="ts">
 
-import { download } from "~/src/frontend/actions";
-import { likedSongs, queue, songMenu } from '~/src/frontend/app';
+import { download } from "~/src/frontend/Actions";
+import { likedSongs, queue, songMenu } from '~/src/frontend/App';
 import { SavedList } from '~/src/lists/SavedList';
 
 let data = reactive({

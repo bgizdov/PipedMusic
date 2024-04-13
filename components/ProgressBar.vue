@@ -8,7 +8,7 @@
 
 <script lang="ts" setup>
 
-import type { Player, PlayerState } from '~/src/frontend/player';
+import type { Player, PlayerState } from '~/src/frontend/Player';
 
 let { player, state } = defineProps<Props>();
 

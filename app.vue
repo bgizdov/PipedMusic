@@ -30,7 +30,7 @@
 
 <script lang="ts" setup>
 
-import { shared, songMenu } from "~/src/frontend/app";
+import { shared } from "~/src/frontend/App";
 
 useHead({
 	title: "Piped Music"

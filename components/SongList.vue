@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
 
-import type { ISong } from '~/src/frontend/db';
+import type { ISong } from '~/src/frontend/Database';
 import { DisplayedList } from '~/src/lists/DisplayedList';
 import { List } from '~/src/lists/List';
 

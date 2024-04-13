@@ -18,8 +18,8 @@
 
 <script setup lang="ts">
 
-import { shuffle } from '~/src/frontend/actions';
-import { queue } from '~/src/frontend/app';
+import { shuffle } from '~/src/frontend/Actions';
+import { queue } from '~/src/frontend/App';
 import { SavedList } from '~/src/lists/SavedList';
 
 let props = defineProps<Props>();

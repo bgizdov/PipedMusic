@@ -1,4 +1,4 @@
-import { db, type ISong } from "../frontend/db";
+import { db, type ISong } from "../frontend/Database";
 import { List } from "./List";
 
 export class SavedList extends List<ISong> {

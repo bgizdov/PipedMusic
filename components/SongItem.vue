@@ -35,14 +35,14 @@
 
 <script lang="ts" setup>
 
-import { api, queue, shared, songMenu } from '~/src/frontend/app';
-import { formatTime } from '~/src/frontend/misc';
+import { api, queue, shared, songMenu } from '~/src/frontend/App';
+import { formatTime } from '~/src/frontend/Misc';
 import type { ShallowReactive } from 'vue';
 import { List } from '~/src/lists/List';
 import type { RichVideo } from '~/src/types';
 import { Queue } from '~/src/lists/Queue';
-import { play } from '~/src/frontend/actions';
-import type { ISong } from '~/src/frontend/db';
+import { play } from '~/src/frontend/Actions';
+import type { ISong } from '~/src/frontend/Database';
 
 let video = ref<RichVideo | null>(null);
 

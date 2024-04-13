@@ -7,7 +7,7 @@
 
 <script lang="ts" setup>
 
-import { shared } from "~/src/frontend/app";
+import { shared } from "~/src/frontend/App";
 
 function search() {
 	if (useRoute().path != '/search') {

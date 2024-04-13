@@ -85,9 +85,9 @@
 
 <script lang="ts" setup>
 
-import { player, queue, shared } from "~/src/frontend/app";
-import type { Player, PlayerState } from "~/src/frontend/player";
-import { formatTime } from "~/src/frontend/misc";
+import { player, queue, shared } from "~/src/frontend/App";
+import type { Player, PlayerState } from "~/src/frontend/Player";
+import { formatTime } from "~/src/frontend/Misc";
 import type { ComboObject } from "~/src/types";
 
 let wrapper = ref<HTMLElement | null>(null);

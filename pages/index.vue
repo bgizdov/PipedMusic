@@ -16,6 +16,6 @@
 
 <script setup lang="ts">
 
-import { likedSongs } from '~/src/frontend/app';
+import { likedSongs } from '~/src/frontend/App';
 
 </script>

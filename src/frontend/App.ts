@@ -1,8 +1,8 @@
-import { API } from "./api"
-import { Player } from "../frontend/player";
-import { SongMenu } from "../ui/songmenu";
+import { API } from "./API"
+import { Player } from "./Player";
+import { SongMenu } from "../ui/SongMenu";
 import { SavedList } from "../lists/SavedList";
-import { migrate } from "./migration";
+import { migrate } from "./Migration";
 import { Queue } from "../lists/Queue";
 
 export let player = new Player();

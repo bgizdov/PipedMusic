@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 
-import { api } from '~/src/frontend/app';
+import { api } from '~/src/frontend/App';
 import type { SavedList } from '~/src/lists/SavedList';
 
 let props = defineProps<Props>();

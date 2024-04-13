@@ -6,6 +6,6 @@
 
 <script setup lang="ts">
 
-import { queue } from '~/src/frontend/app';
+import { queue } from '~/src/frontend/App';
 
 </script>

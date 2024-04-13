@@ -1,4 +1,4 @@
-import type { ISong } from "../frontend/db";
+import type { ISong } from "../frontend/Database";
 import { List } from "./List";
 
 export class LocalList extends List<ISong> {

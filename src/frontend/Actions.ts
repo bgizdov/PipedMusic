@@ -1,4 +1,4 @@
-import { api, queue } from "./app";
+import { api, queue } from "./App";
 
 export async function download(id: string) {
 	let url = await api.getDownloadLink(id);

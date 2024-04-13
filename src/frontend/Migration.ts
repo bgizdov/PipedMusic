@@ -1,4 +1,4 @@
-import { db } from "./db";
+import { db } from "./Database";
 
 function detect_old_lists(): string[] {
 	let lists: string[] = [];

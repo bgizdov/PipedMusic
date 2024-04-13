@@ -29,7 +29,7 @@
 
 <script lang="ts" setup>
 
-import { api, shared } from "~/src/frontend/app";
+import { api, shared } from "~/src/frontend/App";
 
 let data = reactive<Data>({
 	results: [],

@@ -1,4 +1,4 @@
-import type { ISong } from "../frontend/db";
+import type { ISong } from "../frontend/Database";
 import type { List } from "../lists/List";
 import type { RichVideo } from "../types";
 

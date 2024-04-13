@@ -7,9 +7,9 @@
 
 <script lang="ts" setup>
 
-import { likedSongs } from '~/src/frontend/app';
+import { likedSongs } from '~/src/frontend/App';
 import { SavedList } from '~/src/lists/SavedList';
-import type { PlayerState } from '~/src/frontend/player';
+import type { PlayerState } from '~/src/frontend/Player';
 
 let { state } = defineProps<{state: PlayerState}>();
 

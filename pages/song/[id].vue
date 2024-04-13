@@ -36,8 +36,8 @@
 
 <script setup lang="ts">
 
-import { download, play } from "~/src/frontend/actions";
-import { api, likedSongs } from "~/src/frontend/app";
+import { download, play } from "~/src/frontend/Actions";
+import { api, likedSongs } from "~/src/frontend/App";
 
 let id = useRoute().params.id as string;
 let video = await api.getRichVideo(id);
