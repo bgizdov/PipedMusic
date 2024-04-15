@@ -1,6 +1,6 @@
 <template>
 	<div v-if="song" class="song-details song-item" @contextmenu.prevent="popup($event, song);">
-		<div class="image" @click="playSong(song.video)">
+		<div class="image" @click="playSong(song)">
 			<div v-if="isPlaying" class="playing">
 				<Icon name="mdi:volume" />
 			</div>
@@ -37,11 +37,8 @@
 
 import { queue, shared, songMenu } from '~/src/frontend/App';
 import { formatTime } from '~/src/frontend/Misc';
-import type { ShallowReactive } from 'vue';
 import { List } from '~/src/lists/List';
-import type { RichVideo } from '~/src/types';
 import { Queue } from '~/src/lists/Queue';
-import { play } from '~/src/frontend/Actions';
 import type { ISong } from '~/src/frontend/Database';
 import { SharedSong } from '~/src/frontend/SharedSong';
 
@@ -57,11 +54,11 @@ let isPlaying = computed(() => {
 	return song.value.video.id == queue.playing_id;
 });
 
-function playSong(video: RichVideo) {
+function playSong(song: SharedSong) {
 	if (props.list instanceof Queue && props.index !== undefined) {
 		queue.play(props.index);
 	} else {
-		play(video.id);
+		song.play();
 	}
 }
 

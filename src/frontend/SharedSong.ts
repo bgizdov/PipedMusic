@@ -1,6 +1,6 @@
 import { SavedList } from "../lists/SavedList";
 import type { RichVideo } from "../types";
-import { api } from "./App";
+import { api, queue } from "./App";
 import { db } from "./Database";
 
 export class SharedSong {
@@ -31,6 +31,22 @@ export class SharedSong {
 		let l = await SavedList.get(id);
 		if (l) await l.remove(this.video.id);
 		this.playlists[id] = false;
+	}
+
+	public async play() {
+		await queue.clear();
+		await queue.add(this.video.id);
+		await queue.play(0);
+	}
+
+	public async download() {
+		let url = await api.getDownloadLink(this.video.id);
+		let video = await api.getVideo(this.video.id);
+		if (!url || !video) return;
+		let link = document.createElement("a");
+		link.download = `${video.author} - ${video.title}.m4a`;
+		link.href = url;
+		link.click();
 	}
 
 	private static instances: {[U: string]: SharedSong} = {};

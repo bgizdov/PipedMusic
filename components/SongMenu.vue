@@ -12,7 +12,7 @@
 				<Icon name="mdi:playlist-music" />
 				<div>Add to the queue</div>
 			</div>
-			<div class="item" @click="download(songMenu.song.video.id); songMenu.close();">
+			<div class="item" @click="songMenu.song.download(); songMenu.close();">
 				<Icon name="material-symbols:download" />
 				<div>Download song</div>
 			</div>
@@ -37,7 +37,6 @@
 
 <script setup lang="ts">
 
-import { download } from "~/src/frontend/Actions";
 import { queue, songMenu } from '~/src/frontend/App';
 import { SavedList } from '~/src/lists/SavedList';
 

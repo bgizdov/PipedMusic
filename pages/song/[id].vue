@@ -10,7 +10,7 @@
 			</div>
 
 			<div class="btn-row">
-				<button class="btn btn-flex" @click="play(song.video.id);">
+				<button class="btn btn-flex" @click="song.play();">
 					<Icon name="mdi:play-circle-outline" />
 					<div>Play</div>
 				</button>
@@ -24,7 +24,7 @@
 						<div>Like</div>
 					</template>
 				</button>
-				<button class="btn btn-flex" @click="download(song.video.id);">
+				<button class="btn btn-flex" @click="song.download();">
 					<Icon name="material-symbols:download" />
 					<div>Download</div>
 				</button>
@@ -36,7 +36,6 @@
 
 <script setup lang="ts">
 
-import { download, play } from "~/src/frontend/Actions";
 import { SharedSong } from "~/src/frontend/SharedSong";
 
 let id = useRoute().params.id as string;

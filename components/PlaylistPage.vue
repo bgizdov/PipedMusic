@@ -22,9 +22,9 @@
 
 <script setup lang="ts">
 
-import { shuffle } from '~/src/frontend/Actions';
 import { queue } from '~/src/frontend/App';
 import type { ISong } from '~/src/frontend/Database';
+import { shuffle } from '~/src/frontend/Misc';
 import { SavedList } from '~/src/lists/SavedList';
 
 let props = defineProps<Props>();
