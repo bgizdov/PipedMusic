@@ -1,10 +1,11 @@
 import type { RichVideo } from "../types";
+import type { SharedSong } from "./SharedSong";
 
 export class Player {
 	
 	public el: HTMLAudioElement;
 	
-	public playing: RichVideo | null = null;
+	public playing: SharedSong | null = null;
 
 	private retryCount = 0;
 
@@ -13,10 +14,10 @@ export class Player {
 		this.hookMediaSession();
 	}
 
-	public setPlaying(video: RichVideo) {
+	public setPlaying(song: SharedSong) {
 		this.retryCount = 0;
-		this.playing = video;
-		this.el.src = video.stream;
+		this.playing = song;
+		this.el.src = song.video.stream;
 		this.setMediaSession();
 	}
 
@@ -54,7 +55,7 @@ export class Player {
 		if (this.retryCount == 0) {
 			setTimeout(() => {
 				if (!this.playing) return;
-				this.el.src = this.playing.stream;
+				this.el.src = this.playing.video.stream;
 			}, 1000);
 		}
 		this.retryCount++;
@@ -63,11 +64,11 @@ export class Player {
 	public setMediaSession() {
 		if (!navigator.mediaSession || !this.playing) return;
 		navigator.mediaSession.metadata = new MediaMetadata({
-			title: this.playing.title,
-			artist: this.playing.author,
+			title: this.playing.video.title,
+			artist: this.playing.video.author,
 			album: "",
 			artwork: [
-				{src: this.playing.thumbnail}
+				{src: this.playing.video.thumbnail}
 			]
 		});
 	}
@@ -108,5 +109,5 @@ export interface PlayerState {
 	duration: number,
 	volume: number,
 	muted: boolean,
-	video: RichVideo | null
+	song: SharedSong | null
 }

@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="player-page" v-if="state.video" :class="{ 'opened': shared.player }" @touchmove="playerTouchMove" @touchend="playerTouchEnd" :style="data.player_page_offset ? { transition: 'none', transform: 'translateY('+data.player_page_offset+'px)' } : ''">
+		<div class="player-page" v-if="state.song" :class="{ 'opened': shared.player }" @touchmove="playerTouchMove" @touchend="playerTouchEnd" :style="data.player_page_offset ? { transition: 'none', transform: 'translateY('+data.player_page_offset+'px)' } : ''">
 			<div class="wrapper" :style="data.player_page_offset ? { overflow: 'hidden' } : ''" ref="wrapper">
 				<div class="mobile-nav">
 					<button class="btn-close" @click="togglePlayer();">
@@ -9,13 +9,13 @@
 				</div>
 				<div class="grid">
 					<div class="player">
-						<img :src="state.video.thumbnail" @click="player.playPause()" />
+						<img :src="state.song.video.thumbnail" @click="player.playPause()" />
 						<div class="mobile">
 							<h2>
-								{{ state.video.title }}
+								{{ state.song.video.title }}
 							</h2>
 							<div>
-								{{ state.video.author }}
+								{{ state.song.video.author }}
 							</div>
 							<div class="mobile-progress">
 								<ProgressBar :state="state" :player="player" />
@@ -41,12 +41,12 @@
 			</div>
 		</div>
 
-		<div class="player-bar" v-if="state.video">
+		<div class="player-bar" v-if="state.song">
 
 			<ProgressBar :player="player" :state="state" />
 
 			<div class="mini inner">
-				<SongDetails :video="state.video" @click="togglePlayer();" />
+				<SongDetails :video="state.song.video" @click="togglePlayer();" />
 				<div class="btn-row">
 					<PlayPauseButton :state="state" />
 				</div>
@@ -64,7 +64,7 @@
 				</div>
 
 				<div class="song">
-					<SongDetails :video="state.video" @click="togglePlayer()" />
+					<SongDetails :video="state.song.video" @click="togglePlayer()" />
 					<LikeButton :state="state" />
 				</div>
 
@@ -105,7 +105,7 @@ let state = reactive<PlayerState>({
 	duration: 0,
 	volume: 1,
 	muted: false,
-	video: null
+	song: null
 });
 
 function togglePlayer() {
@@ -118,7 +118,7 @@ function registerPlayer(player: Player) {
 	p.addEventListener("timeupdate", () => state.position = p.currentTime);
 	p.addEventListener("play", () => state.playing = !p.paused);
 	p.addEventListener("pause", () => state.playing = !p.paused);
-	p.addEventListener("canplay", () => state.video = player.playing);
+	p.addEventListener("canplay", () => state.song = player.playing);
 	p.addEventListener("error", () => player.restart());
 	p.addEventListener("ended", () => queue.next());
 }

@@ -1,5 +1,6 @@
 import type { APIInterface } from "../frontend/API";
 import type { Player } from "../frontend/Player";
+import { SharedSong } from "../frontend/SharedSong";
 import { LocalList } from "./LocalList";
 
 export class Queue extends LocalList {
@@ -38,14 +39,14 @@ export class Queue extends LocalList {
 	}
 
 	public async play(index: number) {
-		let song = await this.get(index);
+		let item = await this.get(index);
+		if (!item) return;
+		let song = await SharedSong.get(item.id);
 		if (!song) return;
-		let video = await this.data.getRichVideo(song.id);
-		if (!video) return;
-		this.player.setPlaying(video);
+		this.player.setPlaying(song);
 		this.player.play();
 		this.playing = index;
-		this.playing_id = song.id;
+		this.playing_id = song.video.id;
 	}
 
 }

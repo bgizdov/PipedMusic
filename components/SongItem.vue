@@ -1,24 +1,24 @@
 <template>
-	<div v-if="video" class="song-details song-item" @contextmenu.prevent="popup($event, video);">
-		<div class="image" @click="playSong(video)">
+	<div v-if="song" class="song-details song-item" @contextmenu.prevent="popup($event, song);">
+		<div class="image" @click="playSong(song.video)">
 			<div v-if="isPlaying" class="playing">
 				<Icon name="mdi:volume" />
 			</div>
 			<div v-else class="hover">
 				<Icon name="mdi:play" />
 			</div>
-			<img loading="lazy" :src="video.thumbnail">
+			<img loading="lazy" :src="song.video.thumbnail">
 		</div>
-		<NuxtLink :to="'/song/' + video.id" @click="shared.player = false;">
+		<NuxtLink :to="'/song/' + song.video.id" @click="shared.player = false;">
 			<div>
-				<b>{{ video.title }}</b>
+				<b>{{ song.video.title }}</b>
 			</div>
 			<div>
-				{{ video.author }}
+				{{ song.video.author }}
 			</div>
 		</NuxtLink>
 		<div>
-			{{ formatTime(video.duration) }}
+			{{ formatTime(song.video.duration) }}
 		</div>
 	</div>
 	<div v-else class="song-details song-item">
@@ -35,7 +35,7 @@
 
 <script lang="ts" setup>
 
-import { api, queue, shared, songMenu } from '~/src/frontend/App';
+import { queue, shared, songMenu } from '~/src/frontend/App';
 import { formatTime } from '~/src/frontend/Misc';
 import type { ShallowReactive } from 'vue';
 import { List } from '~/src/lists/List';
@@ -43,17 +43,18 @@ import type { RichVideo } from '~/src/types';
 import { Queue } from '~/src/lists/Queue';
 import { play } from '~/src/frontend/Actions';
 import type { ISong } from '~/src/frontend/Database';
+import { SharedSong } from '~/src/frontend/SharedSong';
 
-let video = ref<RichVideo | null>(null);
+let song = ref<SharedSong | null>(null);
 
 let props = defineProps<Props>();
 
 let isPlaying = computed(() => {
-	if (!video.value || queue.playing == null) return false;
+	if (!song.value || queue.playing == null) return false;
 	if (props.list instanceof Queue && props.index !== undefined) {
 		return queue.playing == props.index;
 	}
-	return video.value.id == queue.playing_id;
+	return song.value.video.id == queue.playing_id;
 });
 
 function playSong(video: RichVideo) {
@@ -64,17 +65,17 @@ function playSong(video: RichVideo) {
 	}
 }
 
-function popup(event: MouseEvent, video: RichVideo) {
-	songMenu.open(event, video, props.list);
+function popup(event: MouseEvent, song: SharedSong) {
+	songMenu.open(event, song, props.list);
 }
 
 onMounted(async () => {
-	if (props.id) video.value = await api.getRichVideo(props.id);
-	if (props.video) video.value = props.video;
+	if (props.id) song.value = await SharedSong.get(props.id);
+	if (props.song) song.value = props.song;
 });
 
 interface Props {
-	video?: ShallowReactive<RichVideo>,
+	song?: SharedSong,
 	id?: string,
 	list?: List<ISong>,
 	index?: number

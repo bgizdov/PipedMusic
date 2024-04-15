@@ -1,23 +1,23 @@
 <template>
 	<div>
-		<div v-if="songMenu.state.visible && songMenu.video" class="song-menu" :style="style()" @click.stop>
+		<div v-if="songMenu.state.visible && songMenu.song" class="song-menu" :style="style()" @click.stop>
 			<div class="header">
-				<SongDetails :video="songMenu.video" />
+				<SongDetails :video="songMenu.song.video" />
 			</div>
-			<div class="item" @click="queue.addNext(songMenu.video.id); songMenu.close();">
+			<div class="item" @click="queue.addNext(songMenu.song.video.id); songMenu.close();">
 				<Icon name="mdi:playlist-play" />
 				<div>Play next</div>
 			</div>
-			<div class="item" @click="queue.add(songMenu.video.id); songMenu.close();">
+			<div class="item" @click="queue.add(songMenu.song.video.id); songMenu.close();">
 				<Icon name="mdi:playlist-music" />
 				<div>Add to the queue</div>
 			</div>
-			<div class="item" @click="download(songMenu.video.id); songMenu.close();">
+			<div class="item" @click="download(songMenu.song.video.id); songMenu.close();">
 				<Icon name="material-symbols:download" />
 				<div>Download song</div>
 			</div>
-			<div class="item" @click="likedSongs.toggle(songMenu.video.id); data.liked = !data.liked;">
-				<template v-if="data.liked">
+			<div class="item" @click="songMenu.song.playlistToggle('liked');">
+				<template v-if="songMenu.song.playlists.liked">
 					<Icon name="mdi:heart-broken-outline" />
 					<div>Unlike</div>
 				</template>
@@ -26,7 +26,7 @@
 					<div>Like</div>
 				</template>
 			</div>
-			<div v-if="songMenu.list && !isSavedList('liked')" class="item" @click="songMenu.list.remove(songMenu.video.id); songMenu.close();">
+			<div v-if="displayPlaylistRemove" class="item" @click="playlistRemove();">
 				<Icon name="material-symbols:playlist-remove" />
 				<div>Remove from this list</div>
 			</div>
@@ -38,26 +38,19 @@
 <script setup lang="ts">
 
 import { download } from "~/src/frontend/Actions";
-import { likedSongs, queue, songMenu } from '~/src/frontend/App';
+import { queue, songMenu } from '~/src/frontend/App';
 import { SavedList } from '~/src/lists/SavedList';
 
-let data = reactive({
-	liked: false
-});
+let displayPlaylistRemove = computed(() => songMenu.list instanceof SavedList ? songMenu.list.id != 'liked' : true);
 
-watch(() => songMenu.video, update);
-
-async function update() {
-	if (!songMenu.video) return;
-	data.liked = await likedSongs.has(songMenu.video.id);
-}
-
-function isSavedList(id?: string): boolean {
-	let savedList = songMenu.list;
-	if (savedList instanceof SavedList) {
-		return id ? id == savedList.id : true;
+function playlistRemove() {
+	if (!songMenu.list || !songMenu.song) return;
+	if (songMenu.list instanceof SavedList) {
+		songMenu.song.playlistRemove(songMenu.list.id);
+	} else {
+		songMenu.list.remove(songMenu.song.video.id);
 	}
-	return false;
+	songMenu.close();
 }
 
 function style() {
