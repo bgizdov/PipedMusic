@@ -6,6 +6,10 @@
 				<p>{{ list.meta.size }} songs</p>
 			</div>
 			<div class="btn-row">
+				<button class="btn btn-flex" @click="play();">
+					<Icon name="mdi:play" />
+					<div>Play</div>
+				</button>
 				<button class="btn btn-flex" @click="playShuffled();">
 					<Icon name="mdi:shuffle" />
 					<div>Play shuffled</div>
@@ -20,16 +24,26 @@
 
 import { shuffle } from '~/src/frontend/Actions';
 import { queue } from '~/src/frontend/App';
+import type { ISong } from '~/src/frontend/Database';
 import { SavedList } from '~/src/lists/SavedList';
 
 let props = defineProps<Props>();
 
-async function playShuffled() {
+async function playInQueue(items: ISong[]) {
 	await queue.clear();
-	let items = await props.list.list();
-	queue.items = shuffle(items).map(item => item.id);
+	queue.items = items.map(item => item.id);
 	queue.invalidate();
 	await queue.play(0);
+}
+
+async function playShuffled() {
+	let items = await props.list.list();
+	await playInQueue(shuffle(items));
+}
+
+async function play() {
+	let items = await props.list.list();
+	await playInQueue(items);
 }
 
 interface Props {
