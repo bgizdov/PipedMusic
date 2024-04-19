@@ -14,6 +14,10 @@
 					<Icon name="mdi:shuffle" />
 					<div>Play shuffled</div>
 				</button>
+				<button class="btn btn-flex" @click="deletePlaylist();" v-if="list.id != 'liked'">
+					<Icon name="mdi:playlist-remove" />
+					<div>Delete playlist</div>
+				</button>
 			</div>
 			<SongList :list="list" />
 		</div>
@@ -45,6 +49,14 @@ async function play() {
 	let items = await props.list.list();
 	await playInQueue(items);
 }
+
+async function deletePlaylist() {
+	let confirmation = confirm("Are you sure you want to delete this playlist?");
+	if (confirmation) {
+		await props.list.delete();
+		navigateTo("/");
+	}
+}	
 
 interface Props {
 	list: SavedList

@@ -54,7 +54,7 @@ export class SongMenu {
 
 }
 
-type SongMenuPage = null;
+type SongMenuPage = null | "playlists";
 
 interface SongMenuState {
 	visible: boolean,

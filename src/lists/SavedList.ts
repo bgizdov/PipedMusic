@@ -1,4 +1,5 @@
 import { db, type ISong } from "../frontend/Database";
+import { randomString } from "../frontend/Misc";
 import { List } from "./List";
 
 export class SavedList extends List<ISong> {
@@ -48,6 +49,20 @@ export class SavedList extends List<ISong> {
 		return l;
 	}
 
+	static async new(name: string) {
+		let id = randomString(10);
+		while ((await db.playlists.where({id}).toArray()).length) {
+			id = randomString(10);
+		}
+		await db.playlists.add({id, name});
+	}
+
+	static async list(limit?: number, offset: number = 0) {
+		let q = db.playlists.offset(offset);
+		if (limit) q = q.limit(limit);
+		return await q.toArray();
+	}
+
 	async list(limit?: number, offset: number = 0) {
 		let q = db.songs.where({list: this.id}).reverse().offset(offset);
 		if (limit) q = q.limit(limit);
@@ -95,6 +110,10 @@ export class SavedList extends List<ISong> {
 	async updateMeta() {
 		if (!this.meta) return;
 		this.meta.size = await this.size();
+	}
+
+	async delete() {
+		await db.playlists.where({id: this.id}).delete();
 	}
 
 }
