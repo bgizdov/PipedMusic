@@ -69,7 +69,7 @@ watch(() => songMenu.song, async () => {
 	data.playlists = await SavedList.list();
 });
 
-let displayPlaylistRemove = computed(() => songMenu.list instanceof SavedList ? songMenu.list.id != 'liked' : true);
+let displayPlaylistRemove = computed(() => songMenu.list && (songMenu.list instanceof SavedList ? songMenu.list.id != 'liked' : true));
 
 function playlistRemove() {
 	if (!songMenu.list || !songMenu.song) return;
