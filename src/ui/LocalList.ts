@@ -1,7 +1,10 @@
 import type { ISong } from "../frontend/Database";
-import { List } from "./List";
+import type { DisplayableList, DisplayedList } from "../lists/DisplayedList";
+import { List } from "../lists/List";
 
-export class LocalList extends List<ISong> {
+export class LocalList extends List<ISong> implements DisplayableList<ISong> {
+
+	private displays: DisplayedList<ISong>[] = [];
 
 	public items: string[] = [];
 
@@ -38,6 +41,23 @@ export class LocalList extends List<ISong> {
 	async clear() {
 		this.items = [];
 		this.invalidate();
+	}
+
+	addDisplay(display: DisplayedList<ISong>) {
+		this.displays.push(display);
+	}
+
+	removeDisplay(display: DisplayedList<ISong>) {
+		const index = this.displays.indexOf(display);
+		if (index > -1) {
+			this.displays.splice(index, 1);
+		}
+	}
+
+	invalidate() {
+		this.displays.forEach(display => {
+			display.update(this);
+		});
 	}
 
 }

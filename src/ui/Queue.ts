@@ -1,20 +1,18 @@
 import type { APIInterface } from "../frontend/API";
 import type { Player } from "../frontend/Player";
-import { SharedSong } from "../frontend/SharedSong";
-import { LocalList } from "./LocalList";
+import { SharedSong } from "./SharedSong";
+import { LocalList } from "../ui/LocalList";
 
 export class Queue extends LocalList {
 
 	private player: Player;
-	private data: APIInterface;
 
 	public playing: number | null = null;
 	public playing_id: string | null = null;
 
-	constructor(player: Player, data: APIInterface) {
+	constructor(player: Player) {
 		super();
 		this.player = player;
-		this.data = data;
 	}
 
 	public async next() {

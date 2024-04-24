@@ -59,21 +59,21 @@
 
 import { queue, songMenu } from '~/src/frontend/App';
 import type { IPlaylist } from '~/src/frontend/Database';
-import { SavedList } from '~/src/lists/SavedList';
+import { PlaylistUI } from '~/src/ui/PlaylistUI';
 
 let data = reactive<Data>({
 	playlists: []
 });
 
 watch(() => songMenu.song, async () => {
-	data.playlists = await SavedList.list();
+	data.playlists = await PlaylistUI.list();
 });
 
-let displayPlaylistRemove = computed(() => songMenu.list && (songMenu.list instanceof SavedList ? songMenu.list.id != 'liked' : true));
+let displayPlaylistRemove = computed(() => songMenu.list && (songMenu.list instanceof PlaylistUI ? songMenu.list.id != 'liked' : true));
 
 function playlistRemove() {
 	if (!songMenu.list || !songMenu.song) return;
-	if (songMenu.list instanceof SavedList) {
+	if (songMenu.list instanceof PlaylistUI) {
 		songMenu.song.playlistRemove(songMenu.list.id);
 	} else {
 		songMenu.list.remove(songMenu.song.video.id);

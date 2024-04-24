@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 
-import { SharedSong } from "~/src/frontend/SharedSong";
+import { SharedSong } from "~/src/ui/SharedSong";
 
 let id = useRoute().params.id as string;
 let song = await SharedSong.get(id);

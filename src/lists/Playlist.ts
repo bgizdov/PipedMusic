@@ -1,52 +1,14 @@
-import { db, type ISong } from "../frontend/Database";
+import { db, type IPlaylist, type ISong } from "../frontend/Database";
 import { randomString } from "../frontend/Misc";
 import { List } from "./List";
 
-export class SavedList extends List<ISong> {
+export class Playlist extends List<ISong> {
 
 	public id: string;
-	public meta: SavedListMeta | null = null;
 
-	private constructor(id: string) {
+	constructor(id: string) {
 		super();
 		this.id = id;
-	}
-	
-	private static instances: {[U: string]: SavedList} = {};
-
-	private static create(id: string): [SavedList, boolean] {
-		let l = this.instances[id];
-		if (!l) {
-			l = new SavedList(id);
-			this.instances[id] = l;
-			return [l, true];
-		}
-		return [l, false];
-	}
-
-	static async get(id: string): Promise<SavedList | null> {
-		let [l, is_new] = SavedList.create(id);
-		if (is_new) {
-			let playlist = await db.playlists.where({id}).first();
-			if (!playlist) return null;
-			l.setMeta({
-				name: playlist.name,
-				size: await l.size()
-			});
-		}
-		return l;
-	}
-
-	static getLiked() {
-		let [l, is_new] = SavedList.create("liked");
-		if (is_new) {
-			l.setMeta({
-				name: "Liked",
-				size: 0
-			});
-			l.updateMeta();
-		}
-		return l;
 	}
 
 	static async new(name: string) {
@@ -61,6 +23,14 @@ export class SavedList extends List<ISong> {
 		let q = db.playlists.offset(offset);
 		if (limit) q = q.limit(limit);
 		return await q.toArray();
+	}
+
+	async info(): Promise<IPlaylist | null> {
+		if (this.id == "liked") {
+			return {id: this.id, name: "Liked songs"};
+		} else {
+			return await db.playlists.where({id: this.id}).first() ?? null;
+		}
 	}
 
 	async list(limit?: number, offset: number = 0) {
@@ -83,14 +53,10 @@ export class SavedList extends List<ISong> {
 			timestamp: new Date(),
 			list: this.id
 		});
-		this.invalidate();
-		await this.updateMeta();
 	}
 
 	async remove(id: string) {
 		await db.songs.where({list: this.id, id}).delete();
-		this.invalidate();
-		await this.updateMeta();
 	}
 
 	async get(index: number) {
@@ -99,26 +65,10 @@ export class SavedList extends List<ISong> {
 
 	async clear() {
 		await db.songs.where({list: this.id}).delete();
-		this.invalidate();
-		await this.updateMeta();
-	}
-
-	setMeta(meta: SavedListMeta) {
-		this.meta = reactive(meta);
-	}
-
-	async updateMeta() {
-		if (!this.meta) return;
-		this.meta.size = await this.size();
 	}
 
 	async delete() {
 		await db.playlists.where({id: this.id}).delete();
 	}
 
-}
-
-interface SavedListMeta {
-	name: string,
-	size: number
 }

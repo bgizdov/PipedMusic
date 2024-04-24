@@ -4,9 +4,9 @@
 
 <script setup lang="ts">
 
-import { SavedList } from "~/src/lists/SavedList";
+import { PlaylistUI } from "~/src/ui/PlaylistUI";
 
 let id = useRoute().params.id as string;
-let list = await SavedList.get(id);
+let list = await PlaylistUI.get(id);
 
 </script>

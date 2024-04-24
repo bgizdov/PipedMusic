@@ -15,7 +15,7 @@
 			</div>
 
 			<div class="playlists">
-				<PlaylistItem :list="likedSongs" />
+				<PlaylistItem :list="likedSongs!" />
 				<PlaylistItem :id="list.id" v-for="list in data.playlists" />
 			</div>
 
@@ -25,20 +25,21 @@
 
 <script setup lang="ts">
 
-import { likedSongs } from '~/src/frontend/App';
 import type { IPlaylist } from '~/src/frontend/Database';
-import { SavedList } from '~/src/lists/SavedList';
+import { PlaylistUI } from '~/src/ui/PlaylistUI';
 
 let data = reactive<Data>({
 	playlists: []
 });
 
-data.playlists = await SavedList.list();
+let likedSongs = await PlaylistUI.get("liked");
+
+data.playlists = await PlaylistUI.list();
 
 async function addPlaylist() {
 	let name = prompt("Enter the playlist name:");
-	if (name) await SavedList.new(name);
-	data.playlists = await SavedList.list();
+	if (name) await PlaylistUI.new(name);
+	data.playlists = await PlaylistUI.list();
 }
 
 interface Data {

@@ -1,16 +1,32 @@
-import { SavedList } from "../lists/SavedList";
 import type { RichVideo } from "../types";
-import { api, queue } from "./App";
-import { db } from "./Database";
+import { PlaylistUI } from "./PlaylistUI";
+import { api, queue } from "../frontend/App";
+import { db } from "../frontend/Database";
 
 export class SharedSong {
+
+	private static map: {[U: string]: SharedSong} = {};
 
 	public video: RichVideo;
 	public playlists: SongPlaylists;
 
-	constructor(video: RichVideo, playlists: SongPlaylists) {
+	private constructor(video: RichVideo, playlists: SongPlaylists) {
 		this.video = video;
 		this.playlists = playlists;
+	}
+
+	public static async get(id: string) {
+		if (this.map[id]) return this.map[id];
+		let video = await api.getRichVideo(id);
+		if (!video) return null;
+		let playlists = await this.getPlaylists(id);
+		let song = new this(reactive(video), reactive(playlists));
+		this.map[id] = song;
+		return song;
+	}
+
+	public static getCached(id: string) {
+		return this.map[id] ?? null;
 	}
 
 	public async playlistToggle(id: string) {
@@ -22,15 +38,17 @@ export class SharedSong {
 	}
 
 	public async playlistAdd(id: string) {
-		let l = await SavedList.get(id);
+		let l = await PlaylistUI.get(id);
 		if (l) await l.add(this.video.id);
-		this.playlists[id] = true;
 	}
 
 	public async playlistRemove(id: string) {
-		let l = await SavedList.get(id);
+		let l = await PlaylistUI.get(id);
 		if (l) await l.remove(this.video.id);
-		this.playlists[id] = false;
+	}
+
+	public setPlaylistPresence(list: PlaylistUI, present: boolean) {
+		this.playlists[list.id] = present;
 	}
 
 	public async play() {
@@ -47,24 +65,6 @@ export class SharedSong {
 		link.download = `${video.author} - ${video.title}.m4a`;
 		link.href = url;
 		link.click();
-	}
-
-	private static instances: {[U: string]: SharedSong} = {};
-
-	private static async create(id: string) {
-		let video = await api.getRichVideo(id);
-		if (!video) return null;
-		let playlists = await this.getPlaylists(id);
-		return new this(reactive(video), reactive(playlists));
-	}
-
-	public static async get(id: string) {
-		let song: SharedSong | null = this.instances[id] ?? null;
-		if (!song) {
-			song = await this.create(id);
-			if (song) this.instances[id] = song;
-		}
-		return song;
 	}
 
 	private static async getPlaylists(id: string) {

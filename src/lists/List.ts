@@ -1,8 +1,4 @@
-import type { DisplayedList } from "./DisplayedList";
-
 export abstract class List<T> {
-
-	public displays: DisplayedList<T>[] = [];
 
 	abstract list(limit?: number, offset?: number): Promise<T[]>;
 
@@ -26,22 +22,5 @@ export abstract class List<T> {
 	abstract get(index: number): Promise<T | undefined>;
 
 	abstract clear(): Promise<void>;
-
-	addDisplay(display: DisplayedList<T>) {
-		this.displays.push(display);
-	}
-
-	removeDisplay(display: DisplayedList<T>) {
-		const index = this.displays.indexOf(display);
-		if (index > -1) {
-			this.displays.splice(index, 1);
-		}
-	}
-
-	invalidate() {
-		this.displays.forEach(display => {
-			display.update(this);
-		});
-	}
 
 }

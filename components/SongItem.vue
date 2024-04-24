@@ -38,9 +38,9 @@
 import { queue, shared, songMenu } from '~/src/frontend/App';
 import { formatTime } from '~/src/frontend/Misc';
 import { List } from '~/src/lists/List';
-import { Queue } from '~/src/lists/Queue';
+import { Queue } from '~/src/ui/Queue';
 import type { ISong } from '~/src/frontend/Database';
-import { SharedSong } from '~/src/frontend/SharedSong';
+import { SharedSong } from '~/src/ui/SharedSong';
 
 let song = ref<SharedSong | null>(null);
 

@@ -11,11 +11,11 @@
 <script setup lang="ts">
 
 import { api } from '~/src/frontend/App';
-import { SavedList } from '~/src/lists/SavedList';
+import { PlaylistUI } from '~/src/ui/PlaylistUI';
 
 let props = defineProps<Props>();
 
-let list = props.list ?? (props.id ? await SavedList.get(props.id!) : null);
+let list = props.list ?? (props.id ? await PlaylistUI.get(props.id!) : null);
 
 let data = reactive<Data>({
 	thumbnails: []
@@ -28,13 +28,11 @@ if (list) {
 		let t = await api.getThumbnail(s.id);
 		if (t) data.thumbnails.push(t);
 	});
-
 	data.link = `/playlist/${list.id}`;
-	if (list.id == "liked") data.link = "/liked";
 }
 
 interface Props {
-	list?: SavedList,
+	list?: PlaylistUI,
 	id?: string
 }
 

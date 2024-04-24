@@ -29,7 +29,7 @@
 import { queue } from '~/src/frontend/App';
 import type { ISong } from '~/src/frontend/Database';
 import { shuffle } from '~/src/frontend/Misc';
-import { SavedList } from '~/src/lists/SavedList';
+import { PlaylistUI } from '~/src/ui/PlaylistUI';
 
 let props = defineProps<Props>();
 
@@ -59,7 +59,7 @@ async function deletePlaylist() {
 }	
 
 interface Props {
-	list: SavedList
+	list: PlaylistUI
 }
 
 </script>

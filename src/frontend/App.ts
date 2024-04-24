@@ -1,15 +1,13 @@
 import { API } from "./API"
 import { Player } from "./Player";
 import { SongMenu } from "../ui/SongMenu";
-import { SavedList } from "../lists/SavedList";
 import { migrate } from "./Migration";
-import { Queue } from "../lists/Queue";
+import { Queue } from "../ui/Queue";
 
 export let player = new Player();
 export let api = new API();
 
-export let likedSongs = SavedList.getLiked();
-export let queue = reactive(new Queue(player, api));
+export let queue = reactive(new Queue(player));
 
 migrate();
 

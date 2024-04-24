@@ -1,5 +1,4 @@
-import type { RichVideo } from "../types";
-import type { SharedSong } from "./SharedSong";
+import type { SharedSong } from "../ui/SharedSong";
 
 export class Player {
 	

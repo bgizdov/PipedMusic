@@ -1,7 +1,6 @@
 import type { ISong } from "../frontend/Database";
-import type { SharedSong } from "../frontend/SharedSong";
+import type { SharedSong } from "./SharedSong";
 import type { List } from "../lists/List";
-import type { RichVideo } from "../types";
 
 export class SongMenu {
 
