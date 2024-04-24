@@ -7,7 +7,7 @@
 			<button class="btn" @click="display.prev(list);">Prev</button>
 			<button class="btn" @click="display.next(list);">Next</button>
 		</div>
-		<SongItem :key="item.id" :id="item.id" :index="(display.page * 100) + i" :list="list" v-for="item, i in display.items" />
+		<SongItem :key="`${item.id}-${index(i)}`" :id="item.id" :index="index(i)" :list="list" v-for="item, i in display.items" />
 	</div>
 </template>
 
@@ -20,6 +20,10 @@ let { list } = defineProps<Props>();
 
 let display = reactive(new DisplayedList<ISong>());
 list.addDisplay(display);
+
+function index(pos: number) {
+	return (display.page * 100) + pos;
+}
 
 onMounted(async () => {
 	await display.update(list);
