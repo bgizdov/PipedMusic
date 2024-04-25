@@ -103,8 +103,8 @@ let state = reactive<PlayerState>({
 	loop: false,
 	position: 0,
 	duration: 0,
-	volume: 1,
-	muted: false,
+	volume: player.el.volume,
+	muted: player.el.volume == 0,
 	song: null
 });
 

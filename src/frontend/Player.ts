@@ -10,6 +10,7 @@ export class Player {
 
 	public constructor() {
 		this.el = document.createElement("audio");
+		this.el.volume = this.getSavedVolume();
 		this.hookMediaSession();
 	}
 
@@ -48,6 +49,14 @@ export class Player {
 
 	public setVolume(volume: number) {
 		this.el.volume = volume;
+		localStorage.setItem("volume", volume.toString());
+	}
+
+	private getSavedVolume() {
+		let volumeString = localStorage.getItem("volume");
+		if (volumeString == null) return 1;
+		let volume = Number.parseFloat(volumeString);
+		return (volume <= 1 && volume >= 0) ? volume : 1;
 	}
 
 	public restart() {
