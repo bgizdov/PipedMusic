@@ -112,6 +112,7 @@ export class Player {
 
 export interface PlayerState {
 	playing: boolean,
+	loading: boolean,
 	loop: boolean,
 	position: number,
 	duration: number,

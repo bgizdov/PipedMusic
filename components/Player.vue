@@ -101,8 +101,9 @@ let data = reactive<ComboObject>({
 let state = reactive<PlayerState>({
 	playing: false,
 	loop: false,
+	loading: false,
 	position: 0,
-	duration: 0,
+	duration: 1,
 	volume: player.el.volume,
 	muted: player.el.volume == 0,
 	song: null
@@ -118,9 +119,11 @@ function registerPlayer(player: Player) {
 	p.addEventListener("timeupdate", () => state.position = p.currentTime);
 	p.addEventListener("play", () => state.playing = !p.paused);
 	p.addEventListener("pause", () => state.playing = !p.paused);
-	p.addEventListener("canplay", () => state.song = player.playing);
+	p.addEventListener("loadstart", () => state.song = player.playing);
 	p.addEventListener("error", () => player.restart());
 	p.addEventListener("ended", () => queue.next());
+	p.addEventListener("loadstart", () => state.loading = true);
+	p.addEventListener("loadeddata", () => state.loading = false);
 }
 
 registerPlayer(player);

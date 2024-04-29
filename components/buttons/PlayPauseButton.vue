@@ -1,7 +1,10 @@
 <template>
 	<button @click="player.playPause();" class="btn-playpause">
-		<Icon :class="{hidden: state.playing}" name="mdi:play" />
-		<Icon :class="{hidden: !state.playing}" name="mdi:pause" />
+		<Icon :class="{hidden: !state.loading}" name="eos-icons:loading" />
+		<template v-if="!state.loading">
+			<Icon :class="{hidden: state.playing}" name="mdi:play" />
+			<Icon :class="{hidden: !state.playing}" name="mdi:pause" />
+		</template>
 	</button>
 </template>
 
