@@ -14,6 +14,22 @@ class Database extends Dexie {
 		});
 	}
 
+	async dataExport(): Promise<ExportedData> {
+		const playlists = await this.playlists.toArray();
+		const songs = await this.songs.toArray();
+		return {playlists, songs};
+	}
+
+	async dataImport(data: ExportedData) {
+		await db.playlists.bulkAdd(data.playlists);
+		await db.songs.bulkAdd(data.songs);
+	}
+
+	async wipe() {
+		await db.playlists.clear();
+		await db.songs.clear();
+	}
+
 }
 
 export interface ISong {
@@ -27,6 +43,11 @@ export interface IPlaylist {
 	n?: number,
 	id: string,
 	name: string
+}
+
+export interface ExportedData {
+	songs: ISong[],
+	playlists: IPlaylist[]
 }
 
 export let db = new Database();

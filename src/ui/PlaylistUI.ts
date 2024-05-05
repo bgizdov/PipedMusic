@@ -16,6 +16,10 @@ export class PlaylistUI extends Playlist implements DisplayableList<ISong> {
 		this.meta = reactive({name: "Unknown", size: 0});
 	}
 
+	static clear() {
+		this.map = {};
+	}
+
 	static async get(id: string) {
 		if (this.map[id]) return this.map[id]; 
 		let list = new PlaylistUI(id);

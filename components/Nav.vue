@@ -6,6 +6,9 @@
 			</NuxtLink>
 			<SearchBar />
 			<div class="btn-row btn-row-right" @click="shared.player = false;">
+				<NuxtLink to="/settings">
+					<Icon name="mdi:settings" />
+				</NuxtLink>
 				<NuxtLink to="/search" class="btn-search">
 					<Icon name="mdi:search" />
 				</NuxtLink>

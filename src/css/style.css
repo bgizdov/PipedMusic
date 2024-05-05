@@ -136,6 +136,8 @@ nav .logo {height: 43px;}
 nav .searchbar {width: 400px; max-width: 100%;}
 nav .btn-search {display: none;}
 
+nav .btn-row {gap: 20px;}
+
 .searchpage .searchbar {display: none;}
 
 @media screen and (max-width: 800px) {

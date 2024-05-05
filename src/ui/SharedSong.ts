@@ -15,6 +15,10 @@ export class SharedSong {
 		this.playlists = playlists;
 	}
 
+	static clear() {
+		this.map = {};
+	}
+
 	public static async get(id: string) {
 		if (this.map[id]) return this.map[id];
 		let video = await api.getRichVideo(id);
