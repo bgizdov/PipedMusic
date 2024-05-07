@@ -6,8 +6,8 @@ export class SongMenu {
 
 	song: null | SharedSong = null;
 	list: null | List<ISong> = null;
-	x: null | number = null;
-	y: null | number = null;
+	
+	position: null | SongMenuPosition = null;
 
 	state: SongMenuState = {
 		visible: false,
@@ -17,14 +17,12 @@ export class SongMenu {
 
 	constructor() {
 		this.reset();
-		
 	}
 
 	reset() {
 		this.list = null;
 		this.song = null;
-		this.x = null;
-		this.y = null;
+		this.position = null;
 		this.state.page = null;
 	}
 
@@ -32,12 +30,28 @@ export class SongMenu {
 		this.state.page = page;
 	}
 
+	getPosition(x: number, y: number): SongMenuPosition {
+		const width = window.innerWidth;
+		const height = window.innerHeight;
+		let pos: SongMenuPosition = {};
+		if (x > (width - 300)) {
+			pos.right = width-x;
+		} else {
+			pos.left = x;
+		}
+		if (y > (height - 400)) {
+			pos.bottom = height-y;
+		} else {
+			pos.top = y;
+		}
+		return pos;
+	}
+
 	open(event: MouseEvent, song: SharedSong, list?: List<ISong>) {
 		this.state.visible = !this.state.visible;
 		this.song = song;
 		this.list = list ?? null;
-		this.x = event.pageX;
-		this.y = event.pageY;
+		this.position = this.getPosition(event.x, event.y);
 		this.state.hidable = false;
 		setTimeout(() => {
 			this.state.hidable = true;
@@ -59,4 +73,11 @@ interface SongMenuState {
 	visible: boolean,
 	hidable: boolean,
 	page: SongMenuPage
+}
+
+export interface SongMenuPosition {
+	top?: number,
+	left?: number,
+	bottom?: number,
+	right?: number
 }

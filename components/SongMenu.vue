@@ -60,6 +60,7 @@
 import { queue, songMenu } from '~/src/frontend/App';
 import type { IPlaylist } from '~/src/frontend/Database';
 import { PlaylistUI } from '~/src/ui/PlaylistUI';
+import { type SongMenuPosition } from '~/src/ui/SongMenu';
 
 let data = reactive<Data>({
 	playlists: []
@@ -82,7 +83,13 @@ function playlistRemove() {
 }
 
 function style() {
-	return songMenu.x && songMenu.y ? { top: `${songMenu.y}px`, left: `${songMenu.x}px` } : '';
+	if (!songMenu.position) return "";
+	let style: Partial<CSSStyleDeclaration> = {};
+	const positions: (keyof SongMenuPosition)[] = ['top', 'right', 'bottom', 'left'];
+	for (const pos of positions) {
+		style[pos] = `${songMenu.position[pos]}px`;	
+	}
+	return style;
 }
 
 interface Data {
