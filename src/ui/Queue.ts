@@ -12,8 +12,10 @@ export class Queue extends LocalList {
 	constructor(player: Player) {
 		super();
 		this.player = player;
-		navigator.mediaSession.setActionHandler("nexttrack", () => this.next());
-		navigator.mediaSession.setActionHandler("previoustrack", () => this.previous());
+		if (navigator.mediaSession) {
+			navigator.mediaSession.setActionHandler("nexttrack", () => this.next());
+			navigator.mediaSession.setActionHandler("previoustrack", () => this.previous());
+		}
 	}
 
 	public async next() {
