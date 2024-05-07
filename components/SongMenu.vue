@@ -57,6 +57,7 @@
 
 <script setup lang="ts">
 
+import type { StyleValue } from 'vue';
 import { queue, songMenu } from '~/src/frontend/App';
 import type { IPlaylist } from '~/src/frontend/Database';
 import { PlaylistUI } from '~/src/ui/PlaylistUI';
@@ -84,7 +85,7 @@ function playlistRemove() {
 
 function style() {
 	if (!songMenu.position) return "";
-	let style: Partial<CSSStyleDeclaration> = {};
+	let style: StyleValue = {};
 	const positions: (keyof SongMenuPosition)[] = ['top', 'right', 'bottom', 'left'];
 	for (const pos of positions) {
 		style[pos] = `${songMenu.position[pos]}px`;	
