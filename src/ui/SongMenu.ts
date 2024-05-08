@@ -34,12 +34,12 @@ export class SongMenu {
 		const width = window.innerWidth;
 		const height = window.innerHeight;
 		let pos: SongMenuPosition = {};
-		if (x > (width - 300)) {
+		if (x > (width - 200)) {
 			pos.right = width-x;
 		} else {
 			pos.left = x;
 		}
-		if (y > (height - 400)) {
+		if (y > (height - 200)) {
 			pos.bottom = height-y;
 		} else {
 			pos.top = y;
