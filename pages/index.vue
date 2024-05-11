@@ -3,14 +3,14 @@
 		<div class="inner">
 
 			<div class="text-block">
-				<h1>Piped Music</h1>
-				<p>Free & open-source music client</p>
+				<h1>{{ $t("page.home.title") }}</h1>
+				<p>{{ $t("page.home.description") }}</p>
 			</div>
 
 			<div class="btn-row">
 				<button class="btn btn-flex" @click="addPlaylist();">
 					<Icon name="mdi:playlist-plus" />
-					<div>New playlist</div>
+					<div>{{ $t("page.home.add_playlist") }}</div>
 				</button>
 			</div>
 

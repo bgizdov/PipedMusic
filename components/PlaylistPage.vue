@@ -3,20 +3,20 @@
 		<div class="inner">
 			<div class="text-block" v-if="list.meta">
 				<h1>{{ list.meta.name }}</h1>
-				<p>{{ list.meta.size }} songs</p>
+				<p>{{ $t("playlist.song_count", {count: list.meta.size}) }}</p>
 			</div>
 			<div class="btn-row">
 				<button class="btn btn-flex" @click="play();">
 					<Icon name="mdi:play" />
-					<div>Play</div>
+					<div>{{ $t("playlist.play") }}</div>
 				</button>
 				<button class="btn btn-flex" @click="playShuffled();">
 					<Icon name="mdi:shuffle" />
-					<div>Play shuffled</div>
+					<div>{{ $t("playlist.play_shuffled") }}</div>
 				</button>
 				<button class="btn btn-flex" @click="deletePlaylist();" v-if="list.id != 'liked'">
 					<Icon name="mdi:playlist-remove" />
-					<div>Delete playlist</div>
+					<div>{{ $t("playlist.delete") }}</div>
 				</button>
 			</div>
 			<SongList :list="list" />
@@ -30,6 +30,8 @@ import { queue } from '~/src/frontend/App';
 import type { ISong } from '~/src/frontend/Database';
 import { shuffle } from '~/src/frontend/Misc';
 import { PlaylistUI } from '~/src/ui/PlaylistUI';
+
+let { t } = useI18n();
 
 let props = defineProps<Props>();
 
@@ -51,7 +53,7 @@ async function play() {
 }
 
 async function deletePlaylist() {
-	let confirmation = confirm("Are you sure you want to delete this playlist?");
+	let confirmation = confirm(t("playlist.delete_confirmation"));
 	if (confirmation) {
 		await props.list.delete();
 		navigateTo("/");

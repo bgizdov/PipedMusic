@@ -1,6 +1,6 @@
 <template>
 	<div class="searchbar">
-		<input type="text" v-model="shared.search" @input="search" @focus="search" placeholder="Search..." list="suggestions">
+		<input type="text" v-model="shared.search" @input="search" @focus="search" :placeholder="$t('page.search.placeholder')" list="suggestions">
 		<Icon name="mdi:search" />
 	</div>
 </template>

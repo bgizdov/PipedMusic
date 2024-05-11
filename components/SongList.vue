@@ -2,10 +2,10 @@
 	<div class="song-list">
 		<div class="pagination" v-if="display.max_page">
 			<div>
-				Page {{ display.page + 1 }} / {{ display.max_page + 1 }}
+				{{ $t("list.page", {current: display.page + 1, total: display.max_page + 1 }) }}
 			</div>
-			<button class="btn" @click="display.prev(list);">Prev</button>
-			<button class="btn" @click="display.next(list);">Next</button>
+			<button class="btn" @click="display.prev(list);">{{ $t("list.prev_page") }}</button>
+			<button class="btn" @click="display.next(list);">{{ $t("list.next_page") }}</button>
 		</div>
 		<SongItem :key="`${item.id}-${index(i)}`" :id="item.id" :index="index(i)" :list="list" v-for="item, i in display.items" />
 	</div>

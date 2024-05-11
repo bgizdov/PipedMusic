@@ -4,21 +4,21 @@
 			<div class="inner text-center">
 
 				<div class="text-block">
-					<h1>Settings</h1>
-					<p>Configure your Piped Music client</p>
+					<h1>{{ $t("page.settings.title") }}</h1>
+					<p>{{ $t("page.settings.description") }}</p>
 				</div>
 
 			</div>
 			<div class="inner">
-				
+
 				<div class="btn-row">
 					<button class="btn btn-flex" @click="dataExport">
 						<Icon name="mdi:export" />
-						<div>Export data</div>
+						<div>{{ $t("page.settings.export_data") }}</div>
 					</button>
 					<button class="btn btn-flex" @click="dataImport">
 						<Icon name="mdi:import" />
-						<div>Import data</div>
+						<div>{{ $t("page.settings.import_data") }}</div>
 					</button>
 				</div>
 
@@ -32,6 +32,8 @@
 import { db, type ExportedData } from "~/src/frontend/Database";
 import { PlaylistUI } from "~/src/ui/PlaylistUI";
 import { SharedSong } from "~/src/ui/SharedSong";
+
+let { t } = useI18n();
 
 async function dataExport() {
 	const data = await db.dataExport();
@@ -67,10 +69,10 @@ async function processData(e: Event) {
 	let file = input.files ? input.files[0] : null;
 	let data = await processFile(file);
 	if (!data) {
-		alert("This file is not valid Piped Music backup!");
+		alert(t("page.settings.import_wrong_file"));
 		return;
 	}
-	let really = confirm(`You are going to replace ALL YOUR DATA with backup you uploaded! Are you sure?`);
+	let really = confirm(t("page.settings.import_wrong_file"));
 	if (!really) return;
 	await resetApp();
 	await db.dataImport(data);

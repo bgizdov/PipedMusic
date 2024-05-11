@@ -12,21 +12,21 @@
 			<div class="btn-row">
 				<button class="btn btn-flex" @click="song.play();">
 					<Icon name="mdi:play-circle-outline" />
-					<div>Play</div>
+					<div>{{ $t("page.song.play") }}</div>
 				</button>
 				<button class="btn btn-flex" @click="song.playlistToggle('liked');">
 					<template v-if="song.playlists.liked">
 						<Icon name="mdi:heart-broken-outline" />
-						<div>Unlike</div>
+						<div>{{ $t("page.song.unlike") }}</div>
 					</template>
 					<template v-else>
 						<Icon name="mdi:heart-outline" />
-						<div>Like</div>
+						<div>{{ $t("page.song.like") }}</div>
 					</template>
 				</button>
 				<button class="btn btn-flex" @click="song.download();">
 					<Icon name="material-symbols:download" />
-					<div>Download</div>
+					<div>{{ $t("page.song.download") }}</div>
 				</button>
 			</div>
 

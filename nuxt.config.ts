@@ -13,10 +13,17 @@ export default defineNuxtConfig({
 	css: [
 		"~/src/css/style.css"
 	],
-	modules: [
-		"nuxt-icon"
-	],
+	modules: ["nuxt-icon", "@nuxtjs/i18n"],
 	components: ["./components", "./components/buttons"],
+	i18n: {
+		locales: [
+			{code: "en", file: "en-US.json"}
+		],
+		lazy: true,
+		langDir: 'lang',
+		defaultLocale: 'en',
+		strategy: 'no_prefix'
+	},
 	app: {
 		head: {
 			title: meta.title,

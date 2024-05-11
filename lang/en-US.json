@@ -1,0 +1,55 @@
+{
+	"page": {
+		"home": {
+			"title": "Piped Music",
+			"description": "Free & open-source music client",
+			"add_playlist": "New playlist"
+		},
+		"settings": {
+			"title": "Settings",
+			"description": "Configure your Piped Music client",
+			"export_data": "Export data",
+			"import_data": "Import data",
+			"import_warning": "You are going to replace ALL YOUR DATA with backup you uploaded! Are you sure?",
+			"import_wrong_file": "This file is not valid Piped Music backup!"
+		},
+		"search": {
+			"title": "Search",
+			"description": "Type what you want to search!",
+			"placeholder": "Search...",
+			"searching_for": "Searching for:"
+		},
+		"song": {
+			"play": "Play",
+			"like": "Like",
+			"unlike": "Unlike",
+			"download": "Download"
+		}
+	},
+	"playlist": {
+		"liked_songs": "Liked songs",
+		"song_count": "one song | {count} songs",
+		"play": "Play",
+		"play_shuffled": "Play shuffled",
+		"delete": "Delete playlist",
+		"delete_confirmation": "Are you sure you want to delete this playlist?"
+	},
+	"list": {
+		"page": "Page {current}/{total}",
+		"next_page": "Next",
+		"prev_page": "Prev"
+	},
+	"queue": {
+		"title": "Queue"
+	},
+	"song_menu": {
+		"play_next": "Play next",
+		"add_to_queue": "Add to the queue",
+		"add_to_playlist": "Add to the playlist",
+		"no_playlists": "No playlists",
+		"download": "Download song",
+		"like": "Like",
+		"unlike": "Unlike",
+		"remove_from_list": "Remove from this list"
+	}
+}

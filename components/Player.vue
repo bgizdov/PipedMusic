@@ -34,7 +34,7 @@
 						</div>
 					</div>
 					<div class="sidebar">
-						<p>Queue</p>
+						<p>{{ $t("queue.title") }}</p>
 						<SongList :list="queue" />
 					</div>
 				</div>

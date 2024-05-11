@@ -4,9 +4,9 @@
 			<div class="inner text-center">
 
 				<div class="text-block">
-					<h1>Search</h1>
-					<p v-if="shared.search">Searching for: <b>{{ shared.search }}</b></p>
-					<p v-else>Type what you want to search!</p>
+					<h1>{{ $t("page.search.title") }}</h1>
+					<p v-if="shared.search">{{ $t("page.search.searching_for") }} <b>{{ shared.search }}</b></p>
+					<p v-else>{{ $t("page.search.description") }}</p>
 				</div>
 
 				<SearchBar />
@@ -17,7 +17,7 @@
 
 			</div>
 			<div class="inner">
-				
+
 				<div class="song-list">
 					<SongItem :id="id" v-for="id in data.results" />
 				</div>
