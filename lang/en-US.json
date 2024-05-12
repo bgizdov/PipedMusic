@@ -8,10 +8,14 @@
 		"settings": {
 			"title": "Settings",
 			"description": "Configure your Piped Music client",
-			"export_data": "Export data",
-			"import_data": "Import data",
-			"import_warning": "You are going to replace ALL YOUR DATA with backup you uploaded! Are you sure?",
-			"import_wrong_file": "This file is not valid Piped Music backup!"
+			"data": {
+				"title": "Application data",
+				"export": "Export data",
+				"import": "Import data",
+				"import_warning": "You are going to replace ALL YOUR DATA with backup you uploaded! Are you sure?",
+				"import_wrong_file": "This file is not valid Piped Music backup!"
+			},
+			"language": "Language"
 		},
 		"search": {
 			"title": "Search",
@@ -32,7 +36,8 @@
 		"play": "Play",
 		"play_shuffled": "Play shuffled",
 		"delete": "Delete playlist",
-		"delete_confirmation": "Are you sure you want to delete this playlist?"
+		"delete_confirmation": "Are you sure you want to delete this playlist?",
+		"name_prompt": "Enter the playlist name:"
 	},
 	"list": {
 		"page": "Page {current}/{total}",

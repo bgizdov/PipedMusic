@@ -28,6 +28,8 @@
 import type { IPlaylist } from '~/src/frontend/Database';
 import { PlaylistUI } from '~/src/ui/PlaylistUI';
 
+let { t } = useI18n();
+
 let data = reactive<Data>({
 	playlists: []
 });
@@ -37,7 +39,7 @@ let likedSongs = await PlaylistUI.get("liked");
 data.playlists = await PlaylistUI.list();
 
 async function addPlaylist() {
-	let name = prompt("Enter the playlist name:");
+	let name = prompt(t("playlist.name_prompt"));
 	if (name) await PlaylistUI.new(name);
 	data.playlists = await PlaylistUI.list();
 }

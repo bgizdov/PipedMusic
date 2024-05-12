@@ -14,11 +14,11 @@
 				<div class="btn-row">
 					<button class="btn btn-flex" @click="dataExport">
 						<Icon name="mdi:export" />
-						<div>{{ $t("page.settings.export_data") }}</div>
+						<div>{{ $t("page.settings.data.export") }}</div>
 					</button>
 					<button class="btn btn-flex" @click="dataImport">
 						<Icon name="mdi:import" />
-						<div>{{ $t("page.settings.import_data") }}</div>
+						<div>{{ $t("page.settings.data.import") }}</div>
 					</button>
 				</div>
 
@@ -69,10 +69,10 @@ async function processData(e: Event) {
 	let file = input.files ? input.files[0] : null;
 	let data = await processFile(file);
 	if (!data) {
-		alert(t("page.settings.import_wrong_file"));
+		alert(t("page.settings.data.import_wrong_file"));
 		return;
 	}
-	let really = confirm(t("page.settings.import_wrong_file"));
+	let really = confirm(t("page.settings.data.import_warning"));
 	if (!really) return;
 	await resetApp();
 	await db.dataImport(data);
