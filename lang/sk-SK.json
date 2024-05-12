@@ -1,0 +1,60 @@
+{
+	"page": {
+		"home": {
+			"title": "Piped Music",
+			"description": "Slobodný hudobný klient s otvoreným zdrojovým kódom",
+			"add_playlist": "Nový zoznam"
+		},
+		"settings": {
+			"title": "Nastavenie",
+			"description": "Nakonfigurujte svojho Piped Music klienta",
+			"data": {
+				"title": "Dáta aplikácie",
+				"export": "Exportovať dáta",
+				"import": "Importovať dáta",
+				"import_warning": "Chystáte sa nahradiť VŠETKY VAŠE DÁTA zálohou, ktorú ste nahrali! Ste si istí?",
+				"import_wrong_file": "Tento súbor nie je platná Piped Music záloha!"
+			},
+			"language": "Jazyk"
+		},
+		"search": {
+			"title": "Vyhľadávanie",
+			"description": "Zadajte, čo chcete vyhľadať!",
+			"placeholder": "Vyhľadať...",
+			"searching_for": "Vyhľadávam:"
+		},
+		"song": {
+			"play": "Prehrať",
+			"like": "Pridať do obľúbených",
+			"unlike": "Odobrať z obľúbených",
+			"download": "Stiahnuť"
+		}
+	},
+	"playlist": {
+		"liked_songs": "Obľúbené skladby",
+		"song_count": "jedna skladba | {count} skladieb",
+		"play": "Prehrať",
+		"play_shuffled": "Náhodne prehrať",
+		"delete": "Odstrániť zoznam",
+		"delete_confirmation": "Naozaj chcete odstrániť tento zoznam?",
+		"name_prompt": "Zadajte meno playlistu:"
+	},
+	"list": {
+		"page": "Strana {current}/{total}",
+		"next_page": "Ďalšia",
+		"prev_page": "Predchádzajúca"
+	},
+	"queue": {
+		"title": "Poradie"
+	},
+	"song_menu": {
+		"play_next": "Prehrať ako ďalšie",
+		"add_to_queue": "Pridať do poradia",
+		"add_to_playlist": "Pridať do zoznamu",
+		"no_playlists": "Žiadne zoznamy",
+		"download": "Stiahnuť skladbu",
+		"like": "Pridať do obľúbených",
+		"unlike": "Odobrať z obľúbených",
+		"remove_from_list": "Odstrániť z tohto zoznamu"
+	}
+}

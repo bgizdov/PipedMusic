@@ -1,3 +1,5 @@
+import { generateLocales } from "./src/frontend/Locales";
+
 let meta = {
 	name: "PipedMusic",
 	title: "PipedMusic - Free Music",
@@ -16,12 +18,10 @@ export default defineNuxtConfig({
 	modules: ["nuxt-icon", "@nuxtjs/i18n"],
 	components: ["./components", "./components/buttons"],
 	i18n: {
-		locales: [
-			{code: "en", file: "en-US.json"}
-		],
+		locales: generateLocales(),
 		lazy: true,
 		langDir: 'lang',
-		defaultLocale: 'en',
+		defaultLocale: 'en-US',
 		strategy: 'no_prefix'
 	},
 	app: {

@@ -1,0 +1,60 @@
+{
+	"page": {
+		"home": {
+			"title": "Piped Music",
+			"description": "Cliente de música libre y de código abierto",
+			"add_playlist": "Nueva lista"
+		},
+		"settings": {
+			"title": "Configuración",
+			"description": "Configura su cliente Piped Music",
+			"data": {
+				"title": "Datos de la aplicación",
+				"export": "Exportar datos",
+				"import": "Importar datos",
+				"import_warning": "¡Va a reemplazar TODOS SUS DATOS con la copia de seguridad que subió! ¿Está seguro?",
+				"import_wrong_file": "¡Este archivo no es una copia de seguridad válida de Piped Music!"
+			},
+			"language": "Idioma"
+		},
+		"search": {
+			"title": "Buscar",
+			"description": "¡Escriba lo que quiere buscar!",
+			"placeholder": "Buscar...",
+			"searching_for": "Buscando:"
+		},
+		"song": {
+			"play": "Reproducir",
+			"like": "Me gusta",
+			"unlike": "Ya no me gusta",
+			"download": "Descargar"
+		}
+	},
+	"playlist": {
+		"liked_songs": "Canciones que me gustan",
+		"song_count": "una canción | {count} canciones",
+		"play": "Reproducir",
+		"play_shuffled": "Aleatorio",
+		"delete": "Eliminar lista de reproducción",
+		"delete_confirmation": "¿Está seguro/a de que quiere eliminar esta lista de reproducción?",
+		"name_prompt": "Ingresa un nombre de la lista:"
+	},
+	"list": {
+		"page": "Página {current}/{total}",
+		"next_page": "Siguiente",
+		"prev_page": "Anterior"
+	},
+	"queue": {
+		"title": "Cola"
+	},
+	"song_menu": {
+		"play_next": "Reproducir a continuación",
+		"add_to_queue": "Añadir a la cola",
+		"add_to_playlist": "Añadir a lista de reproducción",
+		"no_playlists": "Sin listas de reproducción",
+		"download": "Descargar canción",
+		"like": "Me gusta",
+		"unlike": "Ya no me gusta",
+		"remove_from_list": "Quitar de esta lista"
+	}
+}

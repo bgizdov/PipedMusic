@@ -1,0 +1,60 @@
+{
+	"page": {
+		"home": {
+			"title": "Piped Music",
+			"description": "Svobodný hudební klient s otevřeným zdrojovým kódem",
+			"add_playlist": "Nový playlist"
+		},
+		"settings": {
+			"title": "Nastavení",
+			"description": "Nakonfigurujte svého Piped Music klienta",
+			"data": {
+				"title": "Data aplikace",
+				"export": "Exportovat data",
+				"import": "Importovat data",
+				"import_warning": "Chystáte se nahradit VŠECHNA VAŠE DATA zálohou, kterou jste nahráli! Jste si jistí?",
+				"import_wrong_file": "Tento soubor není platná Piped Music záloha!"
+			},
+			"language": "Jazyk"
+		},
+		"search": {
+			"title": "Vyhledávání",
+			"description": "Zadejte, co chcete vyhledat!",
+			"placeholder": "Vyhledat...",
+			"searching_for": "Vyhledávám:"
+		},
+		"song": {
+			"play": "Přehrát",
+			"like": "Přidat do oblíbených",
+			"unlike": "Odebrat z oblíbených",
+			"download": "Stáhnout"
+		}
+	},
+	"playlist": {
+		"liked_songs": "Oblíbené skladby",
+		"song_count": "jedna skladba | {count} skladeb",
+		"play": "Přehrát",
+		"play_shuffled": "Náhodné přehrávání",
+		"delete": "Smazat playlist",
+		"delete_confirmation": "Opravdu chcete smazat tento playlist?",
+		"name_prompt": "Zadejte jméno playlistu:"
+	},
+	"list": {
+		"page": "Strana {current}/{total}",
+		"next_page": "Další",
+		"prev_page": "Předchozí"
+	},
+	"queue": {
+		"title": "Fronta"
+	},
+	"song_menu": {
+		"play_next": "Přehrát jako další",
+		"add_to_queue": "Přidat do fronty",
+		"add_to_playlist": "Přidat do playlistu",
+		"no_playlists": "Žádné playlisty",
+		"download": "Stáhnout skladbu",
+		"like": "Přidat do oblíbených",
+		"unlike": "Odebrat z oblíbených",
+		"remove_from_list": "Odstranit z tohoto seznamu"
+	}
+}

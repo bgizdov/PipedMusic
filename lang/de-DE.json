@@ -1,0 +1,60 @@
+{
+	"page": {
+		"home": {
+			"title": "Piped Music",
+			"description": "Freier und Open-Source-Musikclient",
+			"add_playlist": "Neue Playlist"
+		},
+		"settings": {
+			"title": "Einstellungen",
+			"description": "Konfigurieren Sie Ihren Piped Music-Client",
+			"data": {
+				"title": "Anwendungsdaten",
+				"export": "Daten exportieren",
+				"import": "Daten importieren",
+				"import_warning": "Sie werden ALLE IHRE DATEN durch das von Ihnen hochgeladene Backup ersetzen! Sind Sie sicher?",
+				"import_wrong_file": "Diese Datei ist kein gültiges Piped Music-Backup!"
+			},
+			"language": "Sprache"
+		},
+		"search": {
+			"title": "Suche",
+			"description": "Geben Sie ein, wonach Sie suchen möchten!",
+			"placeholder": "Suchen...",
+			"searching_for": "Suche nach:"
+		},
+		"song": {
+			"play": "Abspielen",
+			"like": "Liken",
+			"unlike": "Unliken",
+			"download": "Herunterladen"
+		}
+	},
+	"playlist": {
+		"liked_songs": "Lieblingstitel",
+		"song_count": "ein Titel | {count} Titel",
+		"play": "Abspielen",
+		"play_shuffled": "Zufallsmix abspielen",
+		"delete": "Playlist löschen",
+		"delete_confirmation": "Möchten Sie diese Playlist wirklich löschen?",
+		"name_prompt": "Geben Sie einen Namen der Playlist ein:"
+	},
+	"list": {
+		"page": "Seite {current}/{total}",
+		"next_page": "Nächste",
+		"prev_page": "Vorherige"
+	},
+	"queue": {
+		"title": "Wiedergabeliste"
+	},
+	"song_menu": {
+		"play_next": "Als Nächstes abspielen",
+		"add_to_queue": "Zu Wiedergabeliste hinzufügen",
+		"add_to_playlist": "Zu Playlist hinzufügen",
+		"no_playlists": "keine Playlists",
+		"download": "Song herunterladen",
+		"like": "Liken",
+		"unlike": "Unliken",
+		"remove_from_list": "Aus dieser Liste entfernen"
+	}
+}
