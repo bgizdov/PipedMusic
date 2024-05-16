@@ -86,9 +86,10 @@
 <script lang="ts" setup>
 
 import { player, queue, shared } from "~/src/frontend/App";
-import type { Player, PlayerState } from "~/src/frontend/Player";
+import type { PlayerState } from "~/src/frontend/Player";
 import { formatTime } from "~/src/frontend/Misc";
 import type { ComboObject } from "~/src/types";
+import type { QueuePlayer } from "~/src/ui/QueuePlayer";
 
 let wrapper = ref<HTMLElement | null>(null);
 
@@ -113,7 +114,7 @@ function togglePlayer() {
 	shared.player = !shared.player;
 }
 
-function registerPlayer(player: Player) {
+function registerPlayer(player: QueuePlayer) {
 	let p = player.el;
 	p.addEventListener("durationchange", () => state.duration = p.duration);
 	p.addEventListener("timeupdate", () => state.position = p.currentTime);
@@ -121,7 +122,7 @@ function registerPlayer(player: Player) {
 	p.addEventListener("pause", () => state.playing = !p.paused);
 	p.addEventListener("loadstart", () => state.song = player.playing);
 	p.addEventListener("error", () => player.restart());
-	p.addEventListener("ended", () => queue.next());
+	p.addEventListener("ended", () => player.next());
 	p.addEventListener("loadstart", () => state.loading = true);
 	p.addEventListener("loadeddata", () => state.loading = false);
 }

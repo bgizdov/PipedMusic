@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 
-import { queue } from '~/src/frontend/App';
+import { player, queue } from '~/src/frontend/App';
 import type { ISong } from '~/src/frontend/Database';
 import { shuffle } from '~/src/frontend/Misc';
 import { PlaylistUI } from '~/src/ui/PlaylistUI';
@@ -39,7 +39,7 @@ async function playInQueue(items: ISong[]) {
 	await queue.clear();
 	queue.items = items.map(item => item.id);
 	queue.invalidate();
-	await queue.play(0);
+	await player.playIndex(0);
 }
 
 async function playShuffled() {
@@ -58,7 +58,7 @@ async function deletePlaylist() {
 		await props.list.delete();
 		navigateTo("/");
 	}
-}	
+}
 
 interface Props {
 	list: PlaylistUI

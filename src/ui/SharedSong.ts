@@ -1,6 +1,6 @@
 import type { RichVideo } from "../types";
 import { PlaylistUI } from "./PlaylistUI";
-import { api, queue } from "../frontend/App";
+import { api, player } from "../frontend/App";
 import { db } from "../frontend/Database";
 
 export class SharedSong {
@@ -56,9 +56,7 @@ export class SharedSong {
 	}
 
 	public async play() {
-		await queue.clear();
-		await queue.add(this.video.id);
-		await queue.play(0);
+		await player.replaceAndPlay(this);
 	}
 
 	public async download() {

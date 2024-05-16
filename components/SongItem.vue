@@ -35,7 +35,7 @@
 
 <script lang="ts" setup>
 
-import { queue, shared, songMenu } from '~/src/frontend/App';
+import { player, shared, songMenu } from '~/src/frontend/App';
 import { formatTime } from '~/src/frontend/Misc';
 import { List } from '~/src/lists/List';
 import { Queue } from '~/src/ui/Queue';
@@ -47,16 +47,16 @@ let song = ref<SharedSong | null>(null);
 let props = defineProps<Props>();
 
 let isPlaying = computed(() => {
-	if (!song.value || queue.playing == null) return false;
+	if (!song.value || player.playing == null) return false;
 	if (props.list instanceof Queue && props.index !== undefined) {
-		return queue.playing == props.index;
+		return player.playingIndex == props.index;
 	}
-	return song.value.video.id == queue.playing_id;
+	return song.value.video.id == player.playing.video.id;
 });
 
 function playSong(song: SharedSong) {
 	if (props.list instanceof Queue && props.index !== undefined) {
-		queue.play(props.index);
+		player.playIndex(props.index);
 	} else {
 		song.play();
 	}

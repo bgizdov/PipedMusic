@@ -1,13 +1,15 @@
 import { API } from "./API"
-import { Player } from "./Player";
 import { SongMenu } from "../ui/SongMenu";
 import { migrate } from "./Migration";
 import { Queue } from "../ui/Queue";
+import { QueuePlayer } from "../ui/QueuePlayer";
 
-export let player = new Player();
 export let api = new API();
 
-export let queue = reactive(new Queue(player));
+export let queue = reactive(new Queue);
+export let player = reactive(new QueuePlayer(queue));
+
+player.hookMediaSession();
 
 migrate();
 

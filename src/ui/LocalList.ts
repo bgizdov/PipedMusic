@@ -4,7 +4,7 @@ import { List } from "../lists/List";
 
 export class LocalList extends List<ISong> implements DisplayableList<ISong> {
 
-	private displays: DisplayedList<ISong>[] = [];
+	public displays: DisplayedList<ISong>[] = [];
 
 	public items: string[] = [];
 

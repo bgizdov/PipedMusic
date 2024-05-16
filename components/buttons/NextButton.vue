@@ -1,11 +1,11 @@
 <template>
-	<button class="btn-next" @click="queue.next();">
+	<button class="btn-next" @click="player.next();">
 		<Icon name="mdi:skip-next" />
 	</button>
 </template>
 
 <script setup lang="ts">
 
-import { queue } from '~/src/frontend/App';
+import { player } from '~/src/frontend/App';
 
 </script>

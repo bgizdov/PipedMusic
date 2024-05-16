@@ -6,7 +6,7 @@ export class SongMenu {
 
 	song: null | SharedSong = null;
 	list: null | List<ISong> = null;
-	
+
 	position: null | SongMenuPosition = null;
 
 	state: SongMenuState = {

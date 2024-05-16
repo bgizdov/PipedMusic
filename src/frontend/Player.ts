@@ -1,17 +1,16 @@
 import type { SharedSong } from "../ui/SharedSong";
 
 export class Player {
-	
+
 	public el: HTMLAudioElement;
-	
+
 	public playing: SharedSong | null = null;
 
-	private retryCount = 0;
+	public retryCount = 0;
 
 	public constructor() {
 		this.el = document.createElement("audio");
 		this.el.volume = this.getSavedVolume();
-		this.hookMediaSession();
 	}
 
 	public setPlaying(song: SharedSong) {
@@ -52,7 +51,7 @@ export class Player {
 		localStorage.setItem("volume", volume.toString());
 	}
 
-	private getSavedVolume() {
+	public getSavedVolume() {
 		let volumeString = localStorage.getItem("volume");
 		if (volumeString == null) return 1;
 		let volume = Number.parseFloat(volumeString);
@@ -81,7 +80,7 @@ export class Player {
 		});
 	}
 
-	private hookMediaSession() {
+	public hookMediaSession() {
 		if (navigator.mediaSession) {
 			this.el.addEventListener("durationchange", () => this.setPositionState());
 			this.el.addEventListener("timeupdate", () => this.setPositionState());
@@ -99,7 +98,7 @@ export class Player {
 		}
 	}
 
-	private setPositionState() {
+	public setPositionState() {
 		if (!Number.isFinite(this.el.duration)) return;
 		navigator.mediaSession.setPositionState({
 			duration: this.el.duration,
