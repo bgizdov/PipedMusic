@@ -9,7 +9,7 @@
 				</div>
 				<div class="grid">
 					<div class="player">
-						<img :src="state.song.video.thumbnail" @click="player.playPause()" />
+						<img :src="state.song.video.thumbnails.large" @click="player.playPause()" />
 						<div class="mobile">
 							<h2>
 								{{ state.song.video.title }}

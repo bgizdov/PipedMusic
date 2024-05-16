@@ -1,4 +1,4 @@
-import type { RichVideo, Video } from "../types";
+import type { RichVideo, Thumbnails, Video } from "../types";
 
 export class API implements APIInterface {
 
@@ -9,9 +9,9 @@ export class API implements APIInterface {
 	public async getRichVideo(id: string): Promise<RichVideo | null> {
 		let video = await this.getVideo(id);
 		let stream = await this.getStream(id);
-		let thumbnail = await this.getThumbnail(id);
-		if (!video || !stream || !thumbnail) return null;
-		return {...video, thumbnail, stream};
+		let thumbnails = await this.getThumbnails(id);
+		if (!video || !stream || !thumbnails) return null;
+		return {...video, thumbnails, stream};
 	}
 
 	public async getStream(id: string): Promise<string | null> {
@@ -22,8 +22,11 @@ export class API implements APIInterface {
 		return `/api/song/${id}/dl`;
 	}
 
-	public async getThumbnail(id: string): Promise<string | null> {
-		return `/api/song/${id}/thumbnail`;
+	public async getThumbnails(id: string): Promise<Thumbnails | null> {
+		return {
+			small: `/api/song/${id}/thumbnail`,
+			large: `/api/song/${id}/image`
+		};
 	}
 
 	public async getSearch(q: string): Promise<string[]> {
@@ -42,7 +45,7 @@ export interface APIInterface {
 	getRichVideo(id: string): Promise<RichVideo | null>;
 	getStream(id: string): Promise<string | null>;
 	getDownloadLink(id: string): Promise<string | null>;
-	getThumbnail(id: string): Promise<string | null>;
+	getThumbnails(id: string): Promise<Thumbnails | null>;
 	getSearch(q: string): Promise<string[]>;
 	getSearchSuggestions(q: string): Promise<string[]>;
 

@@ -7,7 +7,7 @@
 			<div v-else class="hover">
 				<Icon name="mdi:play" />
 			</div>
-			<img loading="lazy" :src="song.video.thumbnail">
+			<img loading="lazy" :src="song.video.thumbnails.small">
 		</div>
 		<NuxtLink :to="'/song/' + song.video.id" @click="shared.player = false;">
 			<div>

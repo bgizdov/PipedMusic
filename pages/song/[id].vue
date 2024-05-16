@@ -2,7 +2,7 @@
 	<section class="song-page">
 		<div class="inner" v-if="song">
 
-			<img :src="song.video.thumbnail">
+			<img :src="song.video.thumbnails.large">
 
 			<div class="text-block">
 				<h1>{{ song.video.title }}</h1>

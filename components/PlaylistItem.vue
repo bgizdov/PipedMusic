@@ -25,8 +25,8 @@ if (list) {
 	let songs = await list.list(4);
 	data.thumbnails = [];
 	songs.forEach(async s => {
-		let t = await api.getThumbnail(s.id);
-		if (t) data.thumbnails.push(t);
+		let t = await api.getThumbnails(s.id);
+		if (t) data.thumbnails.push(t.small);
 	});
 	data.link = `/playlist/${list.id}`;
 }

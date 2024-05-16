@@ -1,7 +1,7 @@
 <template>
 	<div class="song-details">
 		<div class="image">
-			<img loading="lazy" :src="video.thumbnail">
+			<img loading="lazy" :src="video.thumbnails.small">
 		</div>
 		<div>
 			<div>
@@ -18,7 +18,7 @@
 
 import type { ShallowReactive } from 'vue';
 import type { RichVideo } from '~/src/types';
-	
+
 let { video } = defineProps<Props>();
 
 interface Props {

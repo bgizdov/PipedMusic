@@ -75,7 +75,8 @@ export class Player {
 			artist: this.playing.video.author,
 			album: "",
 			artwork: [
-				{src: this.playing.video.thumbnail}
+				{src: this.playing.video.thumbnails.large},
+				{src: this.playing.video.thumbnails.small}
 			]
 		});
 	}

@@ -5,7 +5,7 @@ import { Parser } from "./parser";
 import type { FormatOptions } from "youtubei.js/dist/src/types";
 import type { TrackInfo } from "youtubei.js/dist/src/parser/ytmusic";
 import type { Range } from "youtubei.js/dist/src/utils/StreamingInfo";
-import type { Format } from "youtubei.js/dist/src/parser/misc";
+import type { Format, Thumbnail } from "youtubei.js/dist/src/parser/misc";
 
 class Backend {
 
@@ -17,7 +17,7 @@ class Backend {
 	readonly format: FormatOptions = {
 		type: 'audio', // audio, video or video+audio
 		quality: 'best', // best, bestefficiency, 144p, 240p, 480p, 720p and so on.
-		format: 'mp4' // media container format 
+		format: 'mp4' // media container format
 	};
 
 	private cache = new BackendCache();
@@ -48,9 +48,9 @@ class Backend {
 		};
 	}
 
-	public async getThumbnail(id: string) {
+	public async getThumbnail(id: string, height: number = 192) {
 		let info = await this.fetchTrackInfo(id);
-		let thumbnail = (info.basic_info.thumbnail ?? []).map(t => t.url)[0] ?? null;
+		let thumbnail = this.selectClosestThumbnail(info.basic_info.thumbnail ?? null, height);
 		return thumbnail ? $fetch(thumbnail) : null;
 	}
 
@@ -133,6 +133,14 @@ class Backend {
 
 	private convertFilename(filename: string) {
 		return filename.replace(/[^\w\d\-._~\s]/g, "");
+	}
+
+	private selectClosestThumbnail(thumbnails: Thumbnail[] | null, height: number) {
+		if (!thumbnails || !thumbnails.length) return null;
+		const differences = thumbnails.map(t => Math.abs(t.height - height));
+		const minDifference = Math.min(...differences);
+		const index = differences.indexOf(minDifference);
+		return thumbnails[index].url;
 	}
 
 }
