@@ -1,7 +1,7 @@
 export default defineI18nConfig(() => {
 	return {
-		locale: "en",
-		fallbackLocale: 'en',
+		locale: "en-US",
+		fallbackLocale: 'en-US',
 		legacy: false
 	};
 });
