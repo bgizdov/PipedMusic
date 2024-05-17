@@ -6,8 +6,13 @@ export interface Video {
 }
 
 export interface RichVideo extends Video {
-	thumbnail: string,
+	thumbnails: Thumbnails,
 	stream: string
+}
+
+export interface Thumbnails {
+	small: string,
+	large: string
 }
 
 export interface ComboObject {
