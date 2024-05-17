@@ -11,6 +11,7 @@ export class Player {
 	public constructor() {
 		this.el = document.createElement("audio");
 		this.el.volume = this.getSavedVolume();
+		this.hookMediaSession();
 	}
 
 	public setPlaying(song: SharedSong) {

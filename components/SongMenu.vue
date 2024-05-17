@@ -19,11 +19,11 @@
 				<div class="header">
 					<SongDetails :video="songMenu.song.video" />
 				</div>
-				<div class="item" @click="player.addNext(songMenu.song.video.id); songMenu.close();">
+				<div class="item" @click="queue.addNext(songMenu.song.video.id); songMenu.close();">
 					<Icon name="mdi:playlist-play" />
 					<div>{{ $t("song_menu.play_next") }}</div>
 				</div>
-				<div class="item" @click="player.add(songMenu.song.video.id); songMenu.close();">
+				<div class="item" @click="queue.add(songMenu.song.video.id); songMenu.close();">
 					<Icon name="mdi:playlist-music" />
 					<div>{{ $t("song_menu.add_to_queue") }}</div>
 				</div>
@@ -58,7 +58,7 @@
 <script setup lang="ts">
 
 import type { StyleValue } from 'vue';
-import { player, songMenu } from '~/src/frontend/App';
+import { queue, songMenu } from '~/src/frontend/App';
 import type { IPlaylist } from '~/src/frontend/Database';
 import { PlaylistUI } from '~/src/ui/PlaylistUI';
 import { type SongMenuPosition } from '~/src/ui/SongMenu';

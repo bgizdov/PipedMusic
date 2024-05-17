@@ -39,7 +39,7 @@ async function playInQueue(items: ISong[]) {
 	await queue.clear();
 	queue.items = items.map(item => item.id);
 	queue.invalidate();
-	await player.playIndex(0);
+	await queue.playIndex(0);
 }
 
 async function playShuffled() {

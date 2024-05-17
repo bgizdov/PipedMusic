@@ -1,11 +1,11 @@
 <template>
-	<button class="btn-prev" @click="player.previous();">
+	<button class="btn-prev" @click="queue.previous();">
 		<Icon name="mdi:skip-previous" />
 	</button>
 </template>
 
 <script setup lang="ts">
 
-import { player } from '~/src/frontend/App';
+import { queue } from '~/src/frontend/App';
 
 </script>
