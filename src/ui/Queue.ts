@@ -52,14 +52,14 @@ export class Queue extends LocalList {
 	public async add(id: string) {
 		let index = await this.size();
 		await super.add(id);
-		if (this.playingIndex === null) await this.playIndex(index);
+		if (this.playingIndex == -1) await this.playIndex(index);
 	}
 
 	public async addNext(id: string) {
 		let index = this.playingIndex + 1;
 		this.items.splice(index, 0, id);
 		this.invalidate();
-		if (this.playingIndex === null) await this.playIndex(index);
+		if (this.playingIndex == -1) await this.playIndex(index);
 	}
 
 	public hookPlayer() {
