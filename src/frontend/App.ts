@@ -9,6 +9,9 @@ export let api = new API();
 export let player = new Player();
 export let queue = reactive(new Queue(player));
 
+queue.hookPlayer();
+queue.hookMediaSession();
+
 migrate();
 
 export let shared = reactive<SharedData>({

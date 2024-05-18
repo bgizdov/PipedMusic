@@ -10,8 +10,6 @@ export class Queue extends LocalList {
 	constructor(player: Player) {
 		super();
 		this.player = player;
-		this.hookPlayer();
-		this.hookMediaSession();
 	}
 
 	public async replaceAndPlay(song: SharedSong) {
