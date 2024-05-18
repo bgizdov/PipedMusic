@@ -1,5 +1,5 @@
 <template>
-	<div v-if="song" class="song-details song-item" @contextmenu.prevent="popup($event, song);">
+	<div v-if="song" class="song-details song-item" @contextmenu.prevent="popup($event, song, props.index);">
 		<div class="image" @click="playSong(song)">
 			<div v-if="isPlaying" class="playing">
 				<Icon name="mdi:volume" />
@@ -62,8 +62,8 @@ function playSong(song: SharedSong) {
 	}
 }
 
-function popup(event: MouseEvent, song: SharedSong) {
-	songMenu.open(event, song, props.list);
+function popup(event: MouseEvent, song: SharedSong, index?: number) {
+	songMenu.open(event, song, props.list, index);
 }
 
 onMounted(async () => {

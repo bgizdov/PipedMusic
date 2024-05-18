@@ -30,7 +30,11 @@ export class LocalList extends List<ISong> implements DisplayableList<ISong> {
 
 	async remove(id: string) {
 		let i = this.items.indexOf(id);
-		if (i != -1) this.items.splice(i, 1);
+		if (i != -1) this.removeIndex(i);
+	}
+
+	async removeIndex(index: number) {
+		this.items.splice(index, 1);
 		this.invalidate();
 	}
 

@@ -5,7 +5,7 @@ import { SharedSong } from "./SharedSong";
 export class Queue extends LocalList {
 
 	public player: Player;
-	public playingIndex: number | null = null;
+	public playingIndex: number = -1;
 
 	constructor(player: Player) {
 		super();
@@ -22,7 +22,8 @@ export class Queue extends LocalList {
 
 	public async playIndex(index: number) {
 		this.playingIndex = index;
-		let song = await SharedSong.get(this.items[this.playingIndex]);
+		let id = this.items[index];
+		let song = id ? await SharedSong.get(id) : null;
 		if (!song) return;
 		this.player.setPlaying(song);
 		this.player.play();
@@ -42,7 +43,6 @@ export class Queue extends LocalList {
 	}
 
 	public async relativeIndex(move: number) {
-		if (this.playingIndex === null) return 0;
 		if (move > 0) {
 			const last = (await this.size()) - 1;
 			return Math.min(this.playingIndex + move, last);
@@ -58,7 +58,7 @@ export class Queue extends LocalList {
 	}
 
 	public async addNext(id: string) {
-		let index = this.playingIndex !== null ? this.playingIndex + 1 : 0;
+		let index = this.playingIndex + 1;
 		this.items.splice(index, 0, id);
 		this.invalidate();
 		if (this.playingIndex === null) await this.playIndex(index);
@@ -72,6 +72,17 @@ export class Queue extends LocalList {
 		if (navigator.mediaSession) {
 			navigator.mediaSession.setActionHandler("nexttrack", async () => await this.next());
 			navigator.mediaSession.setActionHandler("previoustrack", async () => await this.previous());
+		}
+	}
+
+	public async removeIndex(index: number) {
+		if (index < this.playingIndex) {
+			this.playingIndex--;
+		}
+		if (await this.size() <= 1) return;
+		super.removeIndex(index);
+		if (index == this.playingIndex) {
+			this.playIndex(index);
 		}
 	}
 

@@ -60,6 +60,7 @@
 import type { StyleValue } from 'vue';
 import { queue, songMenu } from '~/src/frontend/App';
 import type { IPlaylist } from '~/src/frontend/Database';
+import { LocalList } from '~/src/ui/LocalList';
 import { PlaylistUI } from '~/src/ui/PlaylistUI';
 import { type SongMenuPosition } from '~/src/ui/SongMenu';
 
@@ -77,6 +78,8 @@ function playlistRemove() {
 	if (!songMenu.list || !songMenu.song) return;
 	if (songMenu.list instanceof PlaylistUI) {
 		songMenu.song.playlistRemove(songMenu.list.id);
+	} if (songMenu.list instanceof LocalList && songMenu.songIndex) {
+		songMenu.list.removeIndex(songMenu.songIndex);
 	} else {
 		songMenu.list.remove(songMenu.song.video.id);
 	}

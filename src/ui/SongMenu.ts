@@ -5,6 +5,7 @@ import type { List } from "../lists/List";
 export class SongMenu {
 
 	song: null | SharedSong = null;
+	songIndex: null | number = null;
 	list: null | List<ISong> = null;
 
 	position: null | SongMenuPosition = null;
@@ -22,6 +23,7 @@ export class SongMenu {
 	reset() {
 		this.list = null;
 		this.song = null;
+		this.songIndex = null;
 		this.position = null;
 		this.state.page = null;
 	}
@@ -47,9 +49,10 @@ export class SongMenu {
 		return pos;
 	}
 
-	open(event: MouseEvent, song: SharedSong, list?: List<ISong>) {
+	open(event: MouseEvent, song: SharedSong, list?: List<ISong>, index: number | null = null) {
 		this.state.visible = !this.state.visible;
 		this.song = song;
+		this.songIndex = index;
 		this.list = list ?? null;
 		this.position = this.getPosition(event.x, event.y);
 		this.state.hidable = false;
