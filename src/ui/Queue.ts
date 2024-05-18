@@ -7,6 +7,8 @@ export class Queue extends LocalList {
 	public player: Player;
 	public playingIndex: number = -1;
 
+	public loop: QueueLoopType = "none";
+
 	constructor(player: Player) {
 		super();
 		this.player = player;
@@ -28,12 +30,22 @@ export class Queue extends LocalList {
 	}
 
 	public async songEnd() {
-		// TODO: add loop options
-		await this.next();
+		const actionMap = {
+			one: async () => await this.playIndex(this.playingIndex),
+			playlist: async () => await this.next(),
+			none: async () => await this.nextIfAny(),
+		};
+		await actionMap[this.loop]();
 	}
 
 	public async next() {
 		await this.playIndex(await this.relativeIndex(+1));
+	}
+
+	public async nextIfAny() {
+		if (this.playingIndex < (await this.size() - 1)) {
+			await this.next();
+		}
 	}
 
 	public async previous() {
@@ -41,12 +53,8 @@ export class Queue extends LocalList {
 	}
 
 	public async relativeIndex(move: number) {
-		if (move > 0) {
-			const last = (await this.size()) - 1;
-			return Math.min(this.playingIndex + move, last);
-		} else {
-			return Math.max(this.playingIndex + move, 0);
-		}
+		const size = await this.size();
+		return (((this.playingIndex + move) % size) + size) % size;
 	}
 
 	public async add(id: string) {
@@ -84,4 +92,12 @@ export class Queue extends LocalList {
 		}
 	}
 
+	public cycleLoop() {
+		const loopModes: QueueLoopType[] = ["none", "one", "playlist"];
+		const currentModeIndex = loopModes.indexOf(this.loop);
+		this.loop = loopModes[(currentModeIndex + 1) % loopModes.length];
+	}
+
 }
+
+type QueueLoopType = "none" | "one" | "playlist";
