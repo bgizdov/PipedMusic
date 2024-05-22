@@ -6,7 +6,7 @@ import { Player } from "./Player";
 
 export let api = new API();
 
-export let player = new Player();
+export let player = reactive(new Player());
 export let queue = reactive(new Queue(player));
 
 queue.hookPlayer();
