@@ -1,4 +1,4 @@
-import Innertube, { Constants, UniversalCache } from "youtubei.js";
+import Innertube, { UniversalCache } from "youtubei.js";
 import { BackendCache } from "./cache";
 import type { Video } from "../types";
 import { Parser } from "./parser";

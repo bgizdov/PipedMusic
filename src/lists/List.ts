@@ -16,7 +16,7 @@ export abstract class List<T> {
 	}
 
 	abstract add(id: string): Promise<void>;
-	
+
 	abstract remove(id: string): Promise<void>;
 
 	abstract get(index: number): Promise<T | undefined>;

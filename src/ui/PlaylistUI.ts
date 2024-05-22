@@ -6,7 +6,7 @@ import { SharedSong } from "./SharedSong";
 export class PlaylistUI extends Playlist implements DisplayableList<ISong> {
 
 	public static map: {[U: string]: PlaylistUI} = {};
-	
+
 	public meta: PlaylistMeta;
 
 	private displays: DisplayedList<ISong>[] = [];
@@ -21,7 +21,7 @@ export class PlaylistUI extends Playlist implements DisplayableList<ISong> {
 	}
 
 	static async get(id: string) {
-		if (this.map[id]) return this.map[id]; 
+		if (this.map[id]) return this.map[id];
 		let list = new PlaylistUI(id);
 		if (await list.updateMeta()) {
 			this.map[id] = list;

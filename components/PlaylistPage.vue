@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 
-import { player, queue } from '~/src/frontend/App';
+import { queue } from '~/src/frontend/App';
 import type { ISong } from '~/src/frontend/Database';
 import { shuffle } from '~/src/frontend/Misc';
 import { PlaylistUI } from '~/src/ui/PlaylistUI';
