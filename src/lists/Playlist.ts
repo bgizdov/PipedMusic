@@ -27,7 +27,7 @@ export class Playlist extends List<ISong> {
 
 	async info(): Promise<IPlaylist | null> {
 		if (this.id == "liked") {
-			return {id: this.id, name: useI18n().t("playlist.liked_songs")};
+			return {id: this.id, name: "Liked"};
 		} else {
 			return await db.playlists.where({id: this.id}).first() ?? null;
 		}

@@ -3,7 +3,7 @@
 		<div class="img">
 			<img :src="img" v-for="img in data.thumbnails" />
 		</div>
-		<h4>{{ list.meta.name }}</h4>
+		<h4><PlaylistName :list="list" /></h4>
 		<p>{{ $t("playlist.song_count", {count: list.meta.size}) }}</p>
 	</NuxtLink>
 </template>

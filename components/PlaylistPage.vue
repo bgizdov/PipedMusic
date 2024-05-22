@@ -2,7 +2,7 @@
 	<section class="playlist-page">
 		<div class="inner">
 			<div class="text-block" v-if="list.meta">
-				<h1>{{ list.meta.name }}</h1>
+				<h1><PlaylistName :list="list" /></h1>
 				<p>{{ $t("playlist.song_count", {count: list.meta.size}) }}</p>
 			</div>
 			<div class="btn-row">
