@@ -19,7 +19,7 @@
 			<div class="inner">
 
 				<div class="song-list">
-					<SongItem :id="id" v-for="id in data.results" />
+					<SongItemLoader :song="id" v-for="id in data.results" />
 				</div>
 
 			</div>
