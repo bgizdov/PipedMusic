@@ -7,7 +7,7 @@
 			<button class="btn" @click="display.prev(list);">{{ $t("list.prev_page") }}</button>
 			<button class="btn" @click="display.next(list);">{{ $t("list.next_page") }}</button>
 		</div>
-		<SongItem :key="`${item.id}-${index(i)}`" :id="item.id" :index="index(i)" :list="list" v-for="item, i in display.items" />
+		<SongItemLoader :key="`${item.id}-${index(i)}`" :song="item.id" :index="index(i)" :list="list" v-for="item, i in display.items" />
 	</div>
 </template>
 

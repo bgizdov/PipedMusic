@@ -21,16 +21,6 @@
 			{{ formatTime(song.video.duration) }}
 		</div>
 	</div>
-	<div v-else class="song-details song-item">
-		<div class="image">
-			<Icon name="svg-spinners:180-ring" />
-		</div>
-		<div>
-			<div>
-				Loading...
-			</div>
-		</div>
-	</div>
 </template>
 
 <script lang="ts" setup>
@@ -42,16 +32,14 @@ import { Queue } from '~/src/ui/Queue';
 import type { ISong } from '~/src/frontend/Database';
 import { SharedSong } from '~/src/ui/SharedSong';
 
-let song = ref<SharedSong | null>(null);
-
 let props = defineProps<Props>();
 
 let isPlaying = computed(() => {
-	if (!song.value || player.playing == null) return false;
+	if (!props.song || player.playing == null) return false;
 	if (props.list instanceof Queue && props.index !== undefined) {
 		return queue.playingIndex == props.index;
 	}
-	return song.value.video.id == player.playing.video.id;
+	return props.song.video.id == player.playing.video.id;
 });
 
 function playSong(song: SharedSong) {
@@ -66,14 +54,8 @@ function popup(event: MouseEvent, song: SharedSong, index?: number) {
 	songMenu.open(event, song, props.list, index);
 }
 
-onMounted(async () => {
-	if (props.id) song.value = await SharedSong.get(props.id);
-	if (props.song) song.value = props.song;
-});
-
 interface Props {
-	song?: SharedSong,
-	id?: string,
+	song: SharedSong,
 	list?: List<ISong>,
 	index?: number
 }
