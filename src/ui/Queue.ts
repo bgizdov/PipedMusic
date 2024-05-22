@@ -82,12 +82,13 @@ export class Queue extends LocalList {
 	}
 
 	public async removeIndex(index: number) {
+		let removedPlaying = index == this.playingIndex;
 		if (index < this.playingIndex) {
 			this.playingIndex--;
 		}
 		if (await this.size() <= 1) return;
 		super.removeIndex(index);
-		if (index == this.playingIndex) {
+		if (removedPlaying) {
 			this.playIndex(index);
 		}
 	}
