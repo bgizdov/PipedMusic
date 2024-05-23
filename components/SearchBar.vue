@@ -1,15 +1,16 @@
 <template>
 	<div class="searchbar">
-		<input type="text" v-model="shared.search" @input="search" @focus="search" :placeholder="$t('page.search.placeholder')" list="suggestions">
+		<input type="text" v-model="search.data.query" @input="showSearchPage" @focus="showSearchPage" :placeholder="$t('page.search.placeholder')" list="suggestions">
 		<Icon name="mdi:search" />
 	</div>
 </template>
 
 <script lang="ts" setup>
 
+import { search } from '~/src/ui/Search';
 import { shared } from '~/src/ui/Shared';
 
-function search() {
+function showSearchPage() {
 	if (useRoute().path != '/search') {
 		useRouter().push('/search');
 	}
