@@ -1,6 +1,7 @@
 import type { RichVideo } from "../types";
 import { PlaylistUI } from "./PlaylistUI";
-import { api, queue } from "../frontend/App";
+import { queue } from "../frontend/App";
+import { api } from "../frontend/API";
 import { db } from "../frontend/Database";
 
 export class SharedSong {

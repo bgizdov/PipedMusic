@@ -1,14 +1,8 @@
 import { generateLocales } from "./src/frontend/Locales";
 
-let meta = {
-	name: "PipedMusic",
-	title: "PipedMusic - Free Music",
-	desc: "YouTube Music privacy-friendly alternative client"
-};
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-	ssr: false,
+	ssr: true,
 	devtools: {
 		enabled: false
 	},
@@ -24,28 +18,18 @@ export default defineNuxtConfig({
 		defaultLocale: 'en-US',
 		strategy: 'no_prefix'
 	},
+	routeRules: {
+		'/song/**': {ssr: true},
+		'/playlist/**': {ssr: false},
+		'/settings': {ssr: false}
+	},
 	app: {
 		head: {
-			title: meta.title,
 			meta: [
-				{name: "theme-color", content: "#870027"},
-				{name: "description", content: meta.desc},
-				{property: "og:site_name", content: meta.name},
-				{property: "og:title", content: meta.title},
-				{property: "og:description", content: meta.desc},
-				{property: "og:image", content: "/icon.png"},
-				{property: "twitter:site_name", content: meta.name},
-				{property: "twitter:title", content: meta.title},
-				{property: "twitter:description", content: meta.desc},
-				{property: "twitter:image", content: "/icon.png"},
-				{property: "twitter:card", content: "summary"},
-				{name: "author", content: "CodeSpace.cz"},
-				{name: "apple-mobile-web-app-title", content: meta.name},
-				{name: "application-name", content: meta.name}
+				{name: "apple-mobile-web-app-title", content: "Piped Music"},
+				{name: "application-name", content: "Piped Music"}
 			],
 			link: [
-				{rel: "icon", type: "image/x-icon", href: "/favicon.ico"},
-				{rel: "shortcut icon", type: "image/x-icon", href: "/favicon.ico"},
 				{rel: "manifest", href: "/site.webmanifest"}
 			]
 		}

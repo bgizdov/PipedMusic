@@ -11,8 +11,8 @@
   "devDependencies": {
     "@nuxtjs/i18n": "latest",
     "dexie": "^3.2.6",
-    "nuxt": "3.8.2",
-    "nuxt-icon": "^0.6.7",
+    "nuxt": "3.10",
+    "nuxt-icon": "^0.6.10",
     "vue": "^3.3.10",
     "vue-router": "^4.2.5",
     "youtubei.js": "^9"

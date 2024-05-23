@@ -19,7 +19,9 @@
 			<div class="inner">
 
 				<div class="song-list">
-					<SongItemLoader :song="id" v-for="id in data.results" />
+					<ClientOnly>
+						<SongItemLoader :song="id" v-for="id in data.results" />
+					</ClientOnly>
 				</div>
 
 			</div>
@@ -29,7 +31,15 @@
 
 <script lang="ts" setup>
 
-import { api, shared } from "~/src/frontend/App";
+import { api } from "~/src/frontend/API";
+import { genMeta } from "~/src/frontend/Meta";
+import { shared } from "~/src/ui/Shared";
+
+let { t } = useI18n();
+
+useHead(genMeta({
+	title: t("page.search.title")
+}));
 
 let data = reactive<Data>({
 	results: [],

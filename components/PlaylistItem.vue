@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 
-import { api } from '~/src/frontend/App';
+import { api } from '~/src/frontend/API';
 import { PlaylistUI } from '~/src/ui/PlaylistUI';
 
 let props = defineProps<Props>();

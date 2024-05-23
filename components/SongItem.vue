@@ -25,12 +25,13 @@
 
 <script lang="ts" setup>
 
-import { player, queue, shared, songMenu } from '~/src/frontend/App';
+import { player, queue, songMenu } from '~/src/frontend/App';
 import { formatTime } from '~/src/frontend/Misc';
 import { List } from '~/src/lists/List';
 import { Queue } from '~/src/ui/Queue';
 import type { ISong } from '~/src/frontend/Database';
 import { SharedSong } from '~/src/ui/SharedSong';
+import { shared } from '~/src/ui/Shared';
 
 let props = defineProps<Props>();
 

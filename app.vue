@@ -3,23 +3,15 @@
 
 		<Nav />
 
-		<SongMenu />
+		<ClientOnly>
+			<SongMenu />
+			<Player />
+		</ClientOnly>
 
 		<div class="content">
-
 			<NuxtPage />
-
 		</div>
 
-		<Player />
 
 	</div>
 </template>
-
-<script lang="ts" setup>
-
-useHead({
-	title: "Piped Music"
-});
-
-</script>

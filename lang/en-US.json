@@ -27,7 +27,10 @@
 			"play": "Play",
 			"like": "Like",
 			"unlike": "Unlike",
-			"download": "Download"
+			"download": "Download",
+			"meta": {
+				"description": "Listen to {title} by {author} on Piped Music"
+			}
 		}
 	},
 	"playlist": {
@@ -56,5 +59,8 @@
 		"like": "Like",
 		"unlike": "Unlike",
 		"remove_from_list": "Remove from this list"
+	},
+	"misc": {
+		"loading": "Loading..."
 	}
 }

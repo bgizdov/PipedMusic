@@ -12,7 +12,7 @@ let { list } = defineProps<Props>();
 
 const playlistName = computed(() => {
 	if (list && list.id == "liked") return t("playlist.liked_songs");
-	return list ? list.meta.name : "Unknown";
+	return list ? list.meta.name : null;
 });
 
 interface Props {

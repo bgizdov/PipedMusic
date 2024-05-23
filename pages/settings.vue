@@ -32,8 +32,12 @@
 import { db, type ExportedData } from "~/src/frontend/Database";
 import { PlaylistUI } from "~/src/ui/PlaylistUI";
 import { SharedSong } from "~/src/ui/SharedSong";
+import { genMeta } from "~/src/frontend/Meta";
 
 let { t } = useI18n();
+useHead(genMeta({
+	title: t("page.settings.title")
+}));
 
 async function dataExport() {
 	const data = await db.dataExport();

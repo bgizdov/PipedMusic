@@ -7,9 +7,7 @@
 			<Icon name="svg-spinners:180-ring" />
 		</div>
 		<div>
-			<div>
-				Loading...
-			</div>
+			<div>{{ $t("misc.loading") }}</div>
 		</div>
 	</div>
 </template>

@@ -50,3 +50,5 @@ export interface APIInterface {
 	getSearchSuggestions(q: string): Promise<string[]>;
 
 }
+
+export let api = new API();

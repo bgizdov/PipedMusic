@@ -19,6 +19,6 @@
 
 <script setup lang="ts">
 
-import { shared } from "~/src/frontend/App";
+import { shared } from "~/src/ui/Shared";
 
 </script>
