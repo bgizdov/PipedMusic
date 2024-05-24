@@ -56,5 +56,8 @@
 		"like": "Pridať do obľúbených",
 		"unlike": "Odobrať z obľúbených",
 		"remove_from_list": "Odstrániť z tohto zoznamu"
+	},
+	"misc": {
+		"loading": "Načíta sa..."
 	}
 }

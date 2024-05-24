@@ -56,5 +56,8 @@
 		"like": "Me gusta",
 		"unlike": "Ya no me gusta",
 		"remove_from_list": "Quitar de esta lista"
+	},
+	"misc": {
+		"loading": "Cargando..."
 	}
 }

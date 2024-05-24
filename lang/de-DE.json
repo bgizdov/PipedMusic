@@ -56,5 +56,8 @@
 		"like": "Liken",
 		"unlike": "Unliken",
 		"remove_from_list": "Aus dieser Liste entfernen"
+	},
+	"misc": {
+		"loading": "Lädt..."
 	}
 }
