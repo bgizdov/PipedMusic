@@ -59,5 +59,8 @@
 	},
 	"misc": {
 		"loading": "Lädt..."
+	},
+	"footer": {
+		"source": "Quellcode"
 	}
 }

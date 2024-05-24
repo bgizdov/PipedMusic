@@ -1,11 +1,11 @@
 <template>
 	<nav>
 		<div class="inner">
-			<NuxtLink to="/" @click="shared.player = false;">
+			<NuxtLink to="/" @click="shared.player_opened = false;">
 				<img class="logo" src="/logo.webp">
 			</NuxtLink>
 			<SearchBar />
-			<div class="btn-row btn-row-right" @click="shared.player = false;">
+			<div class="btn-row btn-row-right" @click="shared.player_opened = false;">
 				<NuxtLink to="/settings">
 					<Icon name="mdi:settings" />
 				</NuxtLink>

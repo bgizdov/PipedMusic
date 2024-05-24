@@ -59,5 +59,8 @@
 	},
 	"misc": {
 		"loading": "Načítá se..."
+	},
+	"footer": {
+		"source": "Zdroj"
 	}
 }

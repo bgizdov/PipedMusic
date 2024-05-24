@@ -14,7 +14,7 @@ function showSearchPage() {
 	if (useRoute().path != '/search') {
 		useRouter().push('/search');
 	}
-	shared.player = false;
+	shared.player_opened = false;
 }
 
 </script>

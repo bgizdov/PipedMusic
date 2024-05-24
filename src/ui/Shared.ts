@@ -1,7 +1,9 @@
 export let shared = reactive<SharedData>({
-	player: false
+	player_visible: false,
+	player_opened: false
 });
 
 interface SharedData {
-	player: boolean
+	player_visible: boolean,
+	player_opened: boolean
 }

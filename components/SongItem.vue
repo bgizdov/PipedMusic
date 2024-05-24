@@ -9,7 +9,7 @@
 			</div>
 			<img loading="lazy" :src="song.video.thumbnails.small">
 		</div>
-		<NuxtLink :to="'/song/' + song.video.id" @click="shared.player = false;">
+		<NuxtLink :to="'/song/' + song.video.id" @click="shared.player_opened = false;">
 			<div>
 				<b>{{ song.video.title }}</b>
 			</div>

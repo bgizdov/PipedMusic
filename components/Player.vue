@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="player-page" v-if="state.song" :class="{ 'opened': shared.player }" @touchmove="playerTouchMove" @touchend="playerTouchEnd" :style="data.player_page_offset ? { transition: 'none', transform: 'translateY('+data.player_page_offset+'px)' } : ''">
+		<div class="player-page" v-if="state.song" :class="{ 'opened': shared.player_opened }" @touchmove="playerTouchMove" @touchend="playerTouchEnd" :style="data.player_page_offset ? { transition: 'none', transform: 'translateY('+data.player_page_offset+'px)' } : ''">
 			<div class="wrapper" :style="data.player_page_offset ? { overflow: 'hidden' } : ''" ref="wrapper">
 				<div class="mobile-nav">
 					<button class="btn-close" @click="togglePlayer();">
@@ -72,7 +72,7 @@
 					<LoopButton />
 					<VolumeButton :player="player" :state="state" />
 					<button class="btn-player" @click="togglePlayer()">
-						<Icon v-if="shared.player" name="mdi:chevron-down" />
+						<Icon v-if="shared.player_opened" name="mdi:chevron-down" />
 						<Icon v-else name="mdi:chevron-up" />
 					</button>
 				</div>
@@ -111,7 +111,7 @@ let state = reactive<PlayerState>({
 });
 
 function togglePlayer() {
-	shared.player = !shared.player;
+	shared.player_opened = !shared.player_opened;
 }
 
 function registerPlayer(player: Player) {
@@ -120,18 +120,21 @@ function registerPlayer(player: Player) {
 	p.addEventListener("timeupdate", () => state.position = p.currentTime);
 	p.addEventListener("play", () => state.playing = !p.paused);
 	p.addEventListener("pause", () => state.playing = !p.paused);
-	p.addEventListener("loadstart", () => state.song = player.playing);
 	p.addEventListener("error", () => player.restart());
 	p.addEventListener("loadstart", () => state.loading = true);
 	p.addEventListener("loadeddata", () => state.loading = false);
+	p.addEventListener("loadstart", () => {
+		state.song = player.playing;
+		shared.player_visible = true;
+	});
 }
 
 registerPlayer(player);
 
-watch(() => shared.player, () => {
+watch(() => shared.player_opened, () => {
 	let html = document.querySelector("html");
 	if (html) {
-		if (shared.player) html.classList.add("block-scrolling");
+		if (shared.player_opened) html.classList.add("block-scrolling");
 		else html.classList.remove("block-scrolling");
 	}
 });
@@ -152,7 +155,7 @@ function playerTouchEnd() {
 	data.now_y = null;
 	data.start_y = null;
 	if (data.player_page_offset > 200) {
-		shared.player = false;
+		shared.player_opened = false;
 	}
 	movePlayerPage();
 }
