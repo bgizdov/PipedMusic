@@ -7,11 +7,12 @@ export class Queue extends LocalList {
 	public player: Player;
 	public playingIndex: number = -1;
 
-	public loop: QueueLoopType = "none";
+	public loop: QueueLoopType;
 
 	constructor(player: Player) {
 		super();
 		this.player = player;
+		this.loop = this.getSavedLoopType();
 	}
 
 	public async replaceAndPlay(song: SharedSong) {
@@ -97,6 +98,12 @@ export class Queue extends LocalList {
 		const loopModes: QueueLoopType[] = ["none", "one", "playlist"];
 		const currentModeIndex = loopModes.indexOf(this.loop);
 		this.loop = loopModes[(currentModeIndex + 1) % loopModes.length];
+		localStorage.setItem("loop", this.loop);
+	}
+
+	public getSavedLoopType() {
+		let loopType = localStorage.getItem("loop");
+		return loopType as QueueLoopType ?? "none";
 	}
 
 }
