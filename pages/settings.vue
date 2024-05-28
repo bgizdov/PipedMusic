@@ -10,6 +10,26 @@
 
 			</div>
 			<div class="inner">
+				<div class="prefs">
+
+					<label class="row">
+						<div>{{ $t("page.settings.language") }}</div>
+						<select v-model="language">
+							<option :value="l.code" v-for="l in locales">{{ l.name }}</option>
+						</select>
+					</label>
+
+					<label class="row">
+						<div>{{ $t("page.settings.search_clear_button") }}</div>
+						<input type="checkbox" v-model="settings.prefs.search_clear_button" />
+					</label>
+
+				</div>
+
+			</div>
+			<div class="inner">
+
+				<h4>{{ $t("page.settings.data.title") }}</h4>
 
 				<div class="btn-row">
 					<button class="btn btn-flex" @click="dataExport">
@@ -32,12 +52,22 @@
 import { db, type ExportedData } from "~/src/frontend/Database";
 import { PlaylistUI } from "~/src/ui/PlaylistUI";
 import { SharedSong } from "~/src/ui/SharedSong";
+import { locales } from "~/src/frontend/Locales";
 import { genMeta } from "~/src/frontend/Meta";
+import { settings } from "~/src/ui/Settings";
 
-let { t } = useI18n();
+let { t, setLocale, locale } = useI18n();
+
 useHead(genMeta({
 	title: t("page.settings.title")
 }));
+
+let language = ref(locale.value);
+watch(language, async l => await setLocale(l));
+
+watch(settings.prefs, () => {
+	settings.save();
+}, {deep: true});
 
 async function dataExport() {
 	const data = await db.dataExport();

@@ -16,8 +16,13 @@ class Search {
 		});
 	}
 
-	async search(query: string) {
-		this.data.results = await api.getSearch(query);
+	async search(query?: string) {
+		this.data.results = await api.getSearch(query ?? this.data.query);
+	}
+
+	clear() {
+		this.data.query = "";
+		this.data.results = [];
 	}
 
 	async debounce() {

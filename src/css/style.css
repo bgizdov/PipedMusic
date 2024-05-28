@@ -148,7 +148,7 @@ nav .btn-row {gap: 20px;}
 @media screen and (max-width: 800px) {
 
 	.searchpage > :nth-child(1) > :nth-child(1) {text-align: center;}
-	.searchpage .searchbar {display: block;}
+	.searchpage .searchbar {display: flex;}
 
 	nav .searchbar {display: none;}
 	nav .btn-search {display: block;}
@@ -166,9 +166,12 @@ footer .right {justify-content: end;}
 
 /* Searchbar */
 
-.searchbar {background-color: var(--sec-bg); border-radius: 30px; position: relative; overflow: hidden; width: 100%; margin: auto;}
-.searchbar input {height: 100%; width: 100%; padding: 10px 20px; padding-right: 45px; border: 0; background-color: transparent; color: var(--title-color);}
-.searchbar .icon {position: absolute; top: 0; right: 0; height: 100%; width: 50px; padding: 5px 15px; cursor: pointer;}
+.searchbar {background-color: var(--sec-bg); border-radius: 30px; position: relative; overflow: hidden; width: 100%; margin: auto; display: flex;}
+.searchbar input {height: 100%; width: 100%; padding: 10px 17px; padding-right: 7px; border: 0; background-color: transparent; color: var(--title-color);}
+
+.searchbar button {padding: 0 6px; display: flex; align-items: center;}
+.searchbar button:nth-last-child(1) {padding-right: 15px;}
+.searchbar .icon {font-size: 20px;}
 
 .searchpage .searchbar {margin: 20px 0 30px;}
 
@@ -335,3 +338,9 @@ footer .right {justify-content: end;}
 /* Playlist page */
 
 .playlist-page .song-list {margin: 30px 0;}
+
+
+/* Settings */
+
+.prefs {display: flex; flex-direction: column; gap: 15px; max-width: 500px;}
+.prefs .row {display: grid; grid-template-columns: 1fr max-content; align-items: center; gap: 30px;}

@@ -15,7 +15,8 @@
 				"import_warning": "You are going to replace ALL YOUR DATA with backup you uploaded! Are you sure?",
 				"import_wrong_file": "This file is not valid Piped Music backup!"
 			},
-			"language": "Language"
+			"language": "Language",
+			"search_clear_button": "Show clear button in search bar"
 		},
 		"search": {
 			"title": "Search",
