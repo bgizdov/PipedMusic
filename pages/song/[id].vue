@@ -1,9 +1,7 @@
 <template>
-	<section class="song-page">
-		<ClientOnly>
-			<SongPage :id="id" />
-		</ClientOnly>
-	</section>
+	<ClientOnly>
+		<SongPage :id="id" />
+	</ClientOnly>
 </template>
 
 <script setup lang="ts">

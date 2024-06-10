@@ -1,5 +1,5 @@
 <template>
-	<nav>
+	<nav :class="{ floating: nav_floating }">
 		<div class="inner">
 			<NuxtLink to="/" @click="shared.player_opened = false;">
 				<img class="logo" src="/logo.webp">
@@ -20,5 +20,21 @@
 <script setup lang="ts">
 
 import { shared } from "~/src/ui/Shared";
+
+let nav_floating = ref(false);
+
+function onScroll() {
+	let st = document.querySelector("html")?.scrollTop;
+	nav_floating.value = st != 0;
+	console.log(st, nav_floating);
+}
+
+onMounted(() => {
+	document.addEventListener("scroll", onScroll);
+});
+
+onUnmounted(() => {
+	document.removeEventListener("scroll", onScroll);
+});
 
 </script>
