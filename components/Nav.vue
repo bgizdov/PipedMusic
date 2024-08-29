@@ -26,7 +26,6 @@ let nav_floating = ref(false);
 function onScroll() {
 	let st = document.querySelector("html")?.scrollTop;
 	nav_floating.value = st != 0;
-	console.log(st, nav_floating);
 }
 
 onMounted(() => {
