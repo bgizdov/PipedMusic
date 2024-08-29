@@ -90,6 +90,7 @@ import type { Player, PlayerState } from "~/src/frontend/Player";
 import { formatTime } from "~/src/frontend/Misc";
 import type { ComboObject } from "~/src/types";
 import { shared } from "~/src/ui/Shared";
+import { settings } from "~/src/ui/Settings";
 
 let wrapper = ref<HTMLElement | null>(null);
 
@@ -159,5 +160,11 @@ function playerTouchEnd() {
 	}
 	movePlayerPage();
 }
+
+onMounted(() => {
+	if (process.client && settings.prefs.save_queue) {
+		setTimeout(() => queue.loadQueue(), 100);
+	}
+});
 
 </script>

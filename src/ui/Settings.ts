@@ -4,7 +4,8 @@ class Settings {
 
 	public static getDefaultPrefs(): SettingsPrefs {
 		return {
-			search_clear_button: false
+			search_clear_button: false,
+			save_queue: false
 		}
 	}
 
@@ -32,5 +33,6 @@ class Settings {
 export let settings = reactive(new Settings);
 
 interface SettingsPrefs {
-	search_clear_button: boolean
+	search_clear_button: boolean,
+	save_queue: boolean
 }

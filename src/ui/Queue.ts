@@ -1,5 +1,6 @@
 import type { Player } from "../frontend/Player";
 import { LocalList } from "../ui/LocalList";
+import { settings } from "./Settings";
 import { SharedSong } from "./SharedSong";
 
 export class Queue extends LocalList {
@@ -21,12 +22,29 @@ export class Queue extends LocalList {
 		await this.playIndex(0);
 	}
 
-	public async playIndex(index: number) {
+	public async setIndexRel(rel: number) {
+		this.setIndex(this.playingIndex + rel);
+	}
+
+	public async setIndex(index: number) {
 		this.playingIndex = index;
+		if (settings.prefs.save_queue) {
+			localStorage.setItem("queue_index", index.toString());
+		}
+	}
+
+	public async prepareIndex(index: number): Promise<boolean> {
+		this.setIndex(index);
 		let id = this.items[index];
 		let song = id ? await SharedSong.get(id) : null;
-		if (!song) return;
+		if (!song) return false;
 		this.player.setPlaying(song);
+		return true;
+	}
+
+	public async playIndex(index: number) {
+		let res = await this.prepareIndex(index);
+		if (!res) return;
 		this.player.play();
 	}
 
@@ -58,7 +76,7 @@ export class Queue extends LocalList {
 		return (((this.playingIndex + move) % size) + size) % size;
 	}
 
-	public async add(id: string) {
+	public override async add(id: string) {
 		let index = await this.size();
 		await super.add(id);
 		if (this.playingIndex == -1) await this.playIndex(index);
@@ -82,16 +100,33 @@ export class Queue extends LocalList {
 		}
 	}
 
-	public async removeIndex(index: number) {
+	public override async removeIndex(index: number) {
 		let removedPlaying = index == this.playingIndex;
 		if (index < this.playingIndex) {
-			this.playingIndex--;
+			this.setIndexRel(-1);
 		}
 		if (await this.size() <= 1) return;
 		super.removeIndex(index);
 		if (removedPlaying) {
 			this.playIndex(index);
 		}
+	}
+
+	public override invalidate() {
+		super.invalidate();
+		if (settings.prefs.save_queue) this.saveQueue();
+	}
+
+	public saveQueue() {
+		localStorage.setItem("queue", JSON.stringify(this.items));
+	}
+
+	public loadQueue() {
+		let items = localStorage.getItem("queue");
+		let index = localStorage.getItem("queue_index");
+		if (!items || index == null) return;
+		this.items = JSON.parse(items);
+		this.prepareIndex(parseInt(index));
 	}
 
 	public cycleLoop() {

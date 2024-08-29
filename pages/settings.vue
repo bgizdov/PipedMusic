@@ -24,6 +24,11 @@
 						<input type="checkbox" v-model="settings.prefs.search_clear_button" />
 					</label>
 
+					<label class="row">
+						<div>{{ $t("page.settings.save_queue") }}</div>
+						<input type="checkbox" v-model="settings.prefs.save_queue" />
+					</label>
+
 				</div>
 
 			</div>

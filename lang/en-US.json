@@ -16,7 +16,8 @@
 				"import_wrong_file": "This file is not valid Piped Music backup!"
 			},
 			"language": "Language",
-			"search_clear_button": "Show clear button in search bar"
+			"search_clear_button": "Show clear button in search bar",
+			"save_queue": "Save queue in local storage"
 		},
 		"search": {
 			"title": "Search",
