@@ -64,7 +64,7 @@
 				</div>
 
 				<div class="song">
-					<SongDetails :video="state.song.video" @click="togglePlayer()" />
+					<SongDetails :key="state.song.video.id" :video="state.song.video" @click="togglePlayer()" />
 					<LikeButton :state="state" />
 				</div>
 
