@@ -15,7 +15,9 @@
 				"import_warning": "¡Va a reemplazar TODOS SUS DATOS con la copia de seguridad que subió! ¿Está seguro?",
 				"import_wrong_file": "¡Este archivo no es una copia de seguridad válida de Piped Music!"
 			},
-			"language": "Idioma"
+			"language": "Idioma",
+			"search_clear_button": "Mostrar botón borrar en la barra de búsqueda",
+			"save_queue": "Guardar cola en almacenamiento local"
 		},
 		"search": {
 			"title": "Buscar",

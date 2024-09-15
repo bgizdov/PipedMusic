@@ -15,7 +15,9 @@
 				"import_warning": "Sie werden ALLE IHRE DATEN durch das von Ihnen hochgeladene Backup ersetzen! Sind Sie sicher?",
 				"import_wrong_file": "Diese Datei ist kein gültiges Piped Music-Backup!"
 			},
-			"language": "Sprache"
+			"language": "Sprache",
+			"search_clear_button": "Schaltfläche Löschen in der Suchleiste anzeigen",
+			"save_queue": "Wiedergabeliste im lokalen Speicher speichern"
 		},
 		"search": {
 			"title": "Suche",

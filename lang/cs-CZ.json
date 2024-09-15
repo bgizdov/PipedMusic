@@ -15,7 +15,9 @@
 				"import_warning": "Chystáte se nahradit VŠECHNA VAŠE DATA zálohou, kterou jste nahráli! Jste si jistí?",
 				"import_wrong_file": "Tento soubor není platná Piped Music záloha!"
 			},
-			"language": "Jazyk"
+			"language": "Jazyk",
+			"search_clear_button": "Zobrazit tlačítko vymazání ve vyhledávači",
+			"save_queue": "Uložit frontu do místního úložiště"
 		},
 		"search": {
 			"title": "Vyhledávání",
