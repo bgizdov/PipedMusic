@@ -46,7 +46,7 @@
 			<ProgressBar :player="player" :state="state" />
 
 			<div class="mini inner">
-				<SongDetails :video="state.song.video" @click="togglePlayer();" />
+				<SongDetails :key="state.song.video.id" :video="state.song.video" @click="togglePlayer();" />
 				<div class="btn-row">
 					<PlayPauseButton :state="state" />
 				</div>
