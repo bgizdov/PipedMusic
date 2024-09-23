@@ -1,9 +1,12 @@
+import { API_URL } from "../../config";
 import type { RichVideo, Thumbnails, Video } from "../types";
 
 export class API implements APIInterface {
 
+	api: string = API_URL;
+
 	public async getVideo(id: string): Promise<Video | null> {
-		return await $fetch<Video | null>(`/api/song/${id}/info`);
+		return await $fetch<Video | null>(`${this.api}/track/${id}`, {mode: "cors"});
 	}
 
 	public async getRichVideo(id: string): Promise<RichVideo | null> {
@@ -15,26 +18,26 @@ export class API implements APIInterface {
 	}
 
 	public async getStream(id: string): Promise<string | null> {
-		return `/api/song/${id}/play`;
+		return `${this.api}/track/${id}/stream`;
 	}
 
 	public async getDownloadLink(id: string): Promise<string | null> {
-		return `/api/song/${id}/dl`;
+		return `${this.api}/track/${id}/download`;
 	}
 
 	public async getThumbnails(id: string): Promise<Thumbnails | null> {
 		return {
-			small: `/api/song/${id}/thumbnail`,
-			large: `/api/song/${id}/image`
+			small: `${this.api}/track/${id}/cover/64`,
+			large: `${this.api}/track/${id}/cover/512`
 		};
 	}
 
 	public async getSearch(q: string): Promise<string[]> {
-		return (await $fetch<string[] | null>("/api/search", {query: {q}})) ?? [];
+		return (await $fetch<string[] | null>(`${this.api}/search`, {query: {q}, mode: "cors"})) ?? [];
 	}
 
 	public async getSearchSuggestions(q: string): Promise<string[]> {
-		return (await $fetch<string[] | null>("/api/search-suggestions", {query: {q}})) ?? [];
+		return (await $fetch<string[] | null>(`${this.api}/search/suggestions`, {query: {q}, mode: "cors"})) ?? [];
 	}
 
 }
