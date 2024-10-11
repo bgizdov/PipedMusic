@@ -14,6 +14,10 @@
 					<Icon name="mdi:shuffle" />
 					<div>{{ $t("playlist.play_shuffled") }}</div>
 				</button>
+				<button class="btn btn-flex" @click="renamePlaylist();" v-if="list.id != 'liked'">
+					<Icon name="mdi:playlist-edit" />
+					<div>{{ $t("playlist.rename") }}</div>
+				</button>
 				<button class="btn btn-flex" @click="deletePlaylist();" v-if="list.id != 'liked'">
 					<Icon name="mdi:playlist-remove" />
 					<div>{{ $t("playlist.delete") }}</div>
@@ -57,6 +61,14 @@ async function deletePlaylist() {
 	if (confirmation) {
 		await props.list.delete();
 		navigateTo("/");
+	}
+}
+
+async function renamePlaylist() {
+	let new_name = prompt(t("playlist.rename_prompt"));
+	if (new_name) {
+		await props.list.rename(new_name);
+		props.list.updateMeta();
 	}
 }
 

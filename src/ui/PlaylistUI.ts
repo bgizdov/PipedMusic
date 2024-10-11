@@ -30,21 +30,21 @@ export class PlaylistUI extends Playlist implements DisplayableList<ISong> {
 		return null;
 	}
 
-	async add(id: string): Promise<void> {
+	override async add(id: string): Promise<void> {
 		this.setSongPresence(id, true);
 		await super.add(id);
 		this.invalidate();
 		this.updateMeta();
 	}
 
-	async remove(id: string): Promise<void> {
+	override async remove(id: string): Promise<void> {
 		this.setSongPresence(id, false);
 		await super.remove(id);
 		this.invalidate();
 		this.updateMeta();
 	}
 
-	async clear(): Promise<void> {
+	override async clear(): Promise<void> {
 		(await super.list()).forEach(s => {
 			this.setSongPresence(s.id, false);
 		});
@@ -57,7 +57,7 @@ export class PlaylistUI extends Playlist implements DisplayableList<ISong> {
 		SharedSong.getCached(id)?.setPlaylistPresence(this, present);
 	}
 
-	private async updateMeta(): Promise<boolean> {
+	async updateMeta(): Promise<boolean> {
 		let info = await this.info();
 		if (!info) return false;
 		this.meta.name = info.name;

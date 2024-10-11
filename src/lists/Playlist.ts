@@ -71,4 +71,9 @@ export class Playlist extends List<ISong> {
 		await db.playlists.where({id: this.id}).delete();
 	}
 
+	async rename(name: string) {
+		let playlist = await db.playlists.where({id: this.id}).first();
+		await db.playlists.update(playlist?.n!, {name});
+	}
+
 }
