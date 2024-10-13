@@ -39,7 +39,8 @@
 		"play_shuffled": "Náhodné přehrávání",
 		"delete": "Smazat playlist",
 		"delete_confirmation": "Opravdu chcete smazat tento playlist?",
-		"name_prompt": "Zadejte jméno playlistu:"
+		"name_prompt": "Zadejte jméno playlistu:",
+		"rename": "Přejmenovat playlist"
 	},
 	"list": {
 		"page": "Strana {current}/{total}",

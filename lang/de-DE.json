@@ -39,7 +39,8 @@
 		"play_shuffled": "Zufallsmix abspielen",
 		"delete": "Playlist löschen",
 		"delete_confirmation": "Möchten Sie diese Playlist wirklich löschen?",
-		"name_prompt": "Geben Sie einen Namen der Playlist ein:"
+		"name_prompt": "Geben Sie einen Namen der Playlist ein:",
+		"rename": "Playlist umbenennen"
 	},
 	"list": {
 		"page": "Seite {current}/{total}",

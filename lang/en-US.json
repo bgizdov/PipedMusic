@@ -43,8 +43,7 @@
 		"delete": "Delete playlist",
 		"delete_confirmation": "Are you sure you want to delete this playlist?",
 		"name_prompt": "Enter the playlist name:",
-		"rename": "Rename playlist",
-		"rename_prompt": "Enter new playlist name:"
+		"rename": "Rename playlist"
 	},
 	"list": {
 		"page": "Page {current}/{total}",

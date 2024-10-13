@@ -39,7 +39,8 @@
 		"play_shuffled": "Náhodne prehrať",
 		"delete": "Odstrániť zoznam",
 		"delete_confirmation": "Naozaj chcete odstrániť tento zoznam?",
-		"name_prompt": "Zadajte meno playlistu:"
+		"name_prompt": "Zadajte meno zoznamu:",
+		"rename": "Premenovať zoznam"
 	},
 	"list": {
 		"page": "Strana {current}/{total}",

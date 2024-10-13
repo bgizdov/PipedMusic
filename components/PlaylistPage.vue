@@ -65,7 +65,7 @@ async function deletePlaylist() {
 }
 
 async function renamePlaylist() {
-	let new_name = prompt(t("playlist.rename_prompt"));
+	let new_name = prompt(t("playlist.name_prompt"));
 	if (new_name) {
 		await props.list.rename(new_name);
 		props.list.updateMeta();

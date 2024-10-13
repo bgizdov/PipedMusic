@@ -39,7 +39,8 @@
 		"play_shuffled": "Aleatorio",
 		"delete": "Eliminar lista de reproducción",
 		"delete_confirmation": "¿Está seguro/a de que quiere eliminar esta lista de reproducción?",
-		"name_prompt": "Ingresa un nombre de la lista:"
+		"name_prompt": "Ingrese un nombre de la lista:",
+		"rename": "Cambiar el nombre"
 	},
 	"list": {
 		"page": "Página {current}/{total}",
