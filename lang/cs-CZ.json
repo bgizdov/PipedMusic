@@ -34,7 +34,7 @@
 	},
 	"playlist": {
 		"liked_songs": "Oblíbené skladby",
-		"song_count": "jedna skladba | {count} skladeb",
+		"song_count": "jedna skladba | {count} skladby | {count} skladeb",
 		"play": "Přehrát",
 		"play_shuffled": "Náhodné přehrávání",
 		"delete": "Smazat playlist",

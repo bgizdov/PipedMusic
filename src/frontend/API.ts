@@ -27,7 +27,7 @@ export class API implements APIInterface {
 
 	public async getThumbnails(id: string): Promise<Thumbnails | null> {
 		return {
-			small: `${this.api}/track/${id}/cover/64`,
+			small: `${this.api}/track/${id}/cover/128`,
 			large: `${this.api}/track/${id}/cover/512`
 		};
 	}

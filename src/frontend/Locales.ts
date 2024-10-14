@@ -11,3 +11,9 @@ export function generateLocales() {
 		return {code: e.code, file: `${e.code}.json`}
 	});
 }
+
+export function customRule(choice: number, choicesLength: number) {
+	if (choice == 1) return 0;
+	if (choice >= 2 && choice <= 4) return 1;
+	return choicesLength - 1;
+}
