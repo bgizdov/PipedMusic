@@ -20,6 +20,11 @@
 					</label>
 
 					<label class="row">
+						<div>{{ $t("page.settings.backend_url") }}</div>
+						<input v-model="settings.prefs.backend_url" @change="api.setBackendUrl(settings.prefs.backend_url)" type="url">
+					</label>
+
+					<label class="row">
 						<div>{{ $t("page.settings.search_clear_button") }}</div>
 						<input type="checkbox" v-model="settings.prefs.search_clear_button" />
 					</label>
@@ -60,6 +65,7 @@ import { SharedSong } from "~/src/ui/SharedSong";
 import { locales } from "~/src/frontend/Locales";
 import { genMeta } from "~/src/frontend/Meta";
 import { settings } from "~/src/ui/Settings";
+import { api } from "~/src/frontend/API";
 
 let { t, setLocale, locale } = useI18n();
 

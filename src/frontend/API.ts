@@ -5,6 +5,10 @@ export class API implements APIInterface {
 
 	api: string = API_URL;
 
+	public setBackendUrl(url: string) {
+		this.api = url;
+	}
+
 	public async getVideo(id: string): Promise<Video | null> {
 		return await $fetch<Video | null>(`${this.api}/track/${id}`, {mode: "cors"});
 	}

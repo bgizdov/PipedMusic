@@ -17,7 +17,8 @@
 			},
 			"language": "Language",
 			"search_clear_button": "Show clear button in search bar",
-			"save_queue": "Save queue in local storage"
+			"save_queue": "Save queue in local storage",
+			"backend_url": "Backend URL"
 		},
 		"search": {
 			"title": "Search",

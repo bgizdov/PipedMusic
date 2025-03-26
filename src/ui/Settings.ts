@@ -1,9 +1,12 @@
+import { API_URL } from "~/config";
+
 class Settings {
 
 	prefs: SettingsPrefs = Settings.getPrefs();
 
 	public static getDefaultPrefs(): SettingsPrefs {
 		return {
+			backend_url: API_URL,
 			search_clear_button: false,
 			save_queue: false
 		}
@@ -33,6 +36,7 @@ class Settings {
 export let settings = reactive(new Settings);
 
 interface SettingsPrefs {
+	backend_url: string,
 	search_clear_button: boolean,
 	save_queue: boolean
 }
