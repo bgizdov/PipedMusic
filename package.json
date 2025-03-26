@@ -9,11 +9,11 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@nuxtjs/i18n": "latest",
+    "@nuxtjs/i18n": "8.5.2",
     "dexie": "^3.2.7",
-    "nuxt": "^3.13.1",
-    "nuxt-icon": "^0.6.10",
-    "vue": "^3.5.3",
+    "nuxt": "3.13.1",
+    "nuxt-icon": "0.6.10",
+    "vue": "3.5.3",
     "vue-router": "^4.4.3"
   },
   "module": "index.ts",
