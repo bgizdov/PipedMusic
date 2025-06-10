@@ -66,7 +66,7 @@ h1, h2, h3, h4, p {margin: .5rem 0;}
 	--player-height: 0px;
 }
 
-:is(header, section, footer) > .inner {padding: 0 var(--site-padding); max-width: 900px; margin: 35px auto;}
+:is(header, section, footer) > .inner {padding: 0 var(--site-padding); margin: 35px auto;}
 
 
 /* Icons */
@@ -147,7 +147,7 @@ input[type=range]::-webkit-slider-thumb {-webkit-appearance: none; height: 14px;
 
 /* Nav */
 
-nav {position: fixed; top: 0; left: 0; width: 100%; z-index: 100; backdrop-filter: blur(10px); border-bottom: 1px solid #fff1; transition: background .2s;}
+nav {height:90px; top: 0; left: 0; width: 100%; z-index: 100; backdrop-filter: blur(10px); border-bottom: 1px solid #fff1; transition: background .2s;}
 nav > .inner {padding: 13px var(--site-padding); height: var(--nav-height); display: grid; grid-template-columns: 1fr max-content 1fr; gap: 30px; align-items: center;}
 nav > .inner > * {display: flex;}
 nav.floating {background: rgb(var(--main-bg-rgb), .5);}
