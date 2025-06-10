@@ -481,7 +481,8 @@ footer .right {justify-content: end;}
 	border-radius: 10px;
 }
 
-.player-page .mobile-nav {padding: 0 5px; margin: 10px 0; display: none;}
+.player-page .mobile-nav { display: none;}
+.mobile-nav .btn-close { min-height: auto;}
 
 .player-page .sidebar {width: 100%; max-width: 500px; padding: 20px 0;}
 
