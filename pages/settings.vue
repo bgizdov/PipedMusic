@@ -52,6 +52,20 @@
 					</button>
 				</div>
 
+				<!-- Import from URL -->
+				<div class="row" style="margin-top: 20px;">
+					<input
+						v-model="importUrl"
+						type="url"
+						placeholder="Paste data URL here"
+						style="width: 60%; max-width: 400px; margin-right: 10px;"
+					/>
+					<button class="btn btn-flex" @click="dataImportFromUrl">
+						<Icon name="mdi:download" />
+						<div>Import from URL</div>
+					</button>
+				</div>
+
 			</div>
 		</section>
 	</div>
@@ -122,6 +136,56 @@ async function processData(e: Event) {
 	await resetApp();
 	await db.dataImport(data);
 	navigateTo("/");
+}
+
+let importUrl = ref("");
+
+// Helper to try multiple CORS proxies in order
+async function fetchWithCorsFallback(url: string): Promise<Response> {
+	const proxies = [
+		(proxyUrl: string) => `https://corsproxy.io/?${encodeURIComponent(proxyUrl)}`,
+		(proxyUrl: string) => `https://cors-anywhere.herokuapp.com/${proxyUrl}`,
+		(proxyUrl: string) => `https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(proxyUrl)}`
+	];
+	let lastError: any = null;
+	for (const proxy of proxies) {
+		try {
+			const resp = await fetch(proxy(url));
+			if (resp.ok) return resp;
+			lastError = new Error(`Proxy failed: ${proxy(url)}`);
+		} catch (e) {
+			lastError = e;
+		}
+	}
+	throw lastError || new Error("All CORS proxies failed");
+}
+
+async function dataImportFromUrl() {
+	if (!importUrl.value) {
+		alert("Please enter a URL.");
+		return;
+	}
+	try {
+		let resp: Response;
+		try {
+			resp = await fetchWithCorsFallback(importUrl.value);
+		} catch (e) {
+			alert("Failed to fetch data from all CORS proxies.");
+			return;
+		}
+		const data = await resp.json();
+		if (!data || !data.songs || !data.playlists) {
+			alert("Invalid data format.");
+			return;
+		}
+		let really = confirm(t("page.settings.data.import_warning"));
+		if (!really) return;
+		await resetApp();
+		await db.dataImport(data);
+		navigateTo("/");
+	} catch (e) {
+		alert("Failed to import data from URL.");
+	}
 }
 
 async function resetApp() {
