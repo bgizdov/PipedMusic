@@ -11,11 +11,18 @@
 					<div class="player">
 						<img :src="state.song.video.thumbnails.large" @click="player.playPause()" />
 						<div class="mobile">
-							<h2>
-								{{ state.song.video.title }}
-							</h2>
-							<div>
-								{{ state.song.video.author }}
+							<div style="display: flex; align-items: center; justify-content: space-between;">
+								<div style="flex: 1 1 0; min-width: 0;">
+									<h2 style="margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+										{{ state.song.video.title }}
+									</h2>
+									<div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+										{{ state.song.video.author }}
+									</div>
+								</div>
+								<div style="margin-left: 12px;">
+									<LikeButton :state="state" />
+								</div>
 							</div>
 							<div class="mobile-progress">
 								<ProgressBar :state="state" :player="player" />
@@ -25,7 +32,6 @@
 								</div>
 							</div>
 							<div class="btn-row">
-								<LikeButton :state="state" />
 								<PrevButton />
 								<PlayPauseButton class="btn" :state="state" />
 								<NextButton />
