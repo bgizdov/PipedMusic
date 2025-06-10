@@ -80,6 +80,34 @@ export class Player {
 				{src: this.playing.video.thumbnails.small}
 			]
 		});
+
+		// Expose play/pause/next/previous to browser media controls
+		try {
+			navigator.mediaSession.setActionHandler("play", () => this.play());
+		} catch (e) {
+			alert("MediaSession play action is not supported: " + (e instanceof Error ? e.message : e));
+		}
+		try {
+			navigator.mediaSession.setActionHandler("pause", () => this.pause());
+		} catch (e) {
+			alert("MediaSession pause action is not supported: " + (e instanceof Error ? e.message : e));
+		}
+		try {
+			navigator.mediaSession.setActionHandler("previoustrack", () => {
+				const event = new CustomEvent("player:prev");
+				window.dispatchEvent(event);
+			});
+		} catch (e) {
+			alert("MediaSession previous track action is not supported: " + (e instanceof Error ? e.message : e));
+		}
+		try {
+			navigator.mediaSession.setActionHandler("nexttrack", () => {
+				const event = new CustomEvent("player:next");
+				window.dispatchEvent(event);
+			});
+		} catch (e) {
+			alert("MediaSession next track action is not supported: " + (e instanceof Error ? e.message : e));
+		}
 	}
 
 	public hookMediaSession() {
