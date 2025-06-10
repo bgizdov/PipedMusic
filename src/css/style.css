@@ -341,7 +341,7 @@ footer .right {justify-content: end;}
 /* Player items */
 
 .player-bar :is(button, .time) {
-	padding: 16px;
+	padding: 10px;
 }
 .player-bar .time {white-space: nowrap; font-size: .91rem;}
 
@@ -417,21 +417,22 @@ footer .right {justify-content: end;}
 	}
 }
 
+
 .player-bar .btn-playpause *,
+.player-bar .btn-like *,
 .player-bar .btn-prev *,
 .player-bar .btn-next *,
-.player-bar .btn-like *,
 .player-bar .btn-volume *,
 .player-bar .btn-loop *,
 .player-bar .btn-player * {
-	font-size: 64px;
+	font-size: 50px;
 	line-height: 1;
 	vertical-align: middle;
 }
 
 .player-bar .btn-row,
 .player-bar .controls {
-	gap: 20px;
+	gap: 10px;
 }
 
 .player-bar button {
